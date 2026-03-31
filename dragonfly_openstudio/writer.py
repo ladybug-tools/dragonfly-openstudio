@@ -33,11 +33,11 @@ def sys_dict_to_openstudio(sys_dict, seed_model=None):
     des_dict = sys_dict['district_system']
     if 'fifth_generation' in des_dict:
         if 'ghe_parameters' in des_dict['fifth_generation']:
-            ghe_des_to_openstudio(des_dict, os_model)
+            hp_loop = ghe_des_to_openstudio(des_dict, os_model)
         else:  # a regular old gen5 district system
-            gen5_des_to_openstudio(des_dict, os_model)
+            hp_loop = gen5_des_to_openstudio(des_dict, os_model)
     elif 'fourth_generation' in des_dict:
-        gen4_des_to_openstudio(des_dict, os_model)
+        chw_loop, hw_loop = gen4_des_to_openstudio(des_dict, os_model)
     else:  # currently unrecognized district system
         for key in des_dict:
             msg = 'District system type "{}" is not recognized.'.format(key)
@@ -46,7 +46,7 @@ def sys_dict_to_openstudio(sys_dict, seed_model=None):
     # translate the building ETS
     for bldg_dict in sys_dict['buildings']:
         if 'fifth_gen_ets_parameters' in bldg_dict:
-            heat_pump_ets_to_openstudio(bldg_dict, os_model)
+            heat_pump_ets_to_openstudio(bldg_dict, hp_loop, os_model)
         elif 'ets_indirect_parameters' in bldg_dict:
             heat_exchanger_ets_to_openstudio(bldg_dict, os_model)
 

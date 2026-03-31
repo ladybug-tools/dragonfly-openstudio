@@ -106,7 +106,7 @@
       "load_model_parameters": {
         "time_series": {
           "delta_temp_air_cooling": 10,
-          "filepath": "C:\\Users\\Chris\\simulation\\DES_G5_Example\\run\\honeybee_scenario\\Office_1\\002_export_modelica_loads\\modelica.mos",
+          "filepath": "tests/assets/small_ghe/run/Office_1/modelica.mos",
           "temp_chw_return": 12,
           "temp_hw_supply": 40,
           "has_liquid_cooling": true,
@@ -144,7 +144,7 @@
       "load_model_parameters": {
         "time_series": {
           "delta_temp_air_cooling": 10,
-          "filepath": "C:\\Users\\Chris\\simulation\\DES_G5_Example\\run\\honeybee_scenario\\Office_2\\002_export_modelica_loads\\modelica.mos",
+          "filepath": "tests/assets/small_ghe/run/Office_2/modelica.mos",
           "temp_chw_return": 12,
           "temp_hw_supply": 40,
           "has_liquid_cooling": true,
@@ -182,7 +182,7 @@
       "load_model_parameters": {
         "time_series": {
           "delta_temp_air_cooling": 10,
-          "filepath": "C:\\Users\\Chris\\simulation\\DES_G5_Example\\run\\honeybee_scenario\\Residential_1\\002_export_modelica_loads\\modelica.mos",
+          "filepath": "tests/assets/small_ghe/run/Residential_1/modelica.mos",
           "temp_chw_return": 12,
           "temp_hw_supply": 40,
           "has_liquid_cooling": true,
