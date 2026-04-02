@@ -36,16 +36,19 @@ def ghe_des_to_openstudio(des_dict, os_model):
     loop_name = ground_hx_loop.nameString()
 
     # ground hx loop sizing and controls
-    ground_hx_loop.setMinimumLoopTemperature(design['min_eft'])
-    ground_hx_loop.setMaximumLoopTemperature(design['max_eft'] + 10)  # add 10C
+    ground_hx_loop.setMinimumLoopTemperature(design['min_eft'] - 1)
+    ground_hx_loop.setMaximumLoopTemperature(design['max_eft'] + 1)  # add 10C
     sizing_plant = ground_hx_loop.sizingPlant()
     sizing_plant.setLoopType('Condenser')
     sizing_plant.setDesignLoopExitTemperature(30.0)
     sizing_plant.setLoopDesignTemperatureDifference(11.0)
     sizing_plant.setSizingOption('Coincident')
-    hp_high_temp_sch = create_constant_schedule_ruleset(
-        os_model, design['max_eft'], schedule_type_limit='Temperature',
-        name='{} High Temp - {}C'.format(loop_name, int(design['max_eft'])))
+    hp_high_t_sch = openstudio_model.ScheduleConstant(os_model)
+    hp_high_t_sch.setName('{} High Temp - {}C'.format(loop_name, int(design['max_eft'])))
+    hp_high_t_sch.setValue(design['max_eft'])
+    hp_low_t_sch = openstudio_model.ScheduleConstant(os_model)
+    hp_low_t_sch.setName('{} Low Temp - {}C'.format(loop_name, int(design['min_eft'])))
+    hp_low_t_sch.setValue(design['min_eft'])
 
     # create the central pump
     pump = openstudio_model.PumpVariableSpeed(os_model)
@@ -67,13 +70,25 @@ def ghe_des_to_openstudio(des_dict, os_model):
 
     # add a cooling tower to prevent the loop from overheating during peak
     cooling_equipment_stpt_manager = \
-        openstudio_model.SetpointManagerScheduled(os_model, hp_high_temp_sch)
+        openstudio_model.SetpointManagerScheduled(os_model, hp_high_t_sch)
     cooling_equipment = openstudio_model.CoolingTowerVariableSpeed(os_model)
     cooling_equipment.setName('{} CoolingTowerVariableSpeed'.format(loop_name))
     ground_hx_loop.addSupplyBranchForComponent(cooling_equipment)
     cooling_equipment_stpt_manager.setName('{} Cooling Tower Setpoint'.format(loop_name))
     equip_out_node = cooling_equipment.outletModelObject().get().to_Node().get()
     cooling_equipment_stpt_manager.addToNode(equip_out_node)
+
+    # add an electric boiler to prevent the loop from becoming too cold
+    heating_equipment_stpt_manager = \
+        openstudio_model.SetpointManagerScheduled(os_model, hp_low_t_sch)
+    heating_equipment = openstudio_model.BoilerHotWater(os_model)
+    heating_equipment.setNominalThermalEfficiency(1.0)
+    heating_equipment.setFuelType('Electricity')
+    heating_equipment.setName('{} Supplemental Boiler'.format(loop_name))
+    ground_hx_loop.addSupplyBranchForComponent(heating_equipment)
+    heating_equipment_stpt_manager.setName('{} Boiler Setpoint'.format(loop_name))
+    equip_out_node = heating_equipment.outletModelObject().get().to_Node().get()
+    heating_equipment_stpt_manager.addToNode(equip_out_node)
 
     # add ground loop pipes
     # TODO: Consider using PipeOutdoor with lengths derived from thermal connectors

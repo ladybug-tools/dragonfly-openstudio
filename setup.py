@@ -23,6 +23,7 @@ setuptools.setup(
         "console_scripts": ["dragonfly-openstudio = dragonfly_openstudio.cli:openstudio"]
     },
     classifiers=[
+        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",

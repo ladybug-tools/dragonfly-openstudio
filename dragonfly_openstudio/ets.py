@@ -46,6 +46,7 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
         # add the heat pump
         chw_hp = openstudio_model.HeatPumpWaterToWaterEquationFitCooling(os_model)
         chw_hp.setReferenceCoefficientofPerformance(ets_dict['cop_heat_pump_heating'])
+        chw_hp.setName('{} Cooling Heat Pump'.format(bldg_id))
         chw_loop.addSupplyBranchForComponent(chw_hp)
         hp_loop.addDemandBranchForComponent(chw_hp)
 
@@ -58,6 +59,7 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
         # add supply side equipment to the heating water loop
         hw_hp = openstudio_model.HeatPumpWaterToWaterEquationFitHeating(os_model)
         hw_hp.setReferenceCoefficientofPerformance(ets_dict['cop_heat_pump_heating'])
+        hw_hp.setName('{} Heating Heat Pump'.format(bldg_id))
         hw_loop.addSupplyBranchForComponent(hw_hp)
         hp_loop.addDemandBranchForComponent(hw_hp)
 
@@ -70,6 +72,7 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
         # add supply side equipment to the heating water loop
         shw_hp = openstudio_model.HeatPumpWaterToWaterEquationFitHeating(os_model)
         shw_hp.setReferenceCoefficientofPerformance(ets_dict['cop_heat_pump_hot_water'])
+        shw_hp.setName('{} SHW Heat Pump'.format(bldg_id))
         shw_loop.addSupplyBranchForComponent(shw_hp)
         hp_loop.addDemandBranchForComponent(shw_hp)
 
