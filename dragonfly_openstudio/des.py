@@ -5,9 +5,6 @@ import os
 
 from honeybee_openstudio.openstudio import openstudio_model
 from honeybee_openstudio.hvac.standards.schedule import create_constant_schedule_ruleset
-from honeybee_openstudio.hvac.standards.central_air_source_heat_pump import \
-    create_central_air_source_heat_pump
-
 from dragonfly_energy.des.ghe import GroundHeatExchanger
 
 
@@ -39,10 +36,10 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
 
     # ground hx loop sizing and controls
     ground_hx_loop.setMinimumLoopTemperature(design['min_eft'] - 1)
-    ground_hx_loop.setMaximumLoopTemperature(design['max_eft'] + 1)  # add 10C
+    ground_hx_loop.setMaximumLoopTemperature(design['max_eft'] + 1)
     sizing_plant = ground_hx_loop.sizingPlant()
     sizing_plant.setLoopType('Condenser')
-    sizing_plant.setDesignLoopExitTemperature(30.0)
+    sizing_plant.setDesignLoopExitTemperature(design['max_eft'])
     sizing_plant.setLoopDesignTemperatureDifference(11.0)
     sizing_plant.setSizingOption('Coincident')
     hp_high_t_sch = openstudio_model.ScheduleConstant(os_model)
@@ -77,7 +74,9 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     else:
         heat_rejection_type = 'CoolingTower'
     cooling_stpt = openstudio_model.SetpointManagerScheduled(os_model, hp_high_t_sch)
-    gen5_heat_rejection(ground_hx_loop, cooling_stpt, os_model, heat_rejection_type)
+    hr_equip = gen5_heat_rejection(ground_hx_loop, cooling_stpt, os_model, heat_rejection_type)
+    if 'FluidCooler' in heat_rejection_type:  # ensure that loop can be cooled
+        hr_equip.setDesignEnteringAirTemperature(design['max_eft'] - 3)
 
     # add supplemental heating to prevent the loop from becoming too cold
     if geojson_dict and 'project' in geojson_dict and \
@@ -178,15 +177,14 @@ def gen5_des_to_openstudio(des_dict, os_model, geojson_dict=None):
 
     # hot water loop sizing and controls
     sup_wtr_high_temp_c = 30.0
-    sup_wtr_low_temp_c = 12.0
-    dsgn_sup_wtr_temp_c = 39.0
+    sup_wtr_low_temp_c = 5.0
     dsgn_sup_wtr_temp_delt_k = 11.0
 
     sizing_plant = heat_pump_water_loop.sizingPlant()
-    sizing_plant.setLoopType('Heating')
-    heat_pump_water_loop.setMinimumLoopTemperature(5.0)
+    sizing_plant.setLoopType('Condenser')
+    heat_pump_water_loop.setMinimumLoopTemperature(3.0)
     heat_pump_water_loop.setMaximumLoopTemperature(35.0)
-    sizing_plant.setDesignLoopExitTemperature(dsgn_sup_wtr_temp_c)
+    sizing_plant.setDesignLoopExitTemperature(sup_wtr_high_temp_c)
     sizing_plant.setLoopDesignTemperatureDifference(dsgn_sup_wtr_temp_delt_k)
     loop_name = heat_pump_water_loop.nameString()
     hp_high_temp_sch = create_constant_schedule_ruleset(
@@ -222,7 +220,10 @@ def gen5_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     cooling_stpt = openstudio_model.SetpointManagerScheduledDualSetpoint(os_model)
     cooling_stpt.setHighSetpointSchedule(hp_high_temp_sch)
     cooling_stpt.setLowSetpointSchedule(hp_low_temp_sch)
-    gen5_heat_rejection(heat_pump_water_loop, cooling_stpt, os_model, heat_rejection_type)
+    hr_equip = gen5_heat_rejection(heat_pump_water_loop, cooling_stpt, os_model, heat_rejection_type)
+    if 'FluidCooler' in heat_rejection_type:  # ensure that loop can be cooled
+        hr_equip.setDesignEnteringAirTemperature(33.0)
+        sizing_plant.setDesignLoopExitTemperature(35.0)
 
     # add supplemental heating to prevent the loop from becoming too cold
     if geojson_dict and 'project' in geojson_dict and \
@@ -294,26 +295,26 @@ def gen5_heat_rejection(heat_pump_loop, setpoint_manager, os_model,
     else:
         if heat_rejection_type in ('CoolingTower', 'CoolingTowerTwoSpeed'):
             cooling_equipment = openstudio_model.CoolingTowerTwoSpeed(os_model)
-            cooling_equipment.setName('{} CoolingTowerTwoSpeed'.format(loop_name))
+            cooling_equipment.setName('{} Cooling Tower'.format(loop_name))
             setpoint_manager.setName('{} Cooling Tower Setpoint'.format(loop_name))
         elif heat_rejection_type == 'CoolingTowerSingleSpeed':
             cooling_equipment = openstudio_model.CoolingTowerSingleSpeed(os_model)
-            cooling_equipment.setName('{} CoolingTowerSingleSpeed'.format(loop_name))
+            cooling_equipment.setName('{} Cooling Tower'.format(loop_name))
             setpoint_manager.setName('{} Cooling Tower Setpoint'.format(loop_name))
         elif heat_rejection_type == 'CoolingTowerVariableSpeed':
             cooling_equipment = openstudio_model.CoolingTowerVariableSpeed(os_model)
-            cooling_equipment.setName('{} CoolingTowerVariableSpeed'.format(loop_name))
+            cooling_equipment.setName('{} Cooling Tower'.format(loop_name))
             setpoint_manager.setName('{} Cooling Tower Setpoint'.format(loop_name))
         elif heat_rejection_type in ('FluidCooler', 'FluidCoolerSingleSpeed'):
             cooling_equipment = openstudio_model.FluidCoolerSingleSpeed(os_model)
-            cooling_equipment.setName('{} FluidCoolerSingleSpeed'.format(loop_name))
+            cooling_equipment.setName('{} Fluid Cooler'.format(loop_name))
             setpoint_manager.setName('{} Fluid Cooler Setpoint'.format(loop_name))
             cooling_equipment.setPerformanceInputMethod(fc_size_type)
             cooling_equipment.autosizeDesignWaterFlowRate()
             cooling_equipment.autosizeDesignAirFlowRate()
         elif heat_rejection_type == 'FluidCoolerTwoSpeed':
             cooling_equipment = openstudio_model.FluidCoolerTwoSpeed(os_model)
-            cooling_equipment.setName('{} FluidCoolerTwoSpeed'.format(loop_name))
+            cooling_equipment.setName('{} Fluid Cooler'.format(loop_name))
             setpoint_manager.setName('{} Fluid Cooler Setpoint'.format(loop_name))
             cooling_equipment.setPerformanceInputMethod(fc_size_type)
             cooling_equipment.autosizeDesignWaterFlowRate()
@@ -321,13 +322,13 @@ def gen5_heat_rejection(heat_pump_loop, setpoint_manager, os_model,
             cooling_equipment.autosizeLowFanSpeedAirFlowRate()
         elif heat_rejection_type in ('EvaporativeFluidCooler', 'EvaporativeFluidCoolerSingleSpeed'):
             cooling_equipment = openstudio_model.EvaporativeFluidCoolerSingleSpeed(os_model)
-            cooling_equipment.setName('{} EvaporativeFluidCoolerSingleSpeed'.format(loop_name))
+            cooling_equipment.setName('{} Evaporative Fluid Cooler'.format(loop_name))
             cooling_equipment.setDesignSprayWaterFlowRate(0.002208)
             cooling_equipment.setPerformanceInputMethod(fc_size_type)
             setpoint_manager.setName('{} Fluid Cooler Setpoint'.format(loop_name))
         elif heat_rejection_type == 'EvaporativeFluidCoolerTwoSpeed':
             cooling_equipment = openstudio_model.EvaporativeFluidCoolerTwoSpeed(os_model)
-            cooling_equipment.setName('{} EvaporativeFluidCoolerTwoSpeed'.format(loop_name))
+            cooling_equipment.setName('{} Evaporative Fluid Cooler'.format(loop_name))
             cooling_equipment.setDesignSprayWaterFlowRate(0.002208)
             cooling_equipment.setPerformanceInputMethod(fc_size_type)
             setpoint_manager.setName('{} Fluid Cooler Setpoint'.format(loop_name))
@@ -356,9 +357,8 @@ def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
             Choose from the options below. (Default: Electricity).
 
             * Electricity
-            * AirSourceHeatPump
             * NaturalGas
-            * DistrictHeat
+            * DistrictHeating
             * None
     """
     # set up variables used for multiple equipment types
@@ -373,10 +373,6 @@ def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
         heating_equipment.autosizeNominalCapacity()
         heat_pump_loop.addSupplyBranchForComponent(heating_equipment)
         setpoint_manager.setName('{} Supplemental District Heating Setpoint'.format(loop_name))
-    elif supplemental_heat_type in ('AirSourceHeatPump', 'ASHP'):
-        name = '{} Supplemental ASHP'.format(loop_name)
-        heating_equipment = create_central_air_source_heat_pump(os_model, heat_pump_loop, name)
-        setpoint_manager.setName('{} Supplemental ASHP Setpoint'.format(loop_name))
     elif supplemental_heat_type in ('Electricity', 'NaturalGas'):
         heating_equipment = openstudio_model.BoilerHotWater(os_model)
         heating_equipment.setName('{} Supplemental Boiler'.format(heat_pump_loop.nameString()))
@@ -421,7 +417,7 @@ def _gen5_horizontal_pipes(horiz_pipe, soil, central_pump, heat_pump_loop, os_mo
                 )
                 pressure_loss = horiz_pipe['pressure_drop_per_meter']
                 design_vol_flow = central_pump['pump_flow_rate']  \
-                    if 'pump_flow_rate' in central_pump else 0.05
+                    if 'pump_flow_rate' in central_pump else 0.05  # use hard-coded 50L/s
                 pipe_diameter = network_pipe.size_hydraulic_diameter(
                     design_vol_flow, pressure_loss)
             except ImportError:  # no package installed; just use something reasonable

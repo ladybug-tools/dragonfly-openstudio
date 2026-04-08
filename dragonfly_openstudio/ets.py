@@ -106,7 +106,7 @@ def building_chw_loop(bldg_id, cooling, chw_temp, os_model, pump_pressure=None):
     chw_loop.setMaximumLoopTemperature(40.0)
     chw_sizing_plant = chw_loop.sizingPlant()
     chw_sizing_plant.setDesignLoopExitTemperature(chw_temp)
-    chw_sizing_plant.setLoopDesignTemperatureDifference(chw_temp - 1.0)
+    chw_sizing_plant.setLoopDesignTemperatureDifference(4.0)
     chw_sizing_plant.setLoopType('Cooling')
     chw_temp_sch = create_constant_schedule_ruleset(
         os_model, chw_temp, schedule_type_limit='Temperature',
@@ -132,13 +132,12 @@ def building_chw_loop(bldg_id, cooling, chw_temp, os_model, pump_pressure=None):
     os_load_sch = schedule_fixed_interval_to_openstudio(load_sch, os_model)
 
     # set the flow rate schedule
-    peak_flow = (abs(peak_cool) / (4184000 * 4)) * 1.15  # Water DeltaT of 4C * sizing factor
-    max_cool = abs(peak_cool) * 1.15  # maximum cooling load * sizing factor
-    flow_rate = [abs(cool_i) / max_cool for cool_i in cooling]
+    peak_flow = (abs(peak_cool) / (4184000 * 3)) * 1.15  # Water DeltaT of 3C * sizing factor
+    flow_rate = [abs(cool_i / peak_cool) for cool_i in cooling]
     flow_sch_id = '{} Cooling Flow Sch - {}L/s'.format(bldg_id, int(peak_flow * 1000))
     flow_sch = ScheduleFixedInterval(flow_sch_id, flow_rate, fractional, timestep)
     os_flow_sch = schedule_fixed_interval_to_openstudio(flow_sch, os_model)
-    chw_pump.setRatedFlowRate(peak_flow)
+    chw_pump.setRatedFlowRate(peak_flow * 1.1)
 
     # add the building loads to the supply side
     os_load = openstudio_model.LoadProfilePlant(os_model, os_load_sch, os_flow_sch)
@@ -163,7 +162,7 @@ def building_hw_loop(bldg_id, heating, hw_temp, os_model, pump_pressure=None):
     hw_loop = openstudio_model.PlantLoop(os_model)
     hw_loop.setName('{} Heating Water Loop'.format(bldg_id))
     hw_sizing_plant = hw_loop.sizingPlant()
-    hw_sizing_plant.setDesignLoopExitTemperature(hw_temp)
+    hw_sizing_plant.setDesignLoopExitTemperature(hw_temp + 11.0)
     hw_sizing_plant.setLoopDesignTemperatureDifference(11.0)
     hw_sizing_plant.setLoopType('Heating')
     hw_temp_sch = create_constant_schedule_ruleset(
@@ -190,13 +189,12 @@ def building_hw_loop(bldg_id, heating, hw_temp, os_model, pump_pressure=None):
     os_load_sch = schedule_fixed_interval_to_openstudio(load_sch, os_model)
 
     # set the flow rate schedule
-    peak_flow = (abs(peak_heat) / (4184000 * 11)) * 1.25  # Water DeltaT of 11C * sizing factor
-    max_heat = peak_heat * 1.25  # maximum heating load * sizing factor
-    flow_rate = [abs(heat_i) / max_heat for heat_i in heating]
+    peak_flow = (abs(peak_heat) / (4184000 * 2)) * 1.25  # Water DeltaT of 2C * sizing factor
+    flow_rate = [abs(heat_i) / peak_heat for heat_i in heating]
     flow_sch_id = '{} Heating Flow Sch - {}L/s'.format(bldg_id, int(peak_flow * 1000))
     flow_sch = ScheduleFixedInterval(flow_sch_id, flow_rate, fractional, timestep)
     os_flow_sch = schedule_fixed_interval_to_openstudio(flow_sch, os_model)
-    hw_pump.setRatedFlowRate(peak_flow)
+    hw_pump.setRatedFlowRate(peak_flow * 1.1)
 
     # add the building loads to the supply side
     os_load = openstudio_model.LoadProfilePlant(os_model, os_load_sch, os_flow_sch)
@@ -221,7 +219,7 @@ def building_shw_loop(bldg_id, shw, shw_temp, os_model, pump_pressure=None):
     shw_loop = openstudio_model.PlantLoop(os_model)
     shw_loop.setName('{} SHW Loop'.format(bldg_id))
     shw_sizing_plant = shw_loop.sizingPlant()
-    shw_sizing_plant.setDesignLoopExitTemperature(shw_temp)
+    shw_sizing_plant.setDesignLoopExitTemperature(shw_temp + 11.0)
     shw_sizing_plant.setLoopDesignTemperatureDifference(11.0)
     shw_sizing_plant.setLoopType('Heating')
     shw_temp_sch = create_constant_schedule_ruleset(
@@ -248,13 +246,12 @@ def building_shw_loop(bldg_id, shw, shw_temp, os_model, pump_pressure=None):
     os_load_sch = schedule_fixed_interval_to_openstudio(load_sch, os_model)
 
     # set the flow rate schedule
-    peak_flow = (abs(peak_heat) / (4184000 * 11)) * 1.25  # Water DeltaT of 11C * sizing factor
-    max_heat = peak_heat * 1.25  # maximum shw load * sizing factor
-    flow_rate = [abs(heat_i) / max_heat for heat_i in shw]
+    peak_flow = (abs(peak_heat) / (4184000 * 2)) * 1.25  # Water DeltaT of 2C * sizing factor
+    flow_rate = [abs(heat_i) / peak_heat for heat_i in shw]
     flow_sch_id = '{} SHW Flow Sch - {}L/s'.format(bldg_id, int(peak_flow * 1000))
     flow_sch = ScheduleFixedInterval(flow_sch_id, flow_rate, fractional, timestep)
     os_flow_sch = schedule_fixed_interval_to_openstudio(flow_sch, os_model)
-    shw_pump.setRatedFlowRate(peak_flow)
+    shw_pump.setRatedFlowRate(peak_flow * 1.1)
 
     # add the building loads to the supply side
     os_load = openstudio_model.LoadProfilePlant(os_model, os_load_sch, os_flow_sch)
