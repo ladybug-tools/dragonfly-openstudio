@@ -8,7 +8,6 @@ from honeybee_openstudio.hvac.standards.schedule import create_constant_schedule
 from honeybee_openstudio.hvac.standards.central_air_source_heat_pump import \
     create_central_air_source_heat_pump
 
-from dragonfly_energy.des.loop import FifthGenThermalLoop
 from dragonfly_energy.des.ghe import GroundHeatExchanger
 
 
@@ -90,7 +89,9 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     gen5_supplemental_heat(ground_hx_loop, heating_stpt, os_model, supplemental_heat_type)
 
     # add ground loop pipes
-    _gen5_horizontal_pipes(horiz_pipe, soil, ground_hx_loop, os_model, geojson_dict)
+    _gen5_horizontal_pipes(
+        horiz_pipe, soil, central_pump, ground_hx_loop, os_model, geojson_dict
+    )
 
     # add the ground heat exchangers
     ghe_dir = des_dict['ghe_parameters']['ghe_dir']
@@ -203,7 +204,7 @@ def gen5_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     hp_stpt_manager.addToNode(heat_pump_water_loop.supplyOutletNode())
 
     # create pump
-    hp_pump = openstudio_model.PumpConstantSpeed(os_model)
+    hp_pump = openstudio_model.PumpVariableSpeed(os_model)
     hp_pump.setName('{} Pump'.format(loop_name))
     if not central_pump['pump_flow_rate_autosized']:
         hp_pump.setRatedFlowRate(central_pump['pump_flow_rate'])
@@ -244,7 +245,9 @@ def gen5_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     heat_pump_water_loop.addDemandBranchForComponent(demand_bypass_pipe)
 
     # add ground loop pipes
-    _gen5_horizontal_pipes(horiz_pipe, soil, heat_pump_water_loop, os_model, geojson_dict)
+    _gen5_horizontal_pipes(
+        horiz_pipe, soil, central_pump, heat_pump_water_loop, os_model, geojson_dict
+    )
 
     return heat_pump_water_loop
 
@@ -287,7 +290,6 @@ def gen5_heat_rejection(heat_pump_loop, setpoint_manager, os_model,
         cooling_equipment = openstudio_model.DistrictCooling(os_model)
         cooling_equipment.setName('{} District Cooling'.format(loop_name))
         cooling_equipment.autosizeNominalCapacity()
-        
         setpoint_manager.setName('{} District Cooling Setpoint'.format(loop_name))
     else:
         if heat_rejection_type in ('CoolingTower', 'CoolingTowerTwoSpeed'):
@@ -394,22 +396,48 @@ def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
     return heating_equipment
 
 
-def _gen5_horizontal_pipes(horiz_pipe, soil, heat_pump_loop, os_model, geojson_dict=None):
+def _gen5_horizontal_pipes(horiz_pipe, soil, central_pump, heat_pump_loop, os_model,
+                           geojson_dict=None):
     """Create pipes to account for losses in a fifth generation thermal loop."""
     # add ground loop pipes
     if geojson_dict is None:  # add adiabatic pipes
         supply_outlet_pipe = openstudio_model.PipeAdiabatic(os_model)
         demand_outlet_pipe = openstudio_model.PipeAdiabatic(os_model)
     else:  # add outdoor pipes
+        # deserialize the ThermalConnectors to get their lengths
+        total_length = 0
+        for feature in geojson_dict['features']:
+            if feature['properties']['type'] == 'ThermalConnector':
+                total_length += feature['properties']['total_length']
+
+        # get the diameter of the pipe
+        if 'hydraulic_diameter' not in horiz_pipe:
+            # try to autosize based on total length
+            try:
+                from thermalnetwork.pipe import Pipe
+                network_pipe = Pipe(
+                    dimension_ratio=horiz_pipe['diameter_ratio'],
+                    length=total_length
+                )
+                pressure_loss = horiz_pipe['pressure_drop_per_meter']
+                design_vol_flow = central_pump['pump_flow_rate']  \
+                    if 'pump_flow_rate' in central_pump else 0.05
+                pipe_diameter = network_pipe.size_hydraulic_diameter(
+                    design_vol_flow, pressure_loss)
+            except ImportError:  # no package installed; just use something reasonable
+                pipe_diameter = 0.15
+        else:
+            pipe_diameter = horiz_pipe['hydraulic_diameter']
+
         # create the pipe material
-        pipe_thickness = horiz_pipe['hydraulic_diameter'] / horiz_pipe['diameter_ratio']
+        pipe_thickness = pipe_diameter / horiz_pipe['diameter_ratio']
         pipe_mat = openstudio_model.StandardOpaqueMaterial(os_model)
         pipe_mat.setName('Horizontal Pipe HDPE')
         pipe_mat.setThickness(pipe_thickness)
         pipe_mat.setConductivity(0.5)
         pipe_mat.setDensity(950.0)
         pipe_mat.setSpecificHeat(2000.0)
-        pipe_mat.setRoughness('MediumRough')
+        pipe_mat.setRoughness('VerySmooth')
         # create the insulation material
         insulation = openstudio_model.StandardOpaqueMaterial(os_model)
         insulation.setName('Horizontal Pipe Insulation')
@@ -418,37 +446,23 @@ def _gen5_horizontal_pipes(horiz_pipe, soil, heat_pump_loop, os_model, geojson_d
         insulation.setDensity(43.0)
         insulation.setSpecificHeat(1210.0)
         insulation.setRoughness('MediumRough')
-        # create the soil material
-        soil_mat = openstudio_model.StandardOpaqueMaterial(os_model)
-        soil_mat.setName('Buried Pipe Soil')
-        soil_mat.setThickness(horiz_pipe['buried_depth'])
-        soil_mat.setConductivity(soil['conductivity'])
-        soil_mat.setDensity(1250.0)
-        soil_mat.setSpecificHeat(soil['rho_cp'] / 1250.0)
-        soil_mat.setRoughness('MediumRough')
         # bring everything together into a pipe construction
         pipe_con = openstudio_model.Construction(os_model)
         pipe_con.setName('Horizontal Pipe Construction')
         os_materials = openstudio_model.MaterialVector()
-        for os_material in (soil_mat, insulation, pipe_mat):
+        for os_material in (insulation, pipe_mat):
             try:
                 os_materials.append(os_material)
             except AttributeError:  # using OpenStudio .NET bindings
                 os_materials.Add(os_material)
         pipe_con.setLayers(os_materials)
 
-        # deserialize the ThermalConnectors to get their lengths
-        loop = FifthGenThermalLoop.from_geojson_dict(geojson_dict)
-        total_length = 0
-        for connector in loop.connectors:
-            total_length += connector.geometry.length
-
-        # apply all properties to the pipes
+        # apply properties to the pipes
         supply_outlet_pipe = openstudio_model.PipeOutdoor(os_model)
         demand_outlet_pipe = openstudio_model.PipeOutdoor(os_model)
         for os_pipe in (supply_outlet_pipe, demand_outlet_pipe):
             os_pipe.setConstruction(pipe_con)
-            os_pipe.setPipeInsideDiameter(horiz_pipe['hydraulic_diameter'])
+            os_pipe.setPipeInsideDiameter(pipe_diameter)
             os_pipe.setPipeLength(total_length / 2)
 
     # add all of the pipes to the model

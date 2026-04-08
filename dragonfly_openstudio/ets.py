@@ -132,7 +132,7 @@ def building_chw_loop(bldg_id, cooling, chw_temp, os_model, pump_pressure=None):
     os_load_sch = schedule_fixed_interval_to_openstudio(load_sch, os_model)
 
     # set the flow rate schedule
-    peak_flow = (abs(peak_cool) / 4184000) * 1.15  # Water DeltaT of 1C * sizing factor
+    peak_flow = (abs(peak_cool) / (4184000 * 4)) * 1.15  # Water DeltaT of 4C * sizing factor
     max_cool = abs(peak_cool) * 1.15  # maximum cooling load * sizing factor
     flow_rate = [abs(cool_i) / max_cool for cool_i in cooling]
     flow_sch_id = '{} Cooling Flow Sch - {}L/s'.format(bldg_id, int(peak_flow * 1000))
@@ -190,7 +190,7 @@ def building_hw_loop(bldg_id, heating, hw_temp, os_model, pump_pressure=None):
     os_load_sch = schedule_fixed_interval_to_openstudio(load_sch, os_model)
 
     # set the flow rate schedule
-    peak_flow = (abs(peak_heat) / 4184000) * 1.25  # Water DeltaT of 1C * sizing factor
+    peak_flow = (abs(peak_heat) / (4184000 * 11)) * 1.25  # Water DeltaT of 11C * sizing factor
     max_heat = peak_heat * 1.25  # maximum heating load * sizing factor
     flow_rate = [abs(heat_i) / max_heat for heat_i in heating]
     flow_sch_id = '{} Heating Flow Sch - {}L/s'.format(bldg_id, int(peak_flow * 1000))
@@ -248,7 +248,7 @@ def building_shw_loop(bldg_id, shw, shw_temp, os_model, pump_pressure=None):
     os_load_sch = schedule_fixed_interval_to_openstudio(load_sch, os_model)
 
     # set the flow rate schedule
-    peak_flow = (abs(peak_heat) / 4184000) * 1.25  # Water DeltaT of 1C * sizing factor
+    peak_flow = (abs(peak_heat) / (4184000 * 11)) * 1.25  # Water DeltaT of 11C * sizing factor
     max_heat = peak_heat * 1.25  # maximum shw load * sizing factor
     flow_rate = [abs(heat_i) / max_heat for heat_i in shw]
     flow_sch_id = '{} SHW Flow Sch - {}L/s'.format(bldg_id, int(peak_flow * 1000))
