@@ -1,0 +1,482 @@
+{
+    "project": {
+        "city": "Buffalo, NY", 
+        "weather_filename": "USA_NY_Buffalo-Greater.Buffalo.Intl.AP.725280_TMY.epw", 
+        "id": "DES_G5_Example", 
+        "time_zone": -5.0, 
+        "longitude": -78.852466000000007, 
+        "country": "-", 
+        "elevation": 200.0, 
+        "latitude": 42.813153000000000, 
+        "cad_coordinates": [
+            0.0, 
+            0.0
+        ], 
+        "name": "DES_G5 Example"
+    }, 
+    "type": "FeatureCollection", 
+    "features": [
+        {
+            "geometry": {
+                "type": "Polygon", 
+                "coordinates": [
+                    [
+                        [
+                            -78.848542784124930, 
+                            42.816176271352944
+                        ], 
+                        [
+                            -78.848356428377954, 
+                            42.815760391013860
+                        ], 
+                        [
+                            -78.847152457161528, 
+                            42.816050685716974
+                        ], 
+                        [
+                            -78.847338812908504, 
+                            42.816466564103742
+                        ], 
+                        [
+                            -78.848542784124930, 
+                            42.816176271352944
+                        ]
+                    ]
+                ]
+            }, 
+            "properties": {
+                "detailed_model_filename": "C:\\Users\\Chris\\simulation\\DES_G5_Example\\hb_json\\Office_1.json", 
+                "id": "Office_1", 
+                "type": "Building", 
+                "number_of_stories_above_ground": 6, 
+                "floor_height": 3.5, 
+                "year_built": 2019, 
+                "footprint_area": 5027.7843172668872, 
+                "maximum_roof_height": 21.0, 
+                "floor_area": 30166.705903601323, 
+                "name": "Office 1", 
+                "building_type": "Mixed use", 
+                "number_of_stories": 6
+            }, 
+            "type": "Feature"
+        }, 
+        {
+            "geometry": {
+                "type": "Polygon", 
+                "coordinates": [
+                    [
+                        [
+                            -78.850412370945349, 
+                            42.815731994918586
+                        ], 
+                        [
+                            -78.850508689646020, 
+                            42.815946944755254
+                        ], 
+                        [
+                            -78.850782609023312, 
+                            42.815880898879350
+                        ], 
+                        [
+                            -78.850495658242366, 
+                            42.815256273875924
+                        ], 
+                        [
+                            -78.849739696176059, 
+                            42.815443726523824
+                        ], 
+                        [
+                            -78.849917587820173, 
+                            42.815856472123379
+                        ], 
+                        [
+                            -78.850412370945349, 
+                            42.815731994918586
+                        ]
+                    ]
+                ]
+            }, 
+            "properties": {
+                "detailed_model_filename": "C:\\Users\\Chris\\simulation\\DES_G5_Example\\hb_json\\Office_2.json", 
+                "id": "Office_2", 
+                "type": "Building", 
+                "number_of_stories_above_ground": 10, 
+                "floor_height": 3.5, 
+                "year_built": 2019, 
+                "footprint_area": 3734.3302500468471, 
+                "maximum_roof_height": 35.0, 
+                "floor_area": 37343.302500468475, 
+                "name": "Office 2", 
+                "building_type": "Mixed use", 
+                "number_of_stories": 10
+            }, 
+            "type": "Feature"
+        }, 
+        {
+            "geometry": {
+                "type": "Polygon", 
+                "coordinates": [
+                    [
+                        [
+                            -78.850560422836892, 
+                            42.816075714653479
+                        ], 
+                        [
+                            -78.850725714122547, 
+                            42.816450230600942
+                        ], 
+                        [
+                            -78.849401375191619, 
+                            42.816771188127689
+                        ], 
+                        [
+                            -78.849580181807681, 
+                            42.817168171015553
+                        ], 
+                        [
+                            -78.850726244343946, 
+                            42.816890421189918
+                        ], 
+                        [
+                            -78.850856611801063, 
+                            42.817195539033875
+                        ], 
+                        [
+                            -78.851321403829687, 
+                            42.817082896249232
+                        ], 
+                        [
+                            -78.850836310373424, 
+                            42.816006367205702
+                        ], 
+                        [
+                            -78.850560422836892, 
+                            42.816075714653479
+                        ]
+                    ]
+                ]
+            }, 
+            "properties": {
+                "detailed_model_filename": "C:\\Users\\Chris\\simulation\\DES_G5_Example\\hb_json\\Residential_1.json", 
+                "id": "Residential_1", 
+                "type": "Building", 
+                "number_of_stories_above_ground": 3, 
+                "floor_height": 3.5, 
+                "year_built": 2019, 
+                "footprint_area": 8859.7519909368257, 
+                "maximum_roof_height": 10.5, 
+                "floor_area": 26579.255972810475, 
+                "name": "Residential 1", 
+                "building_type": "Mixed use", 
+                "number_of_stories": 3
+            }, 
+            "type": "Feature"
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "District GHE Loop_GHE_0", 
+                "type": "District System", 
+                "geometryType": "Rectangle", 
+                "district_system_type": "Ground Heat Exchanger", 
+                "footprint_perimeter": 873.10000000000002, 
+                "footprint_area": 42979.0, 
+                "floor_area": 42979.0, 
+                "name": "District GHE Loop_GHE_0"
+            }, 
+            "geometry": {
+                "type": "Polygon", 
+                "coordinates": [
+                    [
+                        [
+                            -78.849811044074912, 
+                            42.813728223050973
+                        ], 
+                        [
+                            -78.846472546144568, 
+                            42.814533132268977
+                        ], 
+                        [
+                            -78.847046965710362, 
+                            42.815815230030189
+                        ], 
+                        [
+                            -78.850385463640706, 
+                            42.815010320812185
+                        ], 
+                        [
+                            -78.849811044074912, 
+                            42.813728223050973
+                        ]
+                    ]
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "District GHE Loop_ThermalConnector_2", 
+                "type": "ThermalConnector", 
+                "fluid_temperature_type": "Ambient", 
+                "startFeatureId": "Residential_1", 
+                "flow_direction": "Unspecified", 
+                "startJunctionId": "3dbb9af0-faf0-421f-8d31-96025f364326", 
+                "endJunctionId": "0eeb6e43-9b98-4c4c-b5c7-bf012325e5e6", 
+                "total_length": 14.619999999999999, 
+                "name": "District GHE Loop_ThermalConnector_2", 
+                "endFeatureId": "Office_2", 
+                "connector_type": "OnePipe"
+            }, 
+            "geometry": {
+                "type": "LineString", 
+                "coordinates": [
+                    [
+                        -78.850836310373424, 
+                        42.816006367205702
+                    ], 
+                    [
+                        -78.850782609023312, 
+                        42.815880898879350
+                    ]
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "District GHE Loop_ThermalConnector_1", 
+                "type": "ThermalConnector", 
+                "fluid_temperature_type": "Ambient", 
+                "startFeatureId": "Office_2", 
+                "flow_direction": "Unspecified", 
+                "startJunctionId": "662f874a-75e6-4e45-9990-7315a45c177a", 
+                "endJunctionId": "c3aaca7a-a2be-4ca0-a968-365088b89089", 
+                "total_length": 93.280000000000001, 
+                "name": "District GHE Loop_ThermalConnector_1", 
+                "endFeatureId": "District GHE Loop_GHE_0", 
+                "connector_type": "OnePipe"
+            }, 
+            "geometry": {
+                "type": "LineString", 
+                "coordinates": [
+                    [
+                        -78.849828641998116, 
+                        42.815650099323598
+                    ], 
+                    [
+                        -78.849356740555166, 
+                        42.815759548402177
+                    ], 
+                    [
+                        -78.849161057943945, 
+                        42.815305524060015
+                    ]
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "District GHE Loop_ThermalConnector_0", 
+                "type": "ThermalConnector", 
+                "fluid_temperature_type": "Ambient", 
+                "startFeatureId": "District GHE Loop_GHE_0", 
+                "flow_direction": "Unspecified", 
+                "startJunctionId": "7d84e3e3-dbbe-4838-8315-345db4e631af", 
+                "endJunctionId": "b070e9e0-925d-4a61-8742-53390dde448b", 
+                "total_length": 79.980000000000004, 
+                "name": "District GHE Loop_ThermalConnector_0", 
+                "endFeatureId": "Office_1", 
+                "connector_type": "OnePipe"
+            }, 
+            "geometry": {
+                "type": "LineString", 
+                "coordinates": [
+                    [
+                        -78.848578477323770, 
+                        42.815445983788067
+                    ], 
+                    [
+                        -78.848777148953502, 
+                        42.815889348836265
+                    ], 
+                    [
+                        -78.848449606251435, 
+                        42.815968331183399
+                    ]
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "District GHE Loop_ThermalConnector_3", 
+                "type": "ThermalConnector", 
+                "fluid_temperature_type": "Ambient", 
+                "startFeatureId": "Office_1", 
+                "flow_direction": "Unspecified", 
+                "startJunctionId": "d3f245c2-7669-4b6d-b1a3-35a9c6d6bd07", 
+                "endJunctionId": "ca7d5655-eff3-414b-9a5d-df8855ede4f8", 
+                "total_length": 280.43000000000001, 
+                "name": "District GHE Loop_ThermalConnector_3", 
+                "endFeatureId": "Residential_1", 
+                "connector_type": "OnePipe"
+            }, 
+            "geometry": {
+                "type": "LineString", 
+                "coordinates": [
+                    [
+                        -78.847338812908504, 
+                        42.816466564103742
+                    ], 
+                    [
+                        -78.847844254626750, 
+                        42.817588875345862
+                    ], 
+                    [
+                        -78.849580181807681, 
+                        42.817168171015553
+                    ]
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "3dbb9af0-faf0-421f-8d31-96025f364326", 
+                "type": "ThermalJunction", 
+                "junction_type": "DES", 
+                "connection_type": "Series", 
+                "is_ghe_start_loop": true, 
+                "buildingId": "Residential_1"
+            }, 
+            "geometry": {
+                "type": "Point", 
+                "coordinates": [
+                    -78.850836310373424, 
+                    42.816006367205702
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "0eeb6e43-9b98-4c4c-b5c7-bf012325e5e6", 
+                "type": "ThermalJunction", 
+                "junction_type": "DES", 
+                "connection_type": "Series", 
+                "buildingId": "Office_2"
+            }, 
+            "geometry": {
+                "type": "Point", 
+                "coordinates": [
+                    -78.850782609023312, 
+                    42.815880898879350
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "662f874a-75e6-4e45-9990-7315a45c177a", 
+                "type": "ThermalJunction", 
+                "junction_type": "DES", 
+                "connection_type": "Series", 
+                "buildingId": "Office_2"
+            }, 
+            "geometry": {
+                "type": "Point", 
+                "coordinates": [
+                    -78.849828641998116, 
+                    42.815650099323598
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "c3aaca7a-a2be-4ca0-a968-365088b89089", 
+                "type": "ThermalJunction", 
+                "junction_type": "DES", 
+                "connection_type": "Series", 
+                "DSId": "District GHE Loop_GHE_0"
+            }, 
+            "geometry": {
+                "type": "Point", 
+                "coordinates": [
+                    -78.849161057943945, 
+                    42.815305524060015
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "7d84e3e3-dbbe-4838-8315-345db4e631af", 
+                "type": "ThermalJunction", 
+                "junction_type": "DES", 
+                "connection_type": "Series", 
+                "DSId": "District GHE Loop_GHE_0"
+            }, 
+            "geometry": {
+                "type": "Point", 
+                "coordinates": [
+                    -78.848578477323770, 
+                    42.815445983788067
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "b070e9e0-925d-4a61-8742-53390dde448b", 
+                "type": "ThermalJunction", 
+                "junction_type": "DES", 
+                "connection_type": "Series", 
+                "buildingId": "Office_1"
+            }, 
+            "geometry": {
+                "type": "Point", 
+                "coordinates": [
+                    -78.848449606251435, 
+                    42.815968331183399
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "d3f245c2-7669-4b6d-b1a3-35a9c6d6bd07", 
+                "type": "ThermalJunction", 
+                "junction_type": "DES", 
+                "connection_type": "Series", 
+                "buildingId": "Office_1"
+            }, 
+            "geometry": {
+                "type": "Point", 
+                "coordinates": [
+                    -78.847338812908504, 
+                    42.816466564103742
+                ]
+            }
+        }, 
+        {
+            "type": "Feature", 
+            "properties": {
+                "id": "ca7d5655-eff3-414b-9a5d-df8855ede4f8", 
+                "type": "ThermalJunction", 
+                "junction_type": "DES", 
+                "connection_type": "Series", 
+                "buildingId": "Residential_1"
+            }, 
+            "geometry": {
+                "type": "Point", 
+                "coordinates": [
+                    -78.849580181807681, 
+                    42.817168171015553
+                ]
+            }
+        }
+    ], 
+    "mappers": []
+}

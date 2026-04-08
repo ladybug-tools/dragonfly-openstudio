@@ -9,7 +9,10 @@ def test_sys_dict_to_openstudio_ghe():
     sp_json = './tests/assets/small_ghe/system_params.json'
     with open(sp_json) as json_file:
         sys_dict = json.load(json_file)
+    geojson = './tests/assets/small_ghe/GHE_Example.geojson'
+    with open(geojson) as json_file:
+        geojson_dict = json.load(json_file)
 
-    os_model = sys_dict_to_openstudio(sys_dict)
+    os_model = sys_dict_to_openstudio(sys_dict, geojson_dict=geojson_dict)
     loops = os_model.getPlantLoops()
     assert os_vector_len(loops) == 10

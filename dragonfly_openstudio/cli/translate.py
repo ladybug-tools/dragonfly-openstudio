@@ -26,6 +26,12 @@ def translate():
 @translate.command('system-to-osm')
 @click.argument('system-file', type=click.Path(
     exists=True, file_okay=True, dir_okay=False, resolve_path=True))
+@click.option('--geojson', '-g', help='Full path to an URBANopt feature GeoJSON, '
+              'which can be used to further customize the OpenStudio model. When '
+              'supplied, the lengths of ThermalConnectors in the loop will be used to '
+              'account for pipe heat losses.', default=None, show_default=True,
+              type=click.Path(exists=True, file_okay=True, dir_okay=False,
+                              resolve_path=True))
 @click.option('--sim-par-json', '-sp', help='Full path to a honeybee energy '
               'SimulationParameter JSON that describes all of the settings for '
               'the simulation. If None default parameters will be generated.',
@@ -40,7 +46,7 @@ def translate():
               'generated OSM and IDF files if they were successfully created. '
               'By default this will be printed out to stdout',
               type=click.File('w'), default='-', show_default=True)
-def system_to_osm_cli(system_file, sim_par_json, osm_file, idf_file, log_file):
+def system_to_osm_cli(system_file, geojson, sim_par_json, osm_file, idf_file, log_file):
     """Translate an URBANopt system parameter to an OpenStudio Model.
 
     \b
@@ -49,7 +55,7 @@ def system_to_osm_cli(system_file, sim_par_json, osm_file, idf_file, log_file):
             to an OpenStudio model.
     """
     try:
-        system_to_osm(system_file, sim_par_json, osm_file, idf_file, log_file)
+        system_to_osm(system_file, geojson, sim_par_json, osm_file, idf_file, log_file)
     except Exception as e:
         _logger.exception('System translation failed.\n{}'.format(e))
         sys.exit(1)
@@ -58,13 +64,18 @@ def system_to_osm_cli(system_file, sim_par_json, osm_file, idf_file, log_file):
 
 
 def system_to_osm(
-    system_file, sim_par_json=None, osm_file=None, idf_file=None, log_file=None
+    system_file, geojson=None, sim_par_json=None, osm_file=None, idf_file=None,
+    log_file=None
 ):
     """Translate an URBANopt system parameter to an OpenStudio Model.
 
     Args:
         system_file: Path to an URBANopt system parameter file to be translated
             to an OpenStudio model.
+        geojson: An optional URBANopt feature GeoJSON file path, which can
+            be used to further customize the OpenStudio model. When supplied,
+            the lengths of ThermalConnectors in the loop will be used to
+            account for pipe heat losses.
         sim_par_json: Full path to a honeybee energy SimulationParameter JSON that
             describes all of the settings for the simulation. If None, default
             parameters will be generated.
@@ -82,11 +93,11 @@ def system_to_osm(
     # generate default simulation parameters
     if sim_par_json is None:
         sim_par = SimulationParameter()
-        sim_par.output.add_hvac_energy_use()
     else:
         with open(sim_par_json) as json_file:
             data = json.load(json_file)
         sim_par = SimulationParameter.from_dict(data)
+    sim_par.output.add_plant_variables()
 
     # set design days using the coincident peak load
     epw_file = sys_dict['weather'].replace('.mos', '.epw')
@@ -98,7 +109,12 @@ def system_to_osm(
 
     # translate the simulation parameter and the system to an OpenStudio Model
     simulation_parameter_to_openstudio(sim_par, os_model)
-    os_model = sys_dict_to_openstudio(sys_dict, os_model)
+    geojson_dict = None
+    if geojson is not None:
+        with open(geojson) as json_file:
+            geojson_dict = json.load(json_file)
+    os_model = sys_dict_to_openstudio(
+        sys_dict, geojson_dict=geojson_dict, seed_model=os_model)
     gen_files = []
 
     # write the OpenStudio Model if specified

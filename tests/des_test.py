@@ -13,7 +13,7 @@ def test_ghe_des_to_openstudio():
     des_dict = sys_dict['district_system']
 
     os_model = OSModel()
-    des_loop = ghe_des_to_openstudio(des_dict, os_model)
+    des_loop = ghe_des_to_openstudio(des_dict, seed_model=os_model)
     assert des_loop.nameString() == 'Fifth Gen Ground HX Loop'
     des_loop_str = str(des_loop)
     assert des_loop_str.startswith('OS:PlantLoop,')
