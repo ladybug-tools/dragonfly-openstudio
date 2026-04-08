@@ -479,4 +479,92 @@ def gen4_des_to_openstudio(des_dict, os_model):
         des_dict: A district_system dictionary to be converted into thermal loops.
         os_model: The OpenStudio Model to which the loops will be added.
     """
-    return
+    # get the various sub-objects of the main dictionary
+    des_dict = des_dict['fourth_generation']
+    cooling_par = des_dict['central_cooling_plant_parameters']
+    heating_par = des_dict['central_heating_plant_parameters']
+
+    # CONDENSER WATER LOOP
+    cw_temp = cooling_par['temp_cw_in_nominal']
+    ct_dt = cooling_par['cooling_tower_water_temperature_difference_nominal']
+    wb_temp = cooling_par['temp_air_wb_nominal']
+    approach_dt = cooling_par['delta_temp_approach']
+
+    condenser_water_loop = openstudio_model.PlantLoop(os_model)
+    cw_name = 'Central Condenser Water Loop'
+    condenser_water_loop.setName(cw_name)
+    condenser_water_loop.setMinimumLoopTemperature(5.0)
+    condenser_water_loop.setMaximumLoopTemperature(80.0)
+    sizing_plant = condenser_water_loop.sizingPlant()
+    sizing_plant.setLoopType('Condenser')
+    sizing_plant.setDesignLoopExitTemperature(cw_temp)
+    sizing_plant.setLoopDesignTemperatureDifference(ct_dt)
+    sizing_plant.setSizingOption('Coincident')
+    sizing_plant.setZoneTimestepsinAveragingWindow(6)
+    sizing_plant.setCoincidentSizingFactorMode('GlobalCoolingSizingFactor')
+
+    # follow outdoor air wetbulb with given approach temperature
+    cw_stpt_manager = openstudio_model.SetpointManagerFollowOutdoorAirTemperature(os_model)
+    s_pt_name = '{} Setpoint Follow OATwb with {}C Approach'.format(cw_name, approach_dt)
+    cw_stpt_manager.setName(s_pt_name)
+    cw_stpt_manager.setReferenceTemperatureType('OutdoorAirWetBulb')
+    cw_stpt_manager.setMaximumSetpointTemperature(cw_temp)
+    cw_stpt_manager.setMinimumSetpointTemperature(cw_temp - 8)
+    cw_stpt_manager.setOffsetTemperatureDifference(approach_dt)
+    cw_stpt_manager.addToNode(condenser_water_loop.supplyOutletNode())
+
+    # add a condenser water pump
+    cw_pump = openstudio_model.PumpVariableSpeed(os_model)
+    cw_pump.setName('{} Variable Pump'.format(cw_name))
+    cw_pump.setPumpControlType('Intermittent')
+    cw_pump.setRatedPumpHead(cooling_par['cw_pump_head'])
+    cw_pump.addToNode(condenser_water_loop.supplyInletNode())
+
+    # CHILLED WATER LOOP
+    # create a chilled water plant
+    chw_temp = cooling_par['temp_setpoint_chw']
+    chilled_water_loop = openstudio_model.PlantLoop(os_model)
+    chilled_water_loop.setName('Central Chilled Water Loop')
+    chw_loop.setMaximumLoopTemperature(40.0)
+    chw_sizing_plant = chw_loop.sizingPlant()
+    chw_sizing_plant.setDesignLoopExitTemperature(chw_temp)
+    chw_sizing_plant.setLoopDesignTemperatureDifference(4.0)
+    chw_sizing_plant.setLoopType('Cooling')
+    chw_temp_sch = create_constant_schedule_ruleset(
+        os_model, chw_temp, schedule_type_limit='Temperature',
+        name='{} Temp - {}C'.format(chw_loop.nameString(), int(chw_temp)))
+    chw_stpt_manager = openstudio_model.SetpointManagerScheduled(os_model, chw_temp_sch)
+    chw_stpt_manager.setName('{} Setpoint Manager'.format(chw_loop.nameString()))
+    chw_stpt_manager.addToNode(chw_loop.supplyOutletNode())
+
+    # add a pump for the chilled water loop
+    chw_pump = openstudio_model.PumpVariableSpeed(os_model)
+    chw_pump.setName('{} Pump'.format(chw_loop.nameString()))
+    chw_pump.setRatedPumpHead(cooling_par['chw_pump_head'])
+    chw_pump.setMotorEfficiency(0.9)
+    chw_pump.setPumpControlType('Intermittent')
+    chw_pump.addToNode(chw_loop.supplyInletNode())
+
+    # add a chiller
+    chiller = openstudio_model.ChillerElectricEIR(model)
+    cool_t = 'WaterCooled'
+    cond_t = 'WithCondenser'
+    comp_t = 'Centrifugal'
+    ch_name = 'ASHRAE 90.1 {} {} {} Chiller {}'.format(cool_t, cond_t, comp_t, i)
+    chiller.setName(ch_name)
+    chilled_water_loop.addSupplyBranchForComponent(chiller)
+    chiller.setReferenceLeavingChilledWaterTemperature(chw_temp)
+    chiller.setLeavingChilledWaterLowerTemperatureLimit(2.0)
+    chiller.setReferenceEnteringCondenserFluidTemperature(35.0)
+    chiller.setMinimumPartLoadRatio(0.15)
+    chiller.setMaximumPartLoadRatio(1.0)
+    chiller.setOptimumPartLoadRatio(1.0)
+    chiller.setMinimumUnloadingRatio(0.25)
+    chiller.setChillerFlowMode('ConstantFlow')
+    chiller.setReferenceCOP(round(3.517 / 0.66, 3))
+
+    # connect the chiller to the condenser loop
+    condenser_water_loop.addDemandBranchForComponent(chiller)
+    chiller.setCondenserType('WaterCooled')
+
+    model_get_or_add_chilled_water_loop(os_model, 'Electricity', 'WaterCooled')
