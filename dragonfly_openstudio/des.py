@@ -494,7 +494,7 @@ def gen4_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     # create the chilled water loop
     chw_loop = gen4_chilled_water_loop(cooling_par, geojson_dict, cw_loop, os_model)
     # create the hot water loop
-    hw_loop = gen4_hot_water_loop(heating_par, os_model)
+    hw_loop = gen4_hot_water_loop(heating_par, geojson_dict, os_model)
 
     return chw_loop, hw_loop
 
@@ -530,7 +530,7 @@ def gen4_condenser_loop(cooling_par, os_model):
 
     # follow outdoor air wetbulb with given approach temperature
     cw_stpt_manager = openstudio_model.SetpointManagerFollowOutdoorAirTemperature(os_model)
-    s_pt_name = '{} Setpoint Follow OATwb with {}C Approach'.format(cw_name, approach_dt)
+    s_pt_name = '{} Setpoint Manager Follow OATwb with {}C Approach'.format(cw_name, approach_dt)
     cw_stpt_manager.setName(s_pt_name)
     cw_stpt_manager.setReferenceTemperatureType('OutdoorAirWetBulb')
     cw_stpt_manager.setMaximumSetpointTemperature(cw_temp)
@@ -734,7 +734,8 @@ def gen4_hot_water_loop(heating_par, geojson_dict, os_model):
             heating_equipment.setFuelType('NaturalGas')
         hw_loop.addSupplyBranchForComponent(heating_equipment)
     elif heating_type == 'AirSourceHeatPump':  # Central Air Source Heat Pump
-        create_central_air_source_heat_pump(os_model)
+        ashp_name = 'Hot_Water_Loop_Central_Air_Source_Heat_Pump'
+        create_central_air_source_heat_pump(os_model, hw_loop, name=ashp_name)
     else:
         msg = 'Heating type "{}" is not valid'.format(heating_type)
         raise ValueError(msg)

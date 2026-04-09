@@ -54,7 +54,7 @@ def sys_dict_to_openstudio(sys_dict, seed_model=None, geojson_dict=None):
         if 'fifth_gen_ets_parameters' in bldg_dict:
             heat_pump_ets_to_openstudio(bldg_dict, hp_loop, os_model)
         elif 'ets_indirect_parameters' in bldg_dict:
-            heat_exchanger_ets_to_openstudio(bldg_dict, os_model)
+            heat_exchanger_ets_to_openstudio(bldg_dict, chw_loop, hw_loop, os_model)
 
     return os_model
 

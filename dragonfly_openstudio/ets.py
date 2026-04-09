@@ -19,7 +19,7 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
             ets_model to be converted into building-side thermal loops.
         hp_loop: The ambient heat pump condenser loop to which the buildings
             will be added.
-        os_model: The OpenStudio Model to which the loops will be added.
+        os_model: The OpenStudio Model to which the buildings will be added.
     """
     # get the various sub-objects of the main dictionary
     ets_dict = building_dict['fifth_gen_ets_parameters']
@@ -79,15 +79,81 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
     return chw_loop, hw_loop, shw_loop
 
 
-def heat_exchanger_ets_to_openstudio(building_dict, os_model):
+def heat_exchanger_ets_to_openstudio(building_dict, chw_loop, hw_loop, os_model):
     """Convert a dictionary of building with ets_indirect_parameters to OpenStudio.
 
     Args:
         building_dict: A building dictionary with a "Indirect Heating and Cooling"
             ets_model to be converted into building-side thermal loops.
-        os_model: The OpenStudio Model to which the loops will be added.
+        chw_loop: The central chilled water loop to which the buildings will be added.
+        hw_loop: The central hot water loop to which the buildings will be added.
+        os_model: The OpenStudio Model to which the buildings will be added.
     """
-    return
+    # get the various sub-objects of the main dictionary
+    ets_dict = building_dict['ets_indirect_parameters']
+    load_dict = building_dict['load_model_parameters']['time_series']
+    bldg_id = building_dict['geojson_id']
+    sizing_factor = 1 / ets_dict['heat_exchanger_efficiency']
+
+    # GET LOADS
+    # parse the loads from the .mos file
+    _, cooling, heating, shw = modelica_loads(load_dict['filepath'])
+    peak_cooling = min(cooling)
+    peak_cooling = peak_cooling if peak_cooling < 0 else 0
+    peak_heating = max(heating)
+    peak_heating = peak_heating if peak_heating > 0 else 0
+    peak_shw = max(shw)
+    peak_shw = peak_shw if peak_shw > 0 else 0
+
+    # CHILLED WATER LOOP
+    b_chw_loop = None
+    if peak_cooling != 0:
+        # create the loop
+        chw_temp = ets_dict['cooling_supply_water_temperature_building']
+        b_chw_loop = building_chw_loop(bldg_id, cooling, chw_temp, os_model)
+        # add the heat pump
+        chw_hx = openstudio_model.HeatExchangerFluidToFluid(os_model)
+        chw_hx.setName('{} Cooling Heat Exchanger'.format(bldg_id))
+        chw_hx.setHeatExchangeModelType('CounterFlow')
+        chw_hx.autosizeHeatExchangerUFactorTimesAreaValue()
+        chw_hx.setSizingFactor(sizing_factor)
+        b_chw_loop.addSupplyBranchForComponent(chw_hx)
+        chw_loop.addDemandBranchForComponent(chw_hx)
+        chw_hx.setControlType('CoolingSetpointModulated')
+
+    # HEATING WATER LOOP
+    b_hw_loop = None
+    if peak_heating != 0:
+        # create the loop
+        hw_temp = ets_dict['heating_supply_water_temperature_building']
+        b_hw_loop = building_hw_loop(bldg_id, heating, hw_temp, os_model)
+        # add supply side equipment to the heating water loop
+        hw_hx = openstudio_model.HeatExchangerFluidToFluid(os_model)
+        hw_hx.setName('{} Heating Heat Exchanger'.format(bldg_id))
+        hw_hx.setHeatExchangeModelType('CounterFlow')
+        hw_hx.autosizeHeatExchangerUFactorTimesAreaValue()
+        hw_hx.setSizingFactor(sizing_factor)
+        b_hw_loop.addSupplyBranchForComponent(hw_hx)
+        hw_loop.addDemandBranchForComponent(hw_hx)
+        hw_hx.setControlType('HeatingSetpointModulated')
+
+    # SHW LOOP
+    b_shw_loop = None
+    if peak_shw != 0:
+        # create the loop
+        shw_temp = ets_dict['heating_supply_water_temperature_building']
+        b_shw_loop = building_shw_loop(bldg_id, shw, shw_temp, os_model)
+        # add supply side equipment to the heating water loop
+        shw_hx = openstudio_model.HeatExchangerFluidToFluid(os_model)
+        shw_hx.setName('{} SHW Heat Exchanger'.format(bldg_id))
+        shw_hx.setHeatExchangeModelType('CounterFlow')
+        shw_hx.autosizeHeatExchangerUFactorTimesAreaValue()
+        shw_hx.setSizingFactor(sizing_factor)
+        b_shw_loop.addSupplyBranchForComponent(shw_hx)
+        hw_loop.addDemandBranchForComponent(shw_hx)
+        shw_hx.setControlType('HeatingSetpointModulated')
+
+    return b_chw_loop, b_hw_loop, b_shw_loop
 
 
 def building_chw_loop(bldg_id, cooling, chw_temp, os_model, pump_pressure=None):
