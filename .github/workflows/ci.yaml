@@ -72,7 +72,7 @@ jobs:
         run: |
           curl -X POST https://api.github.com/repos/$DISPATCH_REPO/dispatches \
           -H "Accept: application/vnd.github.everest-preview+json" \
-          -d '{"event_type": "dragonfly_energy_release", "client_payload": {"version": "${{ steps.new_release.outputs.tag }}"}}' \
+          -d '{"event_type": "dragonfly_openstudio_release", "client_payload": {"version": "${{ steps.new_release.outputs.tag }}"}}' \
           -u ladybugbot:$DEPS_TOKEN
 
   docs:
