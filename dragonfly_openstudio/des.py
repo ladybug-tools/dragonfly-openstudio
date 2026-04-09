@@ -5,6 +5,12 @@ import os
 
 from honeybee_openstudio.openstudio import openstudio_model
 from honeybee_openstudio.hvac.standards.schedule import create_constant_schedule_ruleset
+from honeybee_openstudio.hvac.standards.hvac_systems import model_add_waterside_economizer, \
+    model_add_vsd_twr_fan_curve
+from honeybee_openstudio.hvac.standards.cooling_tower import \
+    prototype_apply_condenser_water_temperatures
+from honeybee_openstudio.hvac.standards.central_air_source_heat_pump import \
+    create_central_air_source_heat_pump
 from dragonfly_energy.des.ghe import GroundHeatExchanger
 
 
@@ -68,22 +74,20 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     loop_stpt_manager.addToNode(ground_hx_loop.supplyOutletNode())
 
     # add heat rejection equipment to prevent the loop from overheating during peak
+    heat_rejection_type = 'CoolingTower'
     if geojson_dict and 'project' in geojson_dict and \
             'heat_rejection_type' in geojson_dict['project']:
         heat_rejection_type = geojson_dict['project']['heat_rejection_type']
-    else:
-        heat_rejection_type = 'CoolingTower'
     cooling_stpt = openstudio_model.SetpointManagerScheduled(os_model, hp_high_t_sch)
     hr_equip = gen5_heat_rejection(ground_hx_loop, cooling_stpt, os_model, heat_rejection_type)
     if 'FluidCooler' in heat_rejection_type:  # ensure that loop can be cooled
         hr_equip.setDesignEnteringAirTemperature(design['max_eft'] - 3)
 
     # add supplemental heating to prevent the loop from becoming too cold
+    supplemental_heat_type = 'Electricity'
     if geojson_dict and 'project' in geojson_dict and \
             'supplemental_heat_type' in geojson_dict['project']:
         supplemental_heat_type = geojson_dict['project']['supplemental_heat_type']
-    else:
-        supplemental_heat_type = 'Electricity'
     heating_stpt = openstudio_model.SetpointManagerScheduled(os_model, hp_low_t_sch)
     gen5_supplemental_heat(ground_hx_loop, heating_stpt, os_model, supplemental_heat_type)
 
@@ -212,11 +216,10 @@ def gen5_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     hp_pump.addToNode(heat_pump_water_loop.supplyInletNode())
 
     # create heat rejection equipment and add to the loop
+    heat_rejection_type = 'CoolingTower'
     if geojson_dict and 'project' in geojson_dict and \
             'heat_rejection_type' in geojson_dict['project']:
         heat_rejection_type = geojson_dict['project']['heat_rejection_type']
-    else:
-        heat_rejection_type = 'CoolingTower'
     cooling_stpt = openstudio_model.SetpointManagerScheduledDualSetpoint(os_model)
     cooling_stpt.setHighSetpointSchedule(hp_high_temp_sch)
     cooling_stpt.setLowSetpointSchedule(hp_low_temp_sch)
@@ -226,11 +229,10 @@ def gen5_des_to_openstudio(des_dict, os_model, geojson_dict=None):
         sizing_plant.setDesignLoopExitTemperature(35.0)
 
     # add supplemental heating to prevent the loop from becoming too cold
+    supplemental_heat_type = 'Electricity'
     if geojson_dict and 'project' in geojson_dict and \
             'supplemental_heat_type' in geojson_dict['project']:
         supplemental_heat_type = geojson_dict['project']['supplemental_heat_type']
-    else:
-        supplemental_heat_type = 'Electricity'
     heating_stpt = openstudio_model.SetpointManagerScheduledDualSetpoint(os_model)
     heating_stpt.setHighSetpointSchedule(hp_high_temp_sch)
     heating_stpt.setLowSetpointSchedule(hp_low_temp_sch)
@@ -293,26 +295,19 @@ def gen5_heat_rejection(heat_pump_loop, setpoint_manager, os_model,
         cooling_equipment.autosizeNominalCapacity()
         setpoint_manager.setName('{} District Cooling Setpoint'.format(loop_name))
     else:
-        if heat_rejection_type in ('CoolingTower', 'CoolingTowerTwoSpeed'):
-            cooling_equipment = openstudio_model.CoolingTowerTwoSpeed(os_model)
+        if heat_rejection_type in ('CoolingTower', 'CoolingTowerVariableSpeed'):
+            cooling_equipment = openstudio_model.CoolingTowerVariableSpeed(os_model)
             cooling_equipment.setName('{} Cooling Tower'.format(loop_name))
             setpoint_manager.setName('{} Cooling Tower Setpoint'.format(loop_name))
         elif heat_rejection_type == 'CoolingTowerSingleSpeed':
             cooling_equipment = openstudio_model.CoolingTowerSingleSpeed(os_model)
             cooling_equipment.setName('{} Cooling Tower'.format(loop_name))
             setpoint_manager.setName('{} Cooling Tower Setpoint'.format(loop_name))
-        elif heat_rejection_type == 'CoolingTowerVariableSpeed':
-            cooling_equipment = openstudio_model.CoolingTowerVariableSpeed(os_model)
+        elif heat_rejection_type == 'CoolingTowerTwoSpeed':
+            cooling_equipment = openstudio_model.CoolingTowerTwoSpeed(os_model)
             cooling_equipment.setName('{} Cooling Tower'.format(loop_name))
             setpoint_manager.setName('{} Cooling Tower Setpoint'.format(loop_name))
-        elif heat_rejection_type in ('FluidCooler', 'FluidCoolerSingleSpeed'):
-            cooling_equipment = openstudio_model.FluidCoolerSingleSpeed(os_model)
-            cooling_equipment.setName('{} Fluid Cooler'.format(loop_name))
-            setpoint_manager.setName('{} Fluid Cooler Setpoint'.format(loop_name))
-            cooling_equipment.setPerformanceInputMethod(fc_size_type)
-            cooling_equipment.autosizeDesignWaterFlowRate()
-            cooling_equipment.autosizeDesignAirFlowRate()
-        elif heat_rejection_type == 'FluidCoolerTwoSpeed':
+        elif heat_rejection_type in ('FluidCooler', 'FluidCoolerTwoSpeed'):
             cooling_equipment = openstudio_model.FluidCoolerTwoSpeed(os_model)
             cooling_equipment.setName('{} Fluid Cooler'.format(loop_name))
             setpoint_manager.setName('{} Fluid Cooler Setpoint'.format(loop_name))
@@ -320,14 +315,21 @@ def gen5_heat_rejection(heat_pump_loop, setpoint_manager, os_model,
             cooling_equipment.autosizeDesignWaterFlowRate()
             cooling_equipment.autosizeHighFanSpeedAirFlowRate()
             cooling_equipment.autosizeLowFanSpeedAirFlowRate()
-        elif heat_rejection_type in ('EvaporativeFluidCooler', 'EvaporativeFluidCoolerSingleSpeed'):
-            cooling_equipment = openstudio_model.EvaporativeFluidCoolerSingleSpeed(os_model)
+        elif heat_rejection_type == 'FluidCoolerSingleSpeed':
+            cooling_equipment = openstudio_model.FluidCoolerSingleSpeed(os_model)
+            cooling_equipment.setName('{} Fluid Cooler'.format(loop_name))
+            setpoint_manager.setName('{} Fluid Cooler Setpoint'.format(loop_name))
+            cooling_equipment.setPerformanceInputMethod(fc_size_type)
+            cooling_equipment.autosizeDesignWaterFlowRate()
+            cooling_equipment.autosizeDesignAirFlowRate()
+        elif heat_rejection_type in ('EvaporativeFluidCooler', 'EvaporativeFluidCoolerTwoSpeed'):
+            cooling_equipment = openstudio_model.EvaporativeFluidCoolerTwoSpeed(os_model)
             cooling_equipment.setName('{} Evaporative Fluid Cooler'.format(loop_name))
             cooling_equipment.setDesignSprayWaterFlowRate(0.002208)
             cooling_equipment.setPerformanceInputMethod(fc_size_type)
             setpoint_manager.setName('{} Fluid Cooler Setpoint'.format(loop_name))
-        elif heat_rejection_type == 'EvaporativeFluidCoolerTwoSpeed':
-            cooling_equipment = openstudio_model.EvaporativeFluidCoolerTwoSpeed(os_model)
+        elif heat_rejection_type == 'EvaporativeFluidCoolerSingleSpeed':
+            cooling_equipment = openstudio_model.EvaporativeFluidCoolerSingleSpeed(os_model)
             cooling_equipment.setName('{} Evaporative Fluid Cooler'.format(loop_name))
             cooling_equipment.setDesignSprayWaterFlowRate(0.002208)
             cooling_equipment.setPerformanceInputMethod(fc_size_type)
@@ -395,11 +397,10 @@ def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
 def _gen5_horizontal_pipes(horiz_pipe, soil, central_pump, heat_pump_loop, os_model,
                            geojson_dict=None):
     """Create pipes to account for losses in a fifth generation thermal loop."""
-    # add ground loop pipes
-    if geojson_dict is None:  # add adiabatic pipes
+    if True:  # TODO: change back to if geojson_dict is None
         supply_outlet_pipe = openstudio_model.PipeAdiabatic(os_model)
         demand_outlet_pipe = openstudio_model.PipeAdiabatic(os_model)
-    else:  # add outdoor pipes
+    else:  # TODO: Add support for buried pipes using the info in the GeoJSON dict
         # deserialize the ThermalConnectors to get their lengths
         total_length = 0
         for feature in geojson_dict['features']:
@@ -472,30 +473,54 @@ def _gen5_horizontal_pipes(horiz_pipe, soil, central_pump, heat_pump_loop, os_mo
     demand_outlet_pipe.addToNode(heat_pump_loop.demandOutletNode())
 
 
-def gen4_des_to_openstudio(des_dict, os_model):
+def gen4_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     """Convert a dictionary of a fourth_generation district_system to OpenStudio.
 
     Args:
         des_dict: A district_system dictionary to be converted into thermal loops.
         os_model: The OpenStudio Model to which the loops will be added.
+        geojson_dict: An optional URBANopt feature GeoJSON dictionary, which can
+            be used to further customize the OpenStudio model.
     """
     # get the various sub-objects of the main dictionary
     des_dict = des_dict['fourth_generation']
     cooling_par = des_dict['central_cooling_plant_parameters']
     heating_par = des_dict['central_heating_plant_parameters']
+    if 'hhw_pump_head' not in heating_par:  # use chw pump head until it is exposed
+        heating_par['hhw_pump_head'] = cooling_par['chw_pump_head']
 
-    # CONDENSER WATER LOOP
+    # create the condenser outdoor loop
+    cw_loop = gen4_condenser_loop(cooling_par, os_model)
+    # create the chilled water loop
+    chw_loop = gen4_chilled_water_loop(cooling_par, geojson_dict, cw_loop, os_model)
+    # create the hot water loop
+    hw_loop = gen4_hot_water_loop(heating_par, os_model)
+
+    return chw_loop, hw_loop
+
+
+def gen4_condenser_loop(cooling_par, os_model):
+    """Get a condenser loop for a fourth generation district system.
+
+    Args:
+        cooling_par: The central_cooling_plant_parameters from the fourth generation
+            system parameter dictionary.
+        os_model: The OpenStudio Model to which the equipment is to be added.
+    """
+    # extract the system parameters relevant to the cooling tower
     cw_temp = cooling_par['temp_cw_in_nominal']
     ct_dt = cooling_par['cooling_tower_water_temperature_difference_nominal']
     wb_temp = cooling_par['temp_air_wb_nominal']
     approach_dt = cooling_par['delta_temp_approach']
+    pump_head = cooling_par['cw_pump_head']
 
-    condenser_water_loop = openstudio_model.PlantLoop(os_model)
-    cw_name = 'Central Condenser Water Loop'
-    condenser_water_loop.setName(cw_name)
-    condenser_water_loop.setMinimumLoopTemperature(5.0)
-    condenser_water_loop.setMaximumLoopTemperature(80.0)
-    sizing_plant = condenser_water_loop.sizingPlant()
+    # create the condenser outdoor loop
+    cw_loop = openstudio_model.PlantLoop(os_model)
+    cw_loop.setName('Central Condenser Water Loop')
+    cw_name = cw_loop.nameString()
+    cw_loop.setMinimumLoopTemperature(5.0)
+    cw_loop.setMaximumLoopTemperature(80.0)
+    sizing_plant = cw_loop.sizingPlant()
     sizing_plant.setLoopType('Condenser')
     sizing_plant.setDesignLoopExitTemperature(cw_temp)
     sizing_plant.setLoopDesignTemperatureDifference(ct_dt)
@@ -511,20 +536,73 @@ def gen4_des_to_openstudio(des_dict, os_model):
     cw_stpt_manager.setMaximumSetpointTemperature(cw_temp)
     cw_stpt_manager.setMinimumSetpointTemperature(cw_temp - 8)
     cw_stpt_manager.setOffsetTemperatureDifference(approach_dt)
-    cw_stpt_manager.addToNode(condenser_water_loop.supplyOutletNode())
+    cw_stpt_manager.addToNode(cw_loop.supplyOutletNode())
 
     # add a condenser water pump
     cw_pump = openstudio_model.PumpVariableSpeed(os_model)
     cw_pump.setName('{} Variable Pump'.format(cw_name))
     cw_pump.setPumpControlType('Intermittent')
-    cw_pump.setRatedPumpHead(cooling_par['cw_pump_head'])
-    cw_pump.addToNode(condenser_water_loop.supplyInletNode())
+    cw_pump.setMotorEfficiency(0.9)
+    cw_pump.setRatedPumpHead(pump_head)
+    cw_pump.addToNode(cw_loop.supplyInletNode())
 
-    # CHILLED WATER LOOP
-    # create a chilled water plant
+    # add a cooling tower
+    cooling_tower = openstudio_model.CoolingTowerVariableSpeed(os_model)
+    cooling_tower.setDesignRangeTemperature(ct_dt)
+    cooling_tower.setDesignApproachTemperature(approach_dt)
+    cooling_tower.setFractionofTowerCapacityinFreeConvectionRegime(0.125)
+    twr_fan_curve = model_add_vsd_twr_fan_curve(os_model)
+    cooling_tower.setFanPowerRatioFunctionofAirFlowRateRatioCurve(twr_fan_curve)
+    twr_name = 'Propeller Variable Speed Fan Open Cooling Tower'
+    cooling_tower.setName(twr_name)
+    cw_loop.addSupplyBranchForComponent(cooling_tower)
+    prototype_apply_condenser_water_temperatures(cw_loop, design_wet_bulb_c=wb_temp)
+
+    # Condenser water loop pipes
+    cooling_tower_bypass_pipe = openstudio_model.PipeAdiabatic(os_model)
+    pipe_name = '{} Cooling Tower Bypass'.format(cw_name)
+    cooling_tower_bypass_pipe.setName(pipe_name)
+    cw_loop.addSupplyBranchForComponent(cooling_tower_bypass_pipe)
+
+    chiller_bypass_pipe = openstudio_model.PipeAdiabatic(os_model)
+    pipe_name = '{} Chiller Bypass'.format(cw_name)
+    chiller_bypass_pipe.setName(pipe_name)
+    cw_loop.addDemandBranchForComponent(chiller_bypass_pipe)
+
+    supply_outlet_pipe = openstudio_model.PipeAdiabatic(os_model)
+    supply_outlet_pipe.setName('{} Supply Outlet'.format(cw_name))
+    supply_outlet_pipe.addToNode(cw_loop.supplyOutletNode())
+
+    demand_inlet_pipe = openstudio_model.PipeAdiabatic(os_model)
+    demand_inlet_pipe.setName('{} Demand Inlet'.format(cw_name))
+    demand_inlet_pipe.addToNode(cw_loop.demandInletNode())
+
+    demand_outlet_pipe = openstudio_model.PipeAdiabatic(os_model)
+    demand_outlet_pipe.setName('{} Demand Outlet'.format(cw_name))
+    demand_outlet_pipe.addToNode(cw_loop.demandOutletNode())
+
+    return cw_loop
+
+
+def gen4_chilled_water_loop(cooling_par, geojson_dict, cw_loop, os_model):
+    """Get a chilled water loop for a fourth generation district system.
+
+    Args:
+        cooling_par: The central_cooling_plant_parameters from the fourth generation
+            system parameter dictionary.
+        geojson_dict: None or the URBANopt feature GeoJSON dictionary, which can
+            be used to further customize the loop.
+        cw_loop: The condenser water loop to which the chilled water will be connected.
+        os_model: The OpenStudio Model to which the equipment is to be added.
+    """
+    # extract the system parameters relevant to the chilled water loop
     chw_temp = cooling_par['temp_setpoint_chw']
-    chilled_water_loop = openstudio_model.PlantLoop(os_model)
-    chilled_water_loop.setName('Central Chilled Water Loop')
+    pump_head = cooling_par['chw_pump_head']
+
+    # create a chilled water loop
+    chw_loop = openstudio_model.PlantLoop(os_model)
+    chw_loop.setName('Central Chilled Water Loop')
+    chw_name = chw_loop.nameString()
     chw_loop.setMaximumLoopTemperature(40.0)
     chw_sizing_plant = chw_loop.sizingPlant()
     chw_sizing_plant.setDesignLoopExitTemperature(chw_temp)
@@ -532,27 +610,24 @@ def gen4_des_to_openstudio(des_dict, os_model):
     chw_sizing_plant.setLoopType('Cooling')
     chw_temp_sch = create_constant_schedule_ruleset(
         os_model, chw_temp, schedule_type_limit='Temperature',
-        name='{} Temp - {}C'.format(chw_loop.nameString(), int(chw_temp)))
+        name='{} Temp - {}C'.format(chw_name, int(chw_temp)))
     chw_stpt_manager = openstudio_model.SetpointManagerScheduled(os_model, chw_temp_sch)
-    chw_stpt_manager.setName('{} Setpoint Manager'.format(chw_loop.nameString()))
+    chw_stpt_manager.setName('{} Setpoint Manager'.format(chw_name))
     chw_stpt_manager.addToNode(chw_loop.supplyOutletNode())
 
     # add a pump for the chilled water loop
     chw_pump = openstudio_model.PumpVariableSpeed(os_model)
-    chw_pump.setName('{} Pump'.format(chw_loop.nameString()))
-    chw_pump.setRatedPumpHead(cooling_par['chw_pump_head'])
+    chw_pump.setName('{} Pump'.format(chw_name))
+    chw_pump.setRatedPumpHead(pump_head)
     chw_pump.setMotorEfficiency(0.9)
     chw_pump.setPumpControlType('Intermittent')
     chw_pump.addToNode(chw_loop.supplyInletNode())
 
     # add a chiller
-    chiller = openstudio_model.ChillerElectricEIR(model)
-    cool_t = 'WaterCooled'
-    cond_t = 'WithCondenser'
-    comp_t = 'Centrifugal'
-    ch_name = 'ASHRAE 90.1 {} {} {} Chiller {}'.format(cool_t, cond_t, comp_t, i)
+    chiller = openstudio_model.ChillerElectricEIR(os_model)
+    ch_name = 'Central WaterCooled Centrifugal Chiller with Condenser'
     chiller.setName(ch_name)
-    chilled_water_loop.addSupplyBranchForComponent(chiller)
+    chw_loop.addSupplyBranchForComponent(chiller)
     chiller.setReferenceLeavingChilledWaterTemperature(chw_temp)
     chiller.setLeavingChilledWaterLowerTemperatureLimit(2.0)
     chiller.setReferenceEnteringCondenserFluidTemperature(35.0)
@@ -564,7 +639,125 @@ def gen4_des_to_openstudio(des_dict, os_model):
     chiller.setReferenceCOP(round(3.517 / 0.66, 3))
 
     # connect the chiller to the condenser loop
-    condenser_water_loop.addDemandBranchForComponent(chiller)
+    cw_loop.addDemandBranchForComponent(chiller)
     chiller.setCondenserType('WaterCooled')
 
-    model_get_or_add_chilled_water_loop(os_model, 'Electricity', 'WaterCooled')
+    # enable waterside economizer if requested
+    economizer_type = 'None'
+    if geojson_dict and 'project' in geojson_dict and \
+            'economizer_type' in geojson_dict['project']:
+        economizer_type = geojson_dict['project']['economizer_type']
+    if economizer_type == 'Integrated':
+        model_add_waterside_economizer(os_model, chw_loop, cw_loop, integrated=True)
+    elif economizer_type == 'NonIntegrated':
+        model_add_waterside_economizer(os_model, chw_loop, cw_loop, integrated=False)
+
+    # chilled water loop pipes
+    chiller_bypass_pipe = openstudio_model.PipeAdiabatic(os_model)
+    chiller_bypass_pipe.setName('{} Chiller Bypass'.format(chw_name))
+    chw_loop.addSupplyBranchForComponent(chiller_bypass_pipe)
+
+    coil_bypass_pipe = openstudio_model.PipeAdiabatic(os_model)
+    coil_bypass_pipe.setName('{} Coil Bypass'.format(chw_name))
+    chw_loop.addDemandBranchForComponent(coil_bypass_pipe)
+
+    supply_outlet_pipe = openstudio_model.PipeAdiabatic(os_model)
+    supply_outlet_pipe.setName('{} Supply Outlet'.format(chw_name))
+    supply_outlet_pipe.addToNode(chw_loop.supplyOutletNode())
+
+    demand_inlet_pipe = openstudio_model.PipeAdiabatic(os_model)
+    demand_inlet_pipe.setName('{} Demand Inlet'.format(chw_name))
+    demand_inlet_pipe.addToNode(chw_loop.demandInletNode())
+
+    demand_outlet_pipe = openstudio_model.PipeAdiabatic(os_model)
+    demand_outlet_pipe.setName('{} Demand Outlet'.format(chw_name))
+    demand_outlet_pipe.addToNode(chw_loop.demandOutletNode())
+
+    return chw_loop
+
+
+def gen4_hot_water_loop(heating_par, geojson_dict, os_model):
+    """Get a hot water loop for a fourth generation district system.
+
+    Args:
+        heating_par: The central_heating_plant_parameters from the fourth generation
+            system parameter dictionary.
+        geojson_dict: None or the URBANopt feature GeoJSON dictionary, which can
+            be used to further customize the loop.
+        os_model: The OpenStudio Model to which the equipment is to be added.
+    """
+    # extract the system parameters relevant to the hot water loop
+    hw_temp = heating_par['temp_setpoint_hhw']
+    pump_head = heating_par['hhw_pump_head']
+
+    # create the heating water loop at the specified temperature
+    hw_loop = openstudio_model.PlantLoop(os_model)
+    hw_loop.setName('Central Hot Water Loop')
+    hw_name = hw_loop.nameString()
+    hw_sizing_plant = hw_loop.sizingPlant()
+    hw_sizing_plant.setDesignLoopExitTemperature(hw_temp + 11.0)
+    hw_sizing_plant.setLoopDesignTemperatureDifference(11.0)
+    hw_sizing_plant.setLoopType('Heating')
+    hw_temp_sch = create_constant_schedule_ruleset(
+        os_model, hw_temp, schedule_type_limit='Temperature',
+        name='{} Temp - {}C'.format(hw_name, int(hw_temp)))
+    hw_stpt_manager = openstudio_model.SetpointManagerScheduled(os_model, hw_temp_sch)
+    hw_stpt_manager.setName('{} Setpoint Manager'.format(hw_name))
+    hw_stpt_manager.addToNode(hw_loop.supplyOutletNode())
+
+    # add a pump for the loop
+    hw_pump = openstudio_model.PumpVariableSpeed(os_model)
+    hw_pump.setName('{} Pump'.format(hw_name))
+    hw_pump.setRatedPumpHead(pump_head)
+    hw_pump.setMotorEfficiency(0.9)
+    hw_pump.setPumpControlType('Intermittent')
+    hw_pump.addToNode(hw_loop.supplyInletNode())
+
+    # add the heating source
+    heating_type = 'NaturalGas'
+    if geojson_dict and 'project' in geojson_dict and \
+            'heating_type' in geojson_dict['project']:
+        heating_type = geojson_dict['project']['heating_type']
+    if heating_type == 'DistrictHeating':
+        heating_equipment = openstudio_model.DistrictHeating(os_model)
+        heating_equipment.setName('{} District Heating'.format(hw_name))
+        heating_equipment.autosizeNominalCapacity()
+        hw_loop.addSupplyBranchForComponent(heating_equipment)
+    elif heating_type in ('Electricity', 'NaturalGas'):
+        heating_equipment = openstudio_model.BoilerHotWater(os_model)
+        heating_equipment.setName('{} Boiler'.format(hw_name))
+        if heating_type == 'Electricity':
+            heating_equipment.setNominalThermalEfficiency(1.0)
+            heating_equipment.setFuelType('Electricity')
+        else:
+            heating_equipment.setNominalThermalEfficiency(0.9)
+            heating_equipment.setFuelType('NaturalGas')
+        hw_loop.addSupplyBranchForComponent(heating_equipment)
+    elif heating_type == 'AirSourceHeatPump':  # Central Air Source Heat Pump
+        create_central_air_source_heat_pump(os_model)
+    else:
+        msg = 'Heating type "{}" is not valid'.format(heating_type)
+        raise ValueError(msg)
+
+    # add hot water loop pipes
+    supply_equipment_bypass_pipe = openstudio_model.PipeAdiabatic(os_model)
+    supply_equipment_bypass_pipe.setName('{} Supply Equipment Bypass'.format(hw_name))
+    hw_loop.addSupplyBranchForComponent(supply_equipment_bypass_pipe)
+
+    coil_bypass_pipe = openstudio_model.PipeAdiabatic(os_model)
+    coil_bypass_pipe.setName('{} Coil Bypass'.format(hw_name))
+    hw_loop.addDemandBranchForComponent(coil_bypass_pipe)
+
+    supply_outlet_pipe = openstudio_model.PipeAdiabatic(os_model)
+    supply_outlet_pipe.setName('{} Supply Outlet'.format(hw_name))
+    supply_outlet_pipe.addToNode(hw_loop.supplyOutletNode())
+
+    demand_inlet_pipe = openstudio_model.PipeAdiabatic(os_model)
+    demand_inlet_pipe.setName('{} Demand Inlet'.format(hw_name))
+    demand_inlet_pipe.addToNode(hw_loop.demandInletNode())
+
+    demand_outlet_pipe = openstudio_model.PipeAdiabatic(os_model)
+    demand_outlet_pipe.setName('{} Demand Outlet'.format(hw_name))
+    demand_outlet_pipe.addToNode(hw_loop.demandOutletNode())
+
+    return hw_loop

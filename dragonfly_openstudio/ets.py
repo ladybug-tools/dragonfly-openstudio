@@ -109,7 +109,7 @@ def building_chw_loop(bldg_id, cooling, chw_temp, os_model, pump_pressure=None):
     chw_sizing_plant.setLoopDesignTemperatureDifference(4.0)
     chw_sizing_plant.setLoopType('Cooling')
     chw_temp_sch = create_constant_schedule_ruleset(
-        os_model, chw_temp, schedule_type_limit='Temperature',
+        os_model, chw_temp - 2, schedule_type_limit='Temperature',
         name='{} Temp - {}C'.format(chw_loop.nameString(), int(chw_temp)))
     chw_stpt_manager = openstudio_model.SetpointManagerScheduled(os_model, chw_temp_sch)
     chw_stpt_manager.setName('{} Setpoint Manager'.format(chw_loop.nameString()))
@@ -166,7 +166,7 @@ def building_hw_loop(bldg_id, heating, hw_temp, os_model, pump_pressure=None):
     hw_sizing_plant.setLoopDesignTemperatureDifference(11.0)
     hw_sizing_plant.setLoopType('Heating')
     hw_temp_sch = create_constant_schedule_ruleset(
-        os_model, hw_temp, schedule_type_limit='Temperature',
+        os_model, hw_temp + 2, schedule_type_limit='Temperature',
         name='{} Temp - {}C'.format(hw_loop.nameString(), int(hw_temp)))
     hw_stpt_manager = openstudio_model.SetpointManagerScheduled(os_model, hw_temp_sch)
     hw_stpt_manager.setName('{} Setpoint Manager'.format(hw_loop.nameString()))
@@ -189,7 +189,7 @@ def building_hw_loop(bldg_id, heating, hw_temp, os_model, pump_pressure=None):
     os_load_sch = schedule_fixed_interval_to_openstudio(load_sch, os_model)
 
     # set the flow rate schedule
-    peak_flow = (abs(peak_heat) / (4184000 * 2)) * 1.25  # Water DeltaT of 2C * sizing factor
+    peak_flow = (abs(peak_heat) / (4184000 * 3)) * 1.25  # Water DeltaT of 3C * sizing factor
     flow_rate = [abs(heat_i) / peak_heat for heat_i in heating]
     flow_sch_id = '{} Heating Flow Sch - {}L/s'.format(bldg_id, int(peak_flow * 1000))
     flow_sch = ScheduleFixedInterval(flow_sch_id, flow_rate, fractional, timestep)
@@ -223,7 +223,7 @@ def building_shw_loop(bldg_id, shw, shw_temp, os_model, pump_pressure=None):
     shw_sizing_plant.setLoopDesignTemperatureDifference(11.0)
     shw_sizing_plant.setLoopType('Heating')
     shw_temp_sch = create_constant_schedule_ruleset(
-        os_model, shw_temp, schedule_type_limit='Temperature',
+        os_model, shw_temp + 2, schedule_type_limit='Temperature',
         name='{} Temp - {}C'.format(shw_loop.nameString(), int(shw_temp)))
     shw_stpt_manager = openstudio_model.SetpointManagerScheduled(os_model, shw_temp_sch)
     shw_stpt_manager.setName('{} Setpoint Manager'.format(shw_loop.nameString()))
@@ -246,7 +246,7 @@ def building_shw_loop(bldg_id, shw, shw_temp, os_model, pump_pressure=None):
     os_load_sch = schedule_fixed_interval_to_openstudio(load_sch, os_model)
 
     # set the flow rate schedule
-    peak_flow = (abs(peak_heat) / (4184000 * 2)) * 1.25  # Water DeltaT of 2C * sizing factor
+    peak_flow = (abs(peak_heat) / (4184000 * 3)) * 1.25  # Water DeltaT of 3C * sizing factor
     flow_rate = [abs(heat_i) / peak_heat for heat_i in shw]
     flow_sch_id = '{} SHW Flow Sch - {}L/s'.format(bldg_id, int(peak_flow * 1000))
     flow_sch = ScheduleFixedInterval(flow_sch_id, flow_rate, fractional, timestep)
