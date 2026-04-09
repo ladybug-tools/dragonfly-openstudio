@@ -29,13 +29,15 @@ def test_simulate_system():
     runner = CliRunner()
     input_system = './tests/assets/small_ghe/system_params.json'
     output_folder = './tests/assets/small_ghe/simulation'
+    output_log = './tests/assets/small_ghe/simulation/sim.log'
 
-    in_args = [input_system, '--folder', output_folder]
+    in_args = [input_system, '--folder', output_folder, '--log-file', output_log]
     result = runner.invoke(simulate_system_cli, in_args)
     assert result.exit_code == 0
 
     assert os.path.isdir(output_folder)
-    out_files = result.output.split('\n')
+    with open(output_log, 'r') as rf:
+        out_files = rf.read().split('\n')
     for f in out_files:
         assert os.path.isfile(f)
         if f.endswith('.err'):
