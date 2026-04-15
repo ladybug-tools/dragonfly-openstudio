@@ -62,6 +62,9 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     if not central_pump['pump_flow_rate_autosized']:
         pump.setRatedFlowRate(central_pump['pump_flow_rate'])
     pump.setPumpControlType('Intermittent')
+    # assume higher total pump efficiency of 82% for large district pumps
+    pump.setMotorEfficiency(0.95)  # assume a better efficiency for large motors
+    pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
     pump.addToNode(ground_hx_loop.supplyInletNode())
 
     # schedule to establish a target temperature for the loop
@@ -211,8 +214,11 @@ def gen5_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     if not central_pump['pump_flow_rate_autosized']:
         hp_pump.setRatedFlowRate(central_pump['pump_flow_rate'])
     else:
-        hp_pump.setRatedPumpHead(179300)
+        hp_pump.setRatedPumpHead(179300)  # a standard 60 feet of H2O
     hp_pump.setPumpControlType('Intermittent')
+    # assume higher total pump efficiency of 82% for large district pumps
+    hp_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    hp_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
     hp_pump.addToNode(heat_pump_water_loop.supplyInletNode())
 
     # create heat rejection equipment and add to the loop
@@ -542,8 +548,10 @@ def gen4_condenser_loop(cooling_par, os_model):
     cw_pump = openstudio_model.PumpVariableSpeed(os_model)
     cw_pump.setName('{} Variable Pump'.format(cw_name))
     cw_pump.setPumpControlType('Intermittent')
-    cw_pump.setMotorEfficiency(0.9)
     cw_pump.setRatedPumpHead(pump_head)
+    # assume higher total pump efficiency of 82% for large district pumps
+    cw_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    cw_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
     cw_pump.addToNode(cw_loop.supplyInletNode())
 
     # add a cooling tower
@@ -615,13 +623,33 @@ def gen4_chilled_water_loop(cooling_par, geojson_dict, cw_loop, os_model):
     chw_stpt_manager.setName('{} Setpoint Manager'.format(chw_name))
     chw_stpt_manager.addToNode(chw_loop.supplyOutletNode())
 
-    # add a pump for the chilled water loop
-    chw_pump = openstudio_model.PumpVariableSpeed(os_model)
-    chw_pump.setName('{} Pump'.format(chw_name))
-    chw_pump.setRatedPumpHead(pump_head)
-    chw_pump.setMotorEfficiency(0.9)
-    chw_pump.setPumpControlType('Intermittent')
-    chw_pump.addToNode(chw_loop.supplyInletNode())
+    # add pumps for the chilled water loop with a constant primary and variable secondary
+    # primary chilled water pump
+    pri_chw_pump = openstudio_model.PumpConstantSpeed(os_model)
+    pri_chw_pump.setName('{} Primary Pump'.format(chw_name))
+    pri_chw_pump.setRatedPumpHead(pump_head * 0.25)
+    # assume higher total pump efficiency of 82% for large district pumps
+    pri_chw_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    pri_chw_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
+    pri_chw_pump.setPumpControlType('Intermittent')
+    pri_chw_pump.addToNode(chw_loop.supplyInletNode())
+    # secondary chilled water pump
+    sec_chw_pump = openstudio_model.PumpVariableSpeed(os_model)
+    sec_chw_pump.setName('{} Secondary Pump'.format(chw_name))
+    sec_chw_pump.setRatedPumpHead(pump_head * 0.75)
+    # assume higher total pump efficiency of 82% for large district pumps
+    sec_chw_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    sec_chw_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
+    # curve makes it perform like variable speed pump
+    sec_chw_pump.setFractionofMotorInefficienciestoFluidStream(0)
+    sec_chw_pump.setCoefficient1ofthePartLoadPerformanceCurve(0)
+    sec_chw_pump.setCoefficient2ofthePartLoadPerformanceCurve(0.0205)
+    sec_chw_pump.setCoefficient3ofthePartLoadPerformanceCurve(0.4101)
+    sec_chw_pump.setCoefficient4ofthePartLoadPerformanceCurve(0.5753)
+    sec_chw_pump.setPumpControlType('Intermittent')
+    sec_chw_pump.addToNode(chw_loop.demandInletNode())
+    # Change the chilled water loop to have a two-way common pipes
+    chw_loop.setCommonPipeSimulation('CommonPipe')
 
     # add a chiller
     chiller = openstudio_model.ChillerElectricEIR(os_model)
@@ -705,13 +733,33 @@ def gen4_hot_water_loop(heating_par, geojson_dict, os_model):
     hw_stpt_manager.setName('{} Setpoint Manager'.format(hw_name))
     hw_stpt_manager.addToNode(hw_loop.supplyOutletNode())
 
-    # add a pump for the loop
-    hw_pump = openstudio_model.PumpVariableSpeed(os_model)
-    hw_pump.setName('{} Pump'.format(hw_name))
-    hw_pump.setRatedPumpHead(pump_head)
-    hw_pump.setMotorEfficiency(0.9)
-    hw_pump.setPumpControlType('Intermittent')
-    hw_pump.addToNode(hw_loop.supplyInletNode())
+    # add pumps for the hot water loop with a constant primary and variable secondary
+    # primary hot water pump
+    pri_hw_pump = openstudio_model.PumpConstantSpeed(os_model)
+    pri_hw_pump.setName('{} Primary Pump'.format(hw_name))
+    pri_hw_pump.setRatedPumpHead(pump_head * 0.25)
+    # assume higher total pump efficiency of 82% for large district pumps
+    pri_hw_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    pri_hw_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
+    pri_hw_pump.setPumpControlType('Intermittent')
+    pri_hw_pump.addToNode(hw_loop.supplyInletNode())
+    # secondary hot water pump
+    sec_hw_pump = openstudio_model.PumpVariableSpeed(os_model)
+    sec_hw_pump.setName('{} Secondary Pump'.format(hw_name))
+    sec_hw_pump.setRatedPumpHead(pump_head * 0.75)
+    # assume higher total pump efficiency of 82% for large district pumps
+    sec_hw_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    sec_hw_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
+    # curve makes it perform like variable speed pump
+    sec_hw_pump.setFractionofMotorInefficienciestoFluidStream(0)
+    sec_hw_pump.setCoefficient1ofthePartLoadPerformanceCurve(0)
+    sec_hw_pump.setCoefficient2ofthePartLoadPerformanceCurve(0.0205)
+    sec_hw_pump.setCoefficient3ofthePartLoadPerformanceCurve(0.4101)
+    sec_hw_pump.setCoefficient4ofthePartLoadPerformanceCurve(0.5753)
+    sec_hw_pump.setPumpControlType('Intermittent')
+    sec_hw_pump.addToNode(hw_loop.demandInletNode())
+    # Change the hot water loop to have a two-way common pipes
+    hw_loop.setCommonPipeSimulation('CommonPipe')
 
     # add the heating source
     heating_type = 'NaturalGas'
