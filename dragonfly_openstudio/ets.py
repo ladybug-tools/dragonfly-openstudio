@@ -43,21 +43,33 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
         # create the loop
         chw_temp = ets_dict['chilled_water_supply_temp']
         chw_loop = building_chw_loop(bldg_id, cooling, chw_temp, os_model, pump_head)
-        # add the heat pump
-        chw_hp = openstudio_model.HeatPumpWaterToWaterEquationFitCooling(os_model)
-        chw_hp.setReferenceCoefficientofPerformance(ets_dict['cop_heat_pump_heating'])
-        chw_hp.setName('{} Cooling Heat Pump'.format(bldg_id))
+        # add the chiller
+        chw_hp = openstudio_model.ChillerElectricEIR(os_model)
+        chw_hp.setReferenceLeavingChilledWaterTemperature(chw_temp)
+        low_temp = chw_temp - 3.0 if chw_temp >= 5 else 2.0
+        chw_hp.setLeavingChilledWaterLowerTemperatureLimit(low_temp)
+        chw_hp.setReferenceEnteringCondenserFluidTemperature(35.0)
+        chw_hp.setMinimumPartLoadRatio(0.15)
+        chw_hp.setMaximumPartLoadRatio(1.0)
+        chw_hp.setOptimumPartLoadRatio(1.0)
+        chw_hp.setMinimumUnloadingRatio(0.25)
+        chw_hp.setChillerFlowMode('ConstantFlow')
+        chw_hp.setReferenceCOP(ets_dict['cop_heat_pump_cooling'])
+        chw_hp.setName('{} Cooling Chiller'.format(bldg_id))
         chw_loop.addSupplyBranchForComponent(chw_hp)
         hp_loop.addDemandBranchForComponent(chw_hp)
 
     # HEATING WATER LOOP
+    heat_cap_curve = heating_heat_pump_capacity_curve(os_model)
+    heat_pow_curve = heating_heat_pump_power_curve(os_model)
     hw_loop = None
     if peak_heating != 0:
         # create the loop
         hw_temp = ets_dict['heating_water_supply_temp']
         hw_loop = building_hw_loop(bldg_id, heating, hw_temp, os_model, pump_head)
-        # add supply side equipment to the heating water loop
-        hw_hp = openstudio_model.HeatPumpWaterToWaterEquationFitHeating(os_model)
+        # add the heat pump
+        hw_hp = openstudio_model.HeatPumpWaterToWaterEquationFitHeating(
+            os_model, heat_cap_curve, heat_pow_curve)
         hw_hp.setReferenceCoefficientofPerformance(ets_dict['cop_heat_pump_heating'])
         hw_hp.setName('{} Heating Heat Pump'.format(bldg_id))
         hw_loop.addSupplyBranchForComponent(hw_hp)
@@ -69,8 +81,9 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
         # create the loop
         shw_temp = ets_dict['hot_water_supply_temp']
         shw_loop = building_shw_loop(bldg_id, shw, shw_temp, os_model, pump_head)
-        # add supply side equipment to the heating water loop
-        shw_hp = openstudio_model.HeatPumpWaterToWaterEquationFitHeating(os_model)
+        # add the heat pump
+        shw_hp = openstudio_model.HeatPumpWaterToWaterEquationFitHeating(
+            os_model, heat_cap_curve, heat_pow_curve)
         shw_hp.setReferenceCoefficientofPerformance(ets_dict['cop_heat_pump_hot_water'])
         shw_hp.setName('{} SHW Heat Pump'.format(bldg_id))
         shw_loop.addSupplyBranchForComponent(shw_hp)
@@ -326,3 +339,49 @@ def building_shw_loop(bldg_id, shw, shw_temp, os_model, pump_pressure=None):
     shw_loop.addDemandBranchForComponent(os_load)
 
     return shw_loop
+
+
+def heating_heat_pump_capacity_curve(os_model):
+    """Get the heating capacity curve for a water-to-water heat pump.
+
+    This curve was taken from the EnergyPlus Input/Output Reference.
+    https://bigladdersoftware.com/epx/docs/25-1/input-output-reference/
+    group-plant-equipment.html#heatpumpwatertowaterequationfitheating
+    """
+    # check if the curve is already in the model
+    h_hp_cap_name = 'Heating Heat Pump Capacity Curve'
+    heat_cap_curve = os_model.getCurveQuadLinearByName(h_hp_cap_name)
+    if heat_cap_curve.is_initialized():
+        return heat_cap_curve.get()
+    # create the curve from the default coefficients
+    heat_cap_curve = openstudio_model.CurveQuadLinear(os_model)
+    heat_cap_curve.setName(h_hp_cap_name)
+    heat_cap_curve.setCoefficient1Constant(-3.33491153)
+    heat_cap_curve.setCoefficient2w(-0.51451946)
+    heat_cap_curve.setCoefficient3x(4.51592706)
+    heat_cap_curve.setCoefficient4y(0.01797107)
+    heat_cap_curve.setCoefficient5z(0.155797661)
+    return heat_cap_curve
+
+
+def heating_heat_pump_power_curve(os_model):
+    """Get the heating power curve for a water-to-water heat pump.
+
+    This curve was taken from the EnergyPlus Input/Output Reference.
+    https://bigladdersoftware.com/epx/docs/25-1/input-output-reference/
+    group-plant-equipment.html#heatpumpwatertowaterequationfitheating
+    """
+    # check if the curve is already in the model
+    h_hp_pow_name = 'Heating Heat Pump Power Curve'
+    heat_pow_curve = os_model.getCurveQuadLinearByName(h_hp_pow_name)
+    if heat_pow_curve.is_initialized():
+        return heat_pow_curve.get()
+    # create the curve from typical coefficients
+    heat_pow_curve = openstudio_model.CurveQuadLinear(os_model)
+    heat_pow_curve.setName(h_hp_pow_name)
+    heat_pow_curve.setCoefficient1Constant(-8.93121751)
+    heat_pow_curve.setCoefficient2w(8.57035762)
+    heat_pow_curve.setCoefficient3x(0.1)  # modified from sample to accept COPs of 2.5
+    heat_pow_curve.setCoefficient4y(-0.21629222)
+    heat_pow_curve.setCoefficient5z(0.033862378)
+    return heat_pow_curve

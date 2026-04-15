@@ -65,7 +65,7 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     pump.addToNode(ground_hx_loop.supplyInletNode())
 
     # schedule to establish a target temperature for the loop
-    loop_target_temp = 24.0  # target temperature
+    loop_target_temp = 20.0  # target temperature
     hx_temp_sch = openstudio_model.ScheduleConstant(os_model)
     hx_temp_sch.setName('Ground HX Target Temp - {}C'.format(loop_target_temp))
     hx_temp_sch.setValue(loop_target_temp)
@@ -81,7 +81,7 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     cooling_stpt = openstudio_model.SetpointManagerScheduled(os_model, hp_high_t_sch)
     hr_equip = gen5_heat_rejection(ground_hx_loop, cooling_stpt, os_model, heat_rejection_type)
     if 'FluidCooler' in heat_rejection_type:  # ensure that loop can be cooled
-        hr_equip.setDesignEnteringAirTemperature(design['max_eft'] - 3)
+        hr_equip.setDesignEnteringAirTemperature(design['max_eft'] - 5)
 
     # add supplemental heating to prevent the loop from becoming too cold
     supplemental_heat_type = 'Electricity'
