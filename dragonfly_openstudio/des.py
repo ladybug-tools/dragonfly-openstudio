@@ -62,9 +62,15 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     if not central_pump['pump_flow_rate_autosized']:
         pump.setRatedFlowRate(central_pump['pump_flow_rate'])
     pump.setPumpControlType('Intermittent')
-    # assume higher total pump efficiency of 82% for large district pumps
-    pump.setMotorEfficiency(0.95)  # assume a better efficiency for large motors
+    # assume higher total pump efficiency of 80% for large district pumps
+    pump.setMotorEfficiency(0.93)  # assume a better efficiency for large motors
     pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
+    # curve makes it perform like variable speed pump
+    pump.setFractionofMotorInefficienciestoFluidStream(0)
+    pump.setCoefficient1ofthePartLoadPerformanceCurve(0)
+    pump.setCoefficient2ofthePartLoadPerformanceCurve(0.0205)
+    pump.setCoefficient3ofthePartLoadPerformanceCurve(0.4101)
+    pump.setCoefficient4ofthePartLoadPerformanceCurve(0.5753)
     pump.addToNode(ground_hx_loop.supplyInletNode())
 
     # schedule to establish a target temperature for the loop
@@ -216,9 +222,15 @@ def gen5_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     else:
         hp_pump.setRatedPumpHead(179300)  # a standard 60 feet of H2O
     hp_pump.setPumpControlType('Intermittent')
-    # assume higher total pump efficiency of 82% for large district pumps
-    hp_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    # assume higher total pump efficiency of 80% for large district pumps
+    hp_pump.setMotorEfficiency(0.93)  # better efficiency for large motors
     hp_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
+    # curve makes it perform like variable speed pump
+    hp_pump.setFractionofMotorInefficienciestoFluidStream(0)
+    hp_pump.setCoefficient1ofthePartLoadPerformanceCurve(0)
+    hp_pump.setCoefficient2ofthePartLoadPerformanceCurve(0.0205)
+    hp_pump.setCoefficient3ofthePartLoadPerformanceCurve(0.4101)
+    hp_pump.setCoefficient4ofthePartLoadPerformanceCurve(0.5753)
     hp_pump.addToNode(heat_pump_water_loop.supplyInletNode())
 
     # create heat rejection equipment and add to the loop
@@ -549,9 +561,15 @@ def gen4_condenser_loop(cooling_par, os_model):
     cw_pump.setName('{} Variable Pump'.format(cw_name))
     cw_pump.setPumpControlType('Intermittent')
     cw_pump.setRatedPumpHead(pump_head)
-    # assume higher total pump efficiency of 82% for large district pumps
-    cw_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    # assume higher total pump efficiency of 80% for large district pumps
+    cw_pump.setMotorEfficiency(0.93)  # better efficiency for large motors
     cw_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
+    # curve makes it perform like variable speed pump
+    cw_pump.setFractionofMotorInefficienciestoFluidStream(0)
+    cw_pump.setCoefficient1ofthePartLoadPerformanceCurve(0)
+    cw_pump.setCoefficient2ofthePartLoadPerformanceCurve(0.0205)
+    cw_pump.setCoefficient3ofthePartLoadPerformanceCurve(0.4101)
+    cw_pump.setCoefficient4ofthePartLoadPerformanceCurve(0.5753)
     cw_pump.addToNode(cw_loop.supplyInletNode())
 
     # add a cooling tower
@@ -628,8 +646,8 @@ def gen4_chilled_water_loop(cooling_par, geojson_dict, cw_loop, os_model):
     pri_chw_pump = openstudio_model.PumpConstantSpeed(os_model)
     pri_chw_pump.setName('{} Primary Pump'.format(chw_name))
     pri_chw_pump.setRatedPumpHead(pump_head * 0.25)
-    # assume higher total pump efficiency of 82% for large district pumps
-    pri_chw_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    # assume higher total pump efficiency of 80% for large district pumps
+    pri_chw_pump.setMotorEfficiency(0.93)  # better efficiency for large motors
     pri_chw_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
     pri_chw_pump.setPumpControlType('Intermittent')
     pri_chw_pump.addToNode(chw_loop.supplyInletNode())
@@ -637,8 +655,8 @@ def gen4_chilled_water_loop(cooling_par, geojson_dict, cw_loop, os_model):
     sec_chw_pump = openstudio_model.PumpVariableSpeed(os_model)
     sec_chw_pump.setName('{} Secondary Pump'.format(chw_name))
     sec_chw_pump.setRatedPumpHead(pump_head * 0.75)
-    # assume higher total pump efficiency of 82% for large district pumps
-    sec_chw_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    # assume higher total pump efficiency of 80% for large district pumps
+    sec_chw_pump.setMotorEfficiency(0.93)  # better efficiency for large motors
     sec_chw_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
     # curve makes it perform like variable speed pump
     sec_chw_pump.setFractionofMotorInefficienciestoFluidStream(0)
@@ -738,8 +756,8 @@ def gen4_hot_water_loop(heating_par, geojson_dict, os_model):
     pri_hw_pump = openstudio_model.PumpConstantSpeed(os_model)
     pri_hw_pump.setName('{} Primary Pump'.format(hw_name))
     pri_hw_pump.setRatedPumpHead(pump_head * 0.25)
-    # assume higher total pump efficiency of 82% for large district pumps
-    pri_hw_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    # assume higher total pump efficiency of 80% for large district pumps
+    pri_hw_pump.setMotorEfficiency(0.93)  # better efficiency for large motors
     pri_hw_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
     pri_hw_pump.setPumpControlType('Intermittent')
     pri_hw_pump.addToNode(hw_loop.supplyInletNode())
@@ -747,8 +765,8 @@ def gen4_hot_water_loop(heating_par, geojson_dict, os_model):
     sec_hw_pump = openstudio_model.PumpVariableSpeed(os_model)
     sec_hw_pump.setName('{} Secondary Pump'.format(hw_name))
     sec_hw_pump.setRatedPumpHead(pump_head * 0.75)
-    # assume higher total pump efficiency of 82% for large district pumps
-    sec_hw_pump.setMotorEfficiency(0.95)  # better efficiency for large motors
+    # assume higher total pump efficiency of 80% for large district pumps
+    sec_hw_pump.setMotorEfficiency(0.93)  # better efficiency for large motors
     sec_hw_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
     # curve makes it perform like variable speed pump
     sec_hw_pump.setFractionofMotorInefficienciestoFluidStream(0)
