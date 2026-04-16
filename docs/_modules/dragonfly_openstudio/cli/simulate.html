@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dragonfly_openstudio.cli.simulate &#8212; dragonfly-openstudio  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css?v=0bf093e7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=0b9525ea" />
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<link rel="icon" type="image/x-icon" href="https://github.com/ladybug-tools/artwork/raw/refs/heads/master/icons_bugs/ico/dragonfly.ico">
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          dragonfly-openstudio</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli/index.html">CLI Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli/index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli/translate.html">translate</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../cli/translate.html#dragonfly-openstudio-translate">dragonfly-openstudio translate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../cli/translate.html#dragonfly-openstudio-translate-system-to-osm">system-to-osm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli/simulate.html">simulate</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../cli/simulate.html#dragonfly-openstudio-simulate">dragonfly-openstudio simulate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../cli/simulate.html#dragonfly-openstudio-simulate-system">system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dragonfly_openstudio.html">dragonfly_openstudio package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../dragonfly_openstudio.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../dragonfly_openstudio.cli.html">dragonfly_openstudio.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.cli.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../dragonfly_openstudio.cli.simulate.html">dragonfly_openstudio.cli.simulate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../../dragonfly_openstudio.cli.simulate.html#dragonfly_openstudio.cli.simulate.simulate_system"><code class="docutils literal notranslate"><span class="pre">simulate_system()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../../dragonfly_openstudio.cli.translate.html">dragonfly_openstudio.cli.translate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../../dragonfly_openstudio.cli.translate.html#dragonfly_openstudio.cli.translate.system_to_osm"><code class="docutils literal notranslate"><span class="pre">system_to_osm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.cli.html#module-dragonfly_openstudio.cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dragonfly_openstudio.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../dragonfly_openstudio.des.html">dragonfly_openstudio.des module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_chilled_water_loop"><code class="docutils literal notranslate"><span class="pre">gen4_chilled_water_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_condenser_loop"><code class="docutils literal notranslate"><span class="pre">gen4_condenser_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">gen4_des_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_hot_water_loop"><code class="docutils literal notranslate"><span class="pre">gen4_hot_water_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">gen5_des_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_heat_rejection"><code class="docutils literal notranslate"><span class="pre">gen5_heat_rejection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_supplemental_heat"><code class="docutils literal notranslate"><span class="pre">gen5_supplemental_heat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.ghe_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">ghe_des_to_openstudio()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dragonfly_openstudio.ets.html">dragonfly_openstudio.ets module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_chw_loop"><code class="docutils literal notranslate"><span class="pre">building_chw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_hw_loop"><code class="docutils literal notranslate"><span class="pre">building_hw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_shw_loop"><code class="docutils literal notranslate"><span class="pre">building_shw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_capacity_curve"><code class="docutils literal notranslate"><span class="pre">cooling_heat_pump_capacity_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_power_curve"><code class="docutils literal notranslate"><span class="pre">cooling_heat_pump_power_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_exchanger_ets_to_openstudio"><code class="docutils literal notranslate"><span class="pre">heat_exchanger_ets_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_pump_ets_to_openstudio"><code class="docutils literal notranslate"><span class="pre">heat_pump_ets_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_capacity_curve"><code class="docutils literal notranslate"><span class="pre">heating_heat_pump_capacity_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_power_curve"><code class="docutils literal notranslate"><span class="pre">heating_heat_pump_power_curve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dragonfly_openstudio.util.html">dragonfly_openstudio.util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.coincident_peak_design_days"><code class="docutils literal notranslate"><span class="pre">coincident_peak_design_days()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.modelica_loads"><code class="docutils literal notranslate"><span class="pre">modelica_loads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.system_coincident_peaks"><code class="docutils literal notranslate"><span class="pre">system_coincident_peaks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../dragonfly_openstudio.writer.html">dragonfly_openstudio.writer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_openstudio"><code class="docutils literal notranslate"><span class="pre">sys_dict_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_osm"><code class="docutils literal notranslate"><span class="pre">sys_dict_to_osm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dragonfly_openstudio.html#module-dragonfly_openstudio">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli/index.html">CLI Docs</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dragonfly_openstudio.html">dragonfly_openstudio package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli/index.html">CLI Docs</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dragonfly_openstudio.html">dragonfly_openstudio package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for dragonfly_openstudio.cli.simulate</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;honeybee energy simulation running commands.&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">click</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ladybug.commandutil</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_content_to_output</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">honeybee_energy.simulation.parameter</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationParameter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">honeybee_energy.run</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_idf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">honeybee_energy.result.err</span><span class="w"> </span><span class="kn">import</span> <span class="n">Err</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">honeybee_openstudio.openstudio</span><span class="w"> </span><span class="kn">import</span> <span class="n">openstudio</span><span class="p">,</span> <span class="n">OSModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">honeybee_openstudio.simulation</span><span class="w"> </span><span class="kn">import</span> <span class="n">simulation_parameter_to_openstudio</span><span class="p">,</span> \
+    <span class="n">assign_epw_to_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dragonfly_openstudio.writer</span><span class="w"> </span><span class="kn">import</span> <span class="n">sys_dict_to_openstudio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dragonfly_openstudio.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">coincident_peak_design_days</span>
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="nd">@click</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s1">&#39;Commands for simulating URBANopt systems in EnergyPlus.&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@simulate</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;system&#39;</span><span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;system-file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span>
+    <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">file_okay</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dir_okay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">resolve_path</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--geojson&#39;</span><span class="p">,</span> <span class="s1">&#39;-g&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Full path to an URBANopt feature GeoJSON, &#39;</span>
+              <span class="s1">&#39;which can be used to further customize the OpenStudio model. When &#39;</span>
+              <span class="s1">&#39;supplied, the lengths of ThermalConnectors in the loop will be used to &#39;</span>
+              <span class="s1">&#39;account for pipe heat losses.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+              <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">file_okay</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dir_okay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                              <span class="n">resolve_path</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--sim-par-json&#39;</span><span class="p">,</span> <span class="s1">&#39;-sp&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Full path to a honeybee energy &#39;</span>
+              <span class="s1">&#39;SimulationParameter JSON that describes all of the settings for &#39;</span>
+              <span class="s1">&#39;the simulation. If None default parameters will be generated.&#39;</span><span class="p">,</span>
+              <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+              <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">file_okay</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dir_okay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                              <span class="n">resolve_path</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--folder&#39;</span><span class="p">,</span> <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Folder on this computer, into which the IDF &#39;</span>
+              <span class="s1">&#39;and result files will be written. If None, the files will be output &#39;</span>
+              <span class="s1">&#39;to a des_energyplus folder in the same directory as the system file.&#39;</span><span class="p">,</span>
+              <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+              <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">file_okay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dir_okay</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resolve_path</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--log-file&#39;</span><span class="p">,</span> <span class="s1">&#39;-log&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Optional log file to output the paths of the &#39;</span>
+              <span class="s1">&#39;generated files (osm, idf, sql, rdd, html, err) if successfully&#39;</span>
+              <span class="s1">&#39; created. By default the list will be printed out to stdout&#39;</span><span class="p">,</span>
+              <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">show_default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_system_cli</span><span class="p">(</span><span class="n">system_file</span><span class="p">,</span> <span class="n">geojson</span><span class="p">,</span> <span class="n">sim_par_json</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="n">log_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simulate an URBANopt DES system in EnergyPlus.</span>
+
+<span class="sd">    \b</span>
+<span class="sd">    Args:</span>
+<span class="sd">        system_file: Path to an URBANopt system parameter file to be simulated</span>
+<span class="sd">            in EnergyPlus. Note that all file paths within the system parameter</span>
+<span class="sd">            must be valid, including the path to the weather file, which will</span>
+<span class="sd">            be used for simulation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">simulate_system</span><span class="p">(</span><span class="n">system_file</span><span class="p">,</span> <span class="n">geojson</span><span class="p">,</span> <span class="n">sim_par_json</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="n">log_file</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;System simulation failed.</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="simulate_system">
+<a class="viewcode-back" href="../../../dragonfly_openstudio.cli.simulate.html#dragonfly_openstudio.cli.simulate.simulate_system">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_system</span><span class="p">(</span>
+    <span class="n">system_file</span><span class="p">,</span> <span class="n">geojson</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sim_par_json</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">log_file</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simulate an URBANopt DES system in EnergyPlus.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        system_file: Path to an URBANopt system parameter file to be simulated</span>
+<span class="sd">            in EnergyPlus. Note that all file paths within the system parameter</span>
+<span class="sd">            must be valid, including the path to the weather file, which will</span>
+<span class="sd">            be used for simulation.</span>
+<span class="sd">        geojson: An optional URBANopt feature GeoJSON file path, which can</span>
+<span class="sd">            be used to further customize the OpenStudio model. When supplied,</span>
+<span class="sd">            the lengths of ThermalConnectors in the loop will be used to</span>
+<span class="sd">            account for pipe heat losses.</span>
+<span class="sd">        sim_par_json: Full path to a honeybee energy SimulationParameter JSON that</span>
+<span class="sd">            describes all of the settings for the simulation. If None, default</span>
+<span class="sd">            parameters will be generated.</span>
+<span class="sd">        folder: Folder on this computer, into which the IDF and result files</span>
+<span class="sd">            will be written. If None, the files will be output to a des_energyplus</span>
+<span class="sd">            folder in the same directory as the system file.</span>
+<span class="sd">        log_file: Optional log file to output the paths of the generated</span>
+<span class="sd">            files (osm, idf, sql, rdd, html, err) if successfully created.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># initialize the OpenStudio model and load the system parameter file</span>
+    <span class="n">os_model</span> <span class="o">=</span> <span class="n">OSModel</span><span class="p">()</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">system_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf</span><span class="p">:</span>
+        <span class="n">sys_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
+
+    <span class="c1"># generate default simulation parameters</span>
+    <span class="k">if</span> <span class="n">sim_par_json</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sim_par</span> <span class="o">=</span> <span class="n">SimulationParameter</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sim_par_json</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+        <span class="n">sim_par</span> <span class="o">=</span> <span class="n">SimulationParameter</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">sim_par</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">add_plant_variables</span><span class="p">()</span>
+
+    <span class="c1"># set design days using the coincident peak load</span>
+    <span class="n">epw_file</span> <span class="o">=</span> <span class="n">sys_dict</span><span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.mos&#39;</span><span class="p">,</span> <span class="s1">&#39;.epw&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">epw_file</span><span class="p">),</span> <span class="s1">&#39;The weather file path referenced in the &#39;</span> \
+        <span class="s1">&#39;system parameter file was not found: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epw_file</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sim_par</span><span class="o">.</span><span class="n">sizing_parameter</span><span class="o">.</span><span class="n">design_days</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">sim_par</span><span class="o">.</span><span class="n">sizing_parameter</span><span class="o">.</span><span class="n">design_days</span> <span class="o">=</span> <span class="n">coincident_peak_design_days</span><span class="p">(</span><span class="n">sys_dict</span><span class="p">)</span>
+    <span class="n">assign_epw_to_model</span><span class="p">(</span><span class="n">epw_file</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+
+    <span class="c1"># translate the simulation parameter and the system to an OpenStudio Model</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Translating URBANopt system parameter to OpenStudio...&#39;</span><span class="p">)</span>
+    <span class="n">simulation_parameter_to_openstudio</span><span class="p">(</span><span class="n">sim_par</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+    <span class="n">geojson_dict</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">geojson</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">geojson</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+            <span class="n">geojson_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+    <span class="n">os_model</span> <span class="o">=</span> <span class="n">sys_dict_to_openstudio</span><span class="p">(</span>
+        <span class="n">sys_dict</span><span class="p">,</span> <span class="n">geojson_dict</span><span class="o">=</span><span class="n">geojson_dict</span><span class="p">,</span> <span class="n">seed_model</span><span class="o">=</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Translation complete!&#39;</span><span class="p">)</span>
+
+    <span class="c1"># set up the simulation directory</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="n">folder</span> <span class="k">if</span> <span class="n">folder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> \
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">system_file</span><span class="p">),</span> <span class="s1">&#39;des_energyplus&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+
+    <span class="c1"># write the OSM and IDF</span>
+    <span class="n">osm</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s1">&#39;in.osm&#39;</span><span class="p">))</span>
+    <span class="n">os_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">osm</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">idf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s1">&#39;in.idf&#39;</span><span class="p">))</span>
+    <span class="n">idf_translator</span> <span class="o">=</span> <span class="n">openstudio</span><span class="o">.</span><span class="n">energyplus</span><span class="o">.</span><span class="n">ForwardTranslator</span><span class="p">()</span>
+    <span class="n">workspace</span> <span class="o">=</span> <span class="n">idf_translator</span><span class="o">.</span><span class="n">translateModel</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">workspace</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># run the simulation</span>
+    <span class="n">gen_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">osm</span><span class="p">,</span> <span class="n">idf</span><span class="p">]</span>
+    <span class="n">sql</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">rdd</span><span class="p">,</span> <span class="n">html</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">run_idf</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">epw_file</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">err</span><span class="p">):</span>
+        <span class="n">gen_files</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">sql</span><span class="p">,</span> <span class="n">rdd</span><span class="p">,</span> <span class="n">html</span><span class="p">,</span> <span class="n">err</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Running EnergyPlus failed.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># parse the error log and return the generated files</span>
+    <span class="n">err_obj</span> <span class="o">=</span> <span class="n">Err</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">err_obj</span><span class="o">.</span><span class="n">fatal_errors</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">process_content_to_output</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gen_files</span><span class="p">),</span> <span class="n">log_file</span><span class="p">)</span></div>
+
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2026, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.0.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+translate
+=========
+
+.. click:: dragonfly_openstudio.cli.translate:translate
+   :prog: dragonfly-openstudio translate
+   :show-nested:

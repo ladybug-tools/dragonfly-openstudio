@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dragonfly_openstudio.util &#8212; dragonfly-openstudio  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=0bf093e7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0b9525ea" />
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<link rel="icon" type="image/x-icon" href="https://github.com/ladybug-tools/artwork/raw/refs/heads/master/icons_bugs/ico/dragonfly.ico">
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          dragonfly-openstudio</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/translate.html">translate</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/translate.html#dragonfly-openstudio-translate">dragonfly-openstudio translate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/translate.html#dragonfly-openstudio-translate-system-to-osm">system-to-osm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/simulate.html">simulate</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/simulate.html#dragonfly-openstudio-simulate">dragonfly-openstudio simulate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/simulate.html#dragonfly-openstudio-simulate-system">system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dragonfly_openstudio.html">dragonfly_openstudio package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dragonfly_openstudio.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.cli.html">dragonfly_openstudio.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.cli.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../dragonfly_openstudio.cli.simulate.html">dragonfly_openstudio.cli.simulate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../dragonfly_openstudio.cli.simulate.html#dragonfly_openstudio.cli.simulate.simulate_system"><code class="docutils literal notranslate"><span class="pre">simulate_system()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../dragonfly_openstudio.cli.translate.html">dragonfly_openstudio.cli.translate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../dragonfly_openstudio.cli.translate.html#dragonfly_openstudio.cli.translate.system_to_osm"><code class="docutils literal notranslate"><span class="pre">system_to_osm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.cli.html#module-dragonfly_openstudio.cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dragonfly_openstudio.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.des.html">dragonfly_openstudio.des module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_chilled_water_loop"><code class="docutils literal notranslate"><span class="pre">gen4_chilled_water_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_condenser_loop"><code class="docutils literal notranslate"><span class="pre">gen4_condenser_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">gen4_des_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_hot_water_loop"><code class="docutils literal notranslate"><span class="pre">gen4_hot_water_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">gen5_des_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_heat_rejection"><code class="docutils literal notranslate"><span class="pre">gen5_heat_rejection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_supplemental_heat"><code class="docutils literal notranslate"><span class="pre">gen5_supplemental_heat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.ghe_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">ghe_des_to_openstudio()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.ets.html">dragonfly_openstudio.ets module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_chw_loop"><code class="docutils literal notranslate"><span class="pre">building_chw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_hw_loop"><code class="docutils literal notranslate"><span class="pre">building_hw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_shw_loop"><code class="docutils literal notranslate"><span class="pre">building_shw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_capacity_curve"><code class="docutils literal notranslate"><span class="pre">cooling_heat_pump_capacity_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_power_curve"><code class="docutils literal notranslate"><span class="pre">cooling_heat_pump_power_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_exchanger_ets_to_openstudio"><code class="docutils literal notranslate"><span class="pre">heat_exchanger_ets_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_pump_ets_to_openstudio"><code class="docutils literal notranslate"><span class="pre">heat_pump_ets_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_capacity_curve"><code class="docutils literal notranslate"><span class="pre">heating_heat_pump_capacity_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_power_curve"><code class="docutils literal notranslate"><span class="pre">heating_heat_pump_power_curve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.util.html">dragonfly_openstudio.util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.coincident_peak_design_days"><code class="docutils literal notranslate"><span class="pre">coincident_peak_design_days()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.modelica_loads"><code class="docutils literal notranslate"><span class="pre">modelica_loads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.system_coincident_peaks"><code class="docutils literal notranslate"><span class="pre">system_coincident_peaks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.writer.html">dragonfly_openstudio.writer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_openstudio"><code class="docutils literal notranslate"><span class="pre">sys_dict_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_osm"><code class="docutils literal notranslate"><span class="pre">sys_dict_to_osm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dragonfly_openstudio.html#module-dragonfly_openstudio">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dragonfly_openstudio.html">dragonfly_openstudio package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dragonfly_openstudio.html">dragonfly_openstudio package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for dragonfly_openstudio.util</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding=utf-8</span>
+<span class="sd">&quot;&quot;&quot;Utility functions for commonly-performed operations.&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">division</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ladybug.dt</span><span class="w"> </span><span class="kn">import</span> <span class="n">DateTime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ladybug.epw</span><span class="w"> </span><span class="kn">import</span> <span class="n">EPW</span>
+
+
+<div class="viewcode-block" id="modelica_loads">
+<a class="viewcode-back" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.modelica_loads">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">modelica_loads</span><span class="p">(</span><span class="n">load_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse Building loads from a .mos load file.</span>
+
+<span class="sd">    This function also performs a check to ensure that the load profiles are annual.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        load_file: A .mos file containing building loads.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple with four elements.</span>
+
+<span class="sd">        -   seconds: A list of integers for the seconds of the year.</span>
+
+<span class="sd">        -   cooling: A list of negative values for the cooling load in Watts.</span>
+
+<span class="sd">        -   heating: A list of positive values for the heating load in Watts.</span>
+
+<span class="sd">        -   swh: A list of positive values for the service hot water load in Watts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">seconds</span><span class="p">,</span> <span class="n">cooling</span><span class="p">,</span> <span class="n">heating</span><span class="p">,</span> <span class="n">shw</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">timeseries_started</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">load_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">lf</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lf</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">timeseries_started</span><span class="p">:</span>
+                <span class="n">loads</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+                <span class="n">seconds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">loads</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                <span class="n">cooling</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">loads</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="n">heating</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">loads</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+                <span class="n">shw</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">loads</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;double tab&#39;</span><span class="p">):</span>
+                <span class="n">timeseries_started</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="c1"># check the timestep and get the peak values</span>
+    <span class="n">timestep</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">3600</span> <span class="o">/</span> <span class="p">(</span><span class="n">seconds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">seconds</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">cooling</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8760</span> <span class="o">*</span> <span class="n">timestep</span><span class="p">,</span> <span class="s1">&#39;The building loads simulation was &#39;</span>\
+        <span class="s1">&#39;not for the full typical year and was for </span><span class="si">{}</span><span class="s1"> days.</span><span class="se">\n</span><span class="s1">The loads must be &#39;</span> \
+        <span class="s1">&#39;simulated for a full typical year to use them for DES generation.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">cooling</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">timestep</span> <span class="o">*</span> <span class="mi">24</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">seconds</span><span class="p">,</span> <span class="n">cooling</span><span class="p">,</span> <span class="n">heating</span><span class="p">,</span> <span class="n">shw</span></div>
+
+
+
+<div class="viewcode-block" id="system_coincident_peaks">
+<a class="viewcode-back" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.system_coincident_peaks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">system_coincident_peaks</span><span class="p">(</span><span class="n">sys_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gat the coincident peak values and datetimes associated with a system dictionary.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sys_dict: The URBANopt system parameter dictionary for which the coincident</span>
+<span class="sd">            building peak will be evaluated.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple with two elements.</span>
+
+<span class="sd">        -   peak_values: A list of 3 numbers for the cooling, heating, and shw peaks.</span>
+
+<span class="sd">        -   peak_datetimes: A list of 3 DateTimes for the cooling, heating, and shw peaks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># extract all of the loads from the modelica files</span>
+    <span class="n">cooling_mtx</span><span class="p">,</span> <span class="n">heating_mtx</span><span class="p">,</span> <span class="n">shw_mtx</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">bldg_dict</span> <span class="ow">in</span> <span class="n">sys_dict</span><span class="p">[</span><span class="s1">&#39;buildings&#39;</span><span class="p">]:</span>
+        <span class="n">load_file</span> <span class="o">=</span> <span class="n">bldg_dict</span><span class="p">[</span><span class="s1">&#39;load_model_parameters&#39;</span><span class="p">][</span><span class="s1">&#39;time_series&#39;</span><span class="p">][</span><span class="s1">&#39;filepath&#39;</span><span class="p">]</span>
+        <span class="n">seconds</span><span class="p">,</span> <span class="n">cooling</span><span class="p">,</span> <span class="n">heating</span><span class="p">,</span> <span class="n">shw</span> <span class="o">=</span> <span class="n">modelica_loads</span><span class="p">(</span><span class="n">load_file</span><span class="p">)</span>
+        <span class="n">cooling_mtx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cooling</span><span class="p">)</span>
+        <span class="n">heating_mtx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">heating</span><span class="p">)</span>
+        <span class="n">shw_mtx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shw</span><span class="p">)</span>
+    <span class="n">step_seconds</span> <span class="o">=</span> <span class="n">seconds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">seconds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># determine the peak load and datetimes</span>
+    <span class="n">cooling</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">cooling_mtx</span><span class="p">)]</span>
+    <span class="n">heating</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">heating_mtx</span><span class="p">)]</span>
+    <span class="n">shw</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">shw_mtx</span><span class="p">)]</span>
+    <span class="n">sort_cool</span><span class="p">,</span> <span class="n">c_secs</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">cooling</span><span class="p">,</span> <span class="n">seconds</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">sort_heat</span><span class="p">,</span> <span class="n">h_secs</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">heating</span><span class="p">,</span> <span class="n">seconds</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">sort_shw</span><span class="p">,</span> <span class="n">s_secs</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">shw</span><span class="p">,</span> <span class="n">seconds</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">peak_cooling</span><span class="p">,</span> <span class="n">cooling_time</span> <span class="o">=</span> <span class="n">sort_cool</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c_secs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">peak_heating</span><span class="p">,</span> <span class="n">heating_time</span> <span class="o">=</span> <span class="n">sort_heat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">h_secs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">peak_shw</span><span class="p">,</span> <span class="n">shw_time</span> <span class="o">=</span> <span class="n">sort_shw</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">s_secs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">cooling_time</span> <span class="o">=</span> <span class="n">DateTime</span><span class="o">.</span><span class="n">from_moy</span><span class="p">((</span><span class="n">cooling_time</span> <span class="o">-</span> <span class="n">step_seconds</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="n">heating_time</span> <span class="o">=</span> <span class="n">DateTime</span><span class="o">.</span><span class="n">from_moy</span><span class="p">((</span><span class="n">heating_time</span> <span class="o">-</span> <span class="n">step_seconds</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="n">shw_time</span> <span class="o">=</span> <span class="n">DateTime</span><span class="o">.</span><span class="n">from_moy</span><span class="p">((</span><span class="n">shw_time</span> <span class="o">-</span> <span class="n">step_seconds</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">peak_cooling</span><span class="p">,</span> <span class="n">peak_heating</span><span class="p">,</span> <span class="n">peak_shw</span><span class="p">),</span> <span class="p">(</span><span class="n">cooling_time</span><span class="p">,</span> <span class="n">heating_time</span><span class="p">,</span> <span class="n">shw_time</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="coincident_peak_design_days">
+<a class="viewcode-back" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.coincident_peak_design_days">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">coincident_peak_design_days</span><span class="p">(</span><span class="n">sys_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get three DesignDay objects that align with the coincident peaks of a sys_dict.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sys_dict: The URBANopt system parameter dictionary for which the coincident</span>
+<span class="sd">            building peak will be evaluated.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple with three elements.</span>
+
+<span class="sd">        -   cooling_day: A DesignDay for the cooling coincident peak.</span>
+
+<span class="sd">        -   heating_day: A DesignDay for the heating coincident peak.</span>
+
+<span class="sd">        -   shw_day: A DesignDay for the service hot water coincident peak.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get the peaks of the building loads</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">peak_datetimes</span> <span class="o">=</span> <span class="n">system_coincident_peaks</span><span class="p">(</span><span class="n">sys_dict</span><span class="p">)</span>
+    <span class="n">cooling_time</span><span class="p">,</span> <span class="n">heating_time</span><span class="p">,</span> <span class="n">shw_time</span> <span class="o">=</span> <span class="n">peak_datetimes</span>
+
+    <span class="c1"># load the EPW file to get other criteria of the design day</span>
+    <span class="n">epw_file</span> <span class="o">=</span> <span class="n">sys_dict</span><span class="p">[</span><span class="s1">&#39;weather&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.mos&#39;</span><span class="p">,</span> <span class="s1">&#39;.epw&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">epw_file</span><span class="p">),</span> <span class="s1">&#39;The weather file path referenced in the &#39;</span> \
+        <span class="s1">&#39;system parameter file was not found: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epw_file</span><span class="p">)</span>
+    <span class="n">epw_obj</span> <span class="o">=</span> <span class="n">EPW</span><span class="p">(</span><span class="n">epw_file</span><span class="p">)</span>
+
+    <span class="c1"># create the design days with dates that align with the peak</span>
+    <span class="n">cooling_day</span> <span class="o">=</span> <span class="n">epw_obj</span><span class="o">.</span><span class="n">approximate_design_day</span><span class="p">(</span><span class="s1">&#39;SummerDesignDay&#39;</span><span class="p">)</span>
+    <span class="n">heating_day</span> <span class="o">=</span> <span class="n">epw_obj</span><span class="o">.</span><span class="n">approximate_design_day</span><span class="p">(</span><span class="s1">&#39;WinterDesignDay&#39;</span><span class="p">)</span>
+    <span class="n">shw_day</span> <span class="o">=</span> <span class="n">heating_day</span><span class="o">.</span><span class="n">duplicate</span><span class="p">()</span>
+    <span class="n">shw_day</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">shw_day</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Heating&#39;</span><span class="p">,</span> <span class="s1">&#39;SHW&#39;</span><span class="p">)</span>
+    <span class="n">cooling_day</span><span class="o">.</span><span class="n">sky_condition</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">cooling_time</span><span class="o">.</span><span class="n">date</span>
+    <span class="n">heating_day</span><span class="o">.</span><span class="n">sky_condition</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">heating_time</span><span class="o">.</span><span class="n">date</span>
+    <span class="n">shw_day</span><span class="o">.</span><span class="n">sky_condition</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">shw_time</span><span class="o">.</span><span class="n">date</span>
+
+    <span class="k">return</span> <span class="n">cooling_day</span><span class="p">,</span> <span class="n">heating_day</span><span class="p">,</span> <span class="n">shw_day</span></div>
+
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2026, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.0.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

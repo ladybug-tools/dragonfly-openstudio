@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dragonfly_openstudio.writer &#8212; dragonfly-openstudio  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=0bf093e7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0b9525ea" />
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<link rel="icon" type="image/x-icon" href="https://github.com/ladybug-tools/artwork/raw/refs/heads/master/icons_bugs/ico/dragonfly.ico">
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          dragonfly-openstudio</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/translate.html">translate</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/translate.html#dragonfly-openstudio-translate">dragonfly-openstudio translate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/translate.html#dragonfly-openstudio-translate-system-to-osm">system-to-osm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/simulate.html">simulate</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/simulate.html#dragonfly-openstudio-simulate">dragonfly-openstudio simulate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/simulate.html#dragonfly-openstudio-simulate-system">system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dragonfly_openstudio.html">dragonfly_openstudio package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dragonfly_openstudio.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.cli.html">dragonfly_openstudio.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.cli.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../dragonfly_openstudio.cli.simulate.html">dragonfly_openstudio.cli.simulate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../dragonfly_openstudio.cli.simulate.html#dragonfly_openstudio.cli.simulate.simulate_system"><code class="docutils literal notranslate"><span class="pre">simulate_system()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../dragonfly_openstudio.cli.translate.html">dragonfly_openstudio.cli.translate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../dragonfly_openstudio.cli.translate.html#dragonfly_openstudio.cli.translate.system_to_osm"><code class="docutils literal notranslate"><span class="pre">system_to_osm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.cli.html#module-dragonfly_openstudio.cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dragonfly_openstudio.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.des.html">dragonfly_openstudio.des module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_chilled_water_loop"><code class="docutils literal notranslate"><span class="pre">gen4_chilled_water_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_condenser_loop"><code class="docutils literal notranslate"><span class="pre">gen4_condenser_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">gen4_des_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_hot_water_loop"><code class="docutils literal notranslate"><span class="pre">gen4_hot_water_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">gen5_des_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_heat_rejection"><code class="docutils literal notranslate"><span class="pre">gen5_heat_rejection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_supplemental_heat"><code class="docutils literal notranslate"><span class="pre">gen5_supplemental_heat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.ghe_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">ghe_des_to_openstudio()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.ets.html">dragonfly_openstudio.ets module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_chw_loop"><code class="docutils literal notranslate"><span class="pre">building_chw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_hw_loop"><code class="docutils literal notranslate"><span class="pre">building_hw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_shw_loop"><code class="docutils literal notranslate"><span class="pre">building_shw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_capacity_curve"><code class="docutils literal notranslate"><span class="pre">cooling_heat_pump_capacity_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_power_curve"><code class="docutils literal notranslate"><span class="pre">cooling_heat_pump_power_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_exchanger_ets_to_openstudio"><code class="docutils literal notranslate"><span class="pre">heat_exchanger_ets_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_pump_ets_to_openstudio"><code class="docutils literal notranslate"><span class="pre">heat_pump_ets_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_capacity_curve"><code class="docutils literal notranslate"><span class="pre">heating_heat_pump_capacity_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_power_curve"><code class="docutils literal notranslate"><span class="pre">heating_heat_pump_power_curve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.util.html">dragonfly_openstudio.util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.coincident_peak_design_days"><code class="docutils literal notranslate"><span class="pre">coincident_peak_design_days()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.modelica_loads"><code class="docutils literal notranslate"><span class="pre">modelica_loads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.system_coincident_peaks"><code class="docutils literal notranslate"><span class="pre">system_coincident_peaks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.writer.html">dragonfly_openstudio.writer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_openstudio"><code class="docutils literal notranslate"><span class="pre">sys_dict_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_osm"><code class="docutils literal notranslate"><span class="pre">sys_dict_to_osm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dragonfly_openstudio.html#module-dragonfly_openstudio">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dragonfly_openstudio.html">dragonfly_openstudio package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dragonfly_openstudio.html">dragonfly_openstudio package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for dragonfly_openstudio.writer</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding=utf-8</span>
+<span class="sd">&quot;&quot;&quot;Methods to write URBANopt system parameters to OpenStudio.&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">honeybee_openstudio.openstudio</span><span class="w"> </span><span class="kn">import</span> <span class="n">OSModel</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.des</span><span class="w"> </span><span class="kn">import</span> <span class="n">ghe_des_to_openstudio</span><span class="p">,</span> <span class="n">gen5_des_to_openstudio</span><span class="p">,</span> <span class="n">gen4_des_to_openstudio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.ets</span><span class="w"> </span><span class="kn">import</span> <span class="n">heat_pump_ets_to_openstudio</span><span class="p">,</span> <span class="n">heat_exchanger_ets_to_openstudio</span>
+
+
+<div class="viewcode-block" id="sys_dict_to_openstudio">
+<a class="viewcode-back" href="../../dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_openstudio">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sys_dict_to_openstudio</span><span class="p">(</span><span class="n">sys_dict</span><span class="p">,</span> <span class="n">seed_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">geojson_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an OpenStudio Model from a dictionary of an URBANopt system parameter.</span>
+
+<span class="sd">    Assuming that the file paths within the system parameter all point to valid</span>
+<span class="sd">    files, the resulting OpenStudio Model will include all equipment of the</span>
+<span class="sd">    DES loop (ground heat exchangers, heating/cooling plants). It will also</span>
+<span class="sd">    include hot/chilled water loops for all buildings in the DES with the</span>
+<span class="sd">    building loads represented using LoadPRofile:Plant objects.</span>
+
+<span class="sd">    No building air loops, zone equipment, or geometry will be in the resulting</span>
+<span class="sd">    model, making it a plant-only model that can be simulated quickly.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sys_dict: The URBANopt system parameter dictionary to be converted</span>
+<span class="sd">            into an OpenStudio Model.</span>
+<span class="sd">        seed_model: An optional OpenStudio Model object to which the district</span>
+<span class="sd">            energy system will be added. If None, a new OpenStudio Model will be</span>
+<span class="sd">            initialized within this method. (Default: None).</span>
+<span class="sd">        geojson_dict: An optional URBANopt feature GeoJSON dictionary, which can</span>
+<span class="sd">            be used to further customize the OpenStudio model. When supplied,</span>
+<span class="sd">            the lengths of ThermalConnectors in the loop will be used to</span>
+<span class="sd">            account for pipe heat losses in the resulting OpenStudio model and</span>
+<span class="sd">            any customizations of heat rejection types and supplemental heating</span>
+<span class="sd">            types will be accounted for in the model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># create the OpenStudio model object and set properties for speed</span>
+    <span class="n">os_model</span> <span class="o">=</span> <span class="n">OSModel</span><span class="p">()</span> <span class="k">if</span> <span class="n">seed_model</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">seed_model</span>
+
+    <span class="c1"># translate the district thermal loop based on the type of system</span>
+    <span class="n">des_dict</span> <span class="o">=</span> <span class="n">sys_dict</span><span class="p">[</span><span class="s1">&#39;district_system&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">&#39;fifth_generation&#39;</span> <span class="ow">in</span> <span class="n">des_dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;ghe_parameters&#39;</span> <span class="ow">in</span> <span class="n">des_dict</span><span class="p">[</span><span class="s1">&#39;fifth_generation&#39;</span><span class="p">]:</span>
+            <span class="n">hp_loop</span> <span class="o">=</span> <span class="n">ghe_des_to_openstudio</span><span class="p">(</span><span class="n">des_dict</span><span class="p">,</span> <span class="n">os_model</span><span class="p">,</span> <span class="n">geojson_dict</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># a regular old gen5 district system</span>
+            <span class="n">hp_loop</span> <span class="o">=</span> <span class="n">gen5_des_to_openstudio</span><span class="p">(</span><span class="n">des_dict</span><span class="p">,</span> <span class="n">os_model</span><span class="p">,</span> <span class="n">geojson_dict</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s1">&#39;fourth_generation&#39;</span> <span class="ow">in</span> <span class="n">des_dict</span><span class="p">:</span>
+        <span class="n">chw_loop</span><span class="p">,</span> <span class="n">hw_loop</span> <span class="o">=</span> <span class="n">gen4_des_to_openstudio</span><span class="p">(</span><span class="n">des_dict</span><span class="p">,</span> <span class="n">os_model</span><span class="p">,</span> <span class="n">geojson_dict</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># currently unrecognized district system</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">des_dict</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;District system type &quot;</span><span class="si">{}</span><span class="s1">&quot; is not recognized.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="c1"># translate the building ETS</span>
+    <span class="k">for</span> <span class="n">bldg_dict</span> <span class="ow">in</span> <span class="n">sys_dict</span><span class="p">[</span><span class="s1">&#39;buildings&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="s1">&#39;fifth_gen_ets_parameters&#39;</span> <span class="ow">in</span> <span class="n">bldg_dict</span><span class="p">:</span>
+            <span class="n">heat_pump_ets_to_openstudio</span><span class="p">(</span><span class="n">bldg_dict</span><span class="p">,</span> <span class="n">hp_loop</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s1">&#39;ets_indirect_parameters&#39;</span> <span class="ow">in</span> <span class="n">bldg_dict</span><span class="p">:</span>
+            <span class="n">heat_exchanger_ets_to_openstudio</span><span class="p">(</span><span class="n">bldg_dict</span><span class="p">,</span> <span class="n">chw_loop</span><span class="p">,</span> <span class="n">hw_loop</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">os_model</span></div>
+
+
+
+<div class="viewcode-block" id="sys_dict_to_osm">
+<a class="viewcode-back" href="../../dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_osm">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sys_dict_to_osm</span><span class="p">(</span><span class="n">sys_dict</span><span class="p">,</span> <span class="n">seed_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">geojson_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Translate a dictionary of an URBANopt system parameter to an OSM string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sys_dict: The URBANopt system parameter dictionary to be converted</span>
+<span class="sd">            into an OpenStudio Model.</span>
+<span class="sd">        seed_model: An optional OpenStudio Model object to which the district</span>
+<span class="sd">            energy system will be added. If None, a new OpenStudio Model will be</span>
+<span class="sd">            initialized within this method. (Default: None).</span>
+<span class="sd">        geojson_dict: An optional URBANopt feature GeoJSON dictionary, which can</span>
+<span class="sd">            be used to further customize the OpenStudio model. When supplied,</span>
+<span class="sd">            the lengths of ThermalConnectors in the loop will be used to</span>
+<span class="sd">            account for pipe heat losses in the resulting OpenStudio model and</span>
+<span class="sd">            any customizations of heat rejection types and supplemental heating</span>
+<span class="sd">            types will be accounted for in the model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># translate the Honeybee Model to an OpenStudio Model</span>
+    <span class="n">os_model</span> <span class="o">=</span> <span class="n">sys_dict_to_openstudio</span><span class="p">(</span><span class="n">sys_dict</span><span class="p">,</span> <span class="n">seed_model</span><span class="p">,</span> <span class="n">geojson_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span></div>
+
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2026, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.0.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

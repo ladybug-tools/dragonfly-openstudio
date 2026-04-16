@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>dragonfly_openstudio.cli.simulate module &#8212; dragonfly-openstudio  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css?v=0bf093e7" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0b9525ea" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dragonfly_openstudio.cli.translate module" href="dragonfly_openstudio.cli.translate.html" />
+    <link rel="prev" title="dragonfly_openstudio.cli package" href="dragonfly_openstudio.cli.html" />
+<link rel="icon" type="image/x-icon" href="https://github.com/ladybug-tools/artwork/raw/refs/heads/master/icons_bugs/ico/dragonfly.ico">
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          dragonfly-openstudio</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="cli/index.html">CLI Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli/index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli/translate.html">translate</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cli/translate.html#dragonfly-openstudio-translate">dragonfly-openstudio translate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="cli/translate.html#dragonfly-openstudio-translate-system-to-osm">system-to-osm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cli/simulate.html">simulate</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cli/simulate.html#dragonfly-openstudio-simulate">dragonfly-openstudio simulate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="cli/simulate.html#dragonfly-openstudio-simulate-system">system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="dragonfly_openstudio.html">dragonfly_openstudio package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="dragonfly_openstudio.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="dragonfly_openstudio.cli.html">dragonfly_openstudio.cli package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="dragonfly_openstudio.cli.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="#">dragonfly_openstudio.cli.simulate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#dragonfly_openstudio.cli.simulate.simulate_system"><code class="docutils literal notranslate"><span class="pre">simulate_system()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="dragonfly_openstudio.cli.translate.html">dragonfly_openstudio.cli.translate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="dragonfly_openstudio.cli.translate.html#dragonfly_openstudio.cli.translate.system_to_osm"><code class="docutils literal notranslate"><span class="pre">system_to_osm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.cli.html#module-dragonfly_openstudio.cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dragonfly_openstudio.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dragonfly_openstudio.des.html">dragonfly_openstudio.des module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_chilled_water_loop"><code class="docutils literal notranslate"><span class="pre">gen4_chilled_water_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_condenser_loop"><code class="docutils literal notranslate"><span class="pre">gen4_condenser_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">gen4_des_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_hot_water_loop"><code class="docutils literal notranslate"><span class="pre">gen4_hot_water_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">gen5_des_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_heat_rejection"><code class="docutils literal notranslate"><span class="pre">gen5_heat_rejection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_supplemental_heat"><code class="docutils literal notranslate"><span class="pre">gen5_supplemental_heat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.des.html#dragonfly_openstudio.des.ghe_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">ghe_des_to_openstudio()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dragonfly_openstudio.ets.html">dragonfly_openstudio.ets module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_chw_loop"><code class="docutils literal notranslate"><span class="pre">building_chw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_hw_loop"><code class="docutils literal notranslate"><span class="pre">building_hw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_shw_loop"><code class="docutils literal notranslate"><span class="pre">building_shw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_capacity_curve"><code class="docutils literal notranslate"><span class="pre">cooling_heat_pump_capacity_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_power_curve"><code class="docutils literal notranslate"><span class="pre">cooling_heat_pump_power_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_exchanger_ets_to_openstudio"><code class="docutils literal notranslate"><span class="pre">heat_exchanger_ets_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_pump_ets_to_openstudio"><code class="docutils literal notranslate"><span class="pre">heat_pump_ets_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_capacity_curve"><code class="docutils literal notranslate"><span class="pre">heating_heat_pump_capacity_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_power_curve"><code class="docutils literal notranslate"><span class="pre">heating_heat_pump_power_curve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dragonfly_openstudio.util.html">dragonfly_openstudio.util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.util.html#dragonfly_openstudio.util.coincident_peak_design_days"><code class="docutils literal notranslate"><span class="pre">coincident_peak_design_days()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.util.html#dragonfly_openstudio.util.modelica_loads"><code class="docutils literal notranslate"><span class="pre">modelica_loads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.util.html#dragonfly_openstudio.util.system_coincident_peaks"><code class="docutils literal notranslate"><span class="pre">system_coincident_peaks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dragonfly_openstudio.writer.html">dragonfly_openstudio.writer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_openstudio"><code class="docutils literal notranslate"><span class="pre">sys_dict_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_osm"><code class="docutils literal notranslate"><span class="pre">sys_dict_to_osm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dragonfly_openstudio.html#module-dragonfly_openstudio">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="cli/index.html">CLI Docs</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="dragonfly_openstudio.html">dragonfly_openstudio package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="dragonfly_openstudio.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="dragonfly_openstudio.cli.html">dragonfly_openstudio.cli package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="dragonfly_openstudio.cli.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="#">dragonfly_openstudio.cli.simulate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#dragonfly_openstudio.cli.simulate.simulate_system"><code class="docutils literal notranslate"><span class="pre">simulate_system()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="dragonfly_openstudio.cli.translate.html">dragonfly_openstudio.cli.translate module</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.cli.html#module-dragonfly_openstudio.cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dragonfly_openstudio.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dragonfly_openstudio.html#module-dragonfly_openstudio">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="dragonfly_openstudio.cli.html" title="Previous Chapter: dragonfly_openstudio.cli package"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; dragonfly_ope...</span>
+    </a>
+  </li>
+  <li>
+    <a href="dragonfly_openstudio.cli.translate.html" title="Next Chapter: dragonfly_openstudio.cli.translate module"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">dragonfly_ope... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/dragonfly_openstudio.cli.simulate.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="cli/index.html">CLI Docs</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="dragonfly_openstudio.html">dragonfly_openstudio package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="dragonfly_openstudio.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="dragonfly_openstudio.cli.html">dragonfly_openstudio.cli package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="dragonfly_openstudio.cli.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="#">dragonfly_openstudio.cli.simulate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#dragonfly_openstudio.cli.simulate.simulate_system"><code class="docutils literal notranslate"><span class="pre">simulate_system()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="dragonfly_openstudio.cli.translate.html">dragonfly_openstudio.cli.translate module</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="dragonfly_openstudio.cli.html#module-dragonfly_openstudio.cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dragonfly_openstudio.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dragonfly_openstudio.html#module-dragonfly_openstudio">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <section id="module-dragonfly_openstudio.cli.simulate">
+<span id="dragonfly-openstudio-cli-simulate-module"></span><h1>dragonfly_openstudio.cli.simulate module<a class="headerlink" href="#module-dragonfly_openstudio.cli.simulate" title="Link to this heading">¶</a></h1>
+<p>honeybee energy simulation running commands.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="dragonfly_openstudio.cli.simulate.simulate_system">
+<span class="sig-prename descclassname"><span class="pre">dragonfly_openstudio.cli.simulate.</span></span><span class="sig-name descname"><span class="pre">simulate_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geojson</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_par_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dragonfly_openstudio/cli/simulate.html#simulate_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dragonfly_openstudio.cli.simulate.simulate_system" title="Link to this definition">¶</a></dt>
+<dd><p>Simulate an URBANopt DES system in EnergyPlus.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system_file</strong> – Path to an URBANopt system parameter file to be simulated
+in EnergyPlus. Note that all file paths within the system parameter
+must be valid, including the path to the weather file, which will
+be used for simulation.</p></li>
+<li><p><strong>geojson</strong> – An optional URBANopt feature GeoJSON file path, which can
+be used to further customize the OpenStudio model. When supplied,
+the lengths of ThermalConnectors in the loop will be used to
+account for pipe heat losses.</p></li>
+<li><p><strong>sim_par_json</strong> – Full path to a honeybee energy SimulationParameter JSON that
+describes all of the settings for the simulation. If None, default
+parameters will be generated.</p></li>
+<li><p><strong>folder</strong> – Folder on this computer, into which the IDF and result files
+will be written. If None, the files will be output to a des_energyplus
+folder in the same directory as the system file.</p></li>
+<li><p><strong>log_file</strong> – Optional log file to output the paths of the generated
+files (osm, idf, sql, rdd, html, err) if successfully created.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2026, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.0.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

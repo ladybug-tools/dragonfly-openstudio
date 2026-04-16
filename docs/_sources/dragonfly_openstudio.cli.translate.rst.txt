@@ -1,0 +1,7 @@
+dragonfly\_openstudio.cli.translate module
+==========================================
+
+.. automodule:: dragonfly_openstudio.cli.translate
+   :members:
+   :undoc-members:
+   :show-inheritance:

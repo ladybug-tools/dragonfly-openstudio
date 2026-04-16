@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dragonfly_openstudio.ets &#8212; dragonfly-openstudio  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css?v=0bf093e7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0b9525ea" />
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<link rel="icon" type="image/x-icon" href="https://github.com/ladybug-tools/artwork/raw/refs/heads/master/icons_bugs/ico/dragonfly.ico">
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          dragonfly-openstudio</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli/index.html#commands">Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/translate.html">translate</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/translate.html#dragonfly-openstudio-translate">dragonfly-openstudio translate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/translate.html#dragonfly-openstudio-translate-system-to-osm">system-to-osm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli/simulate.html">simulate</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli/simulate.html#dragonfly-openstudio-simulate">dragonfly-openstudio simulate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../cli/simulate.html#dragonfly-openstudio-simulate-system">system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dragonfly_openstudio.html">dragonfly_openstudio package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dragonfly_openstudio.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.cli.html">dragonfly_openstudio.cli package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.cli.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../dragonfly_openstudio.cli.simulate.html">dragonfly_openstudio.cli.simulate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../dragonfly_openstudio.cli.simulate.html#dragonfly_openstudio.cli.simulate.simulate_system"><code class="docutils literal notranslate"><span class="pre">simulate_system()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="../../dragonfly_openstudio.cli.translate.html">dragonfly_openstudio.cli.translate module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="../../dragonfly_openstudio.cli.translate.html#dragonfly_openstudio.cli.translate.system_to_osm"><code class="docutils literal notranslate"><span class="pre">system_to_osm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.cli.html#module-dragonfly_openstudio.cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dragonfly_openstudio.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.des.html">dragonfly_openstudio.des module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_chilled_water_loop"><code class="docutils literal notranslate"><span class="pre">gen4_chilled_water_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_condenser_loop"><code class="docutils literal notranslate"><span class="pre">gen4_condenser_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">gen4_des_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen4_hot_water_loop"><code class="docutils literal notranslate"><span class="pre">gen4_hot_water_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">gen5_des_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_heat_rejection"><code class="docutils literal notranslate"><span class="pre">gen5_heat_rejection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.gen5_supplemental_heat"><code class="docutils literal notranslate"><span class="pre">gen5_supplemental_heat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.des.html#dragonfly_openstudio.des.ghe_des_to_openstudio"><code class="docutils literal notranslate"><span class="pre">ghe_des_to_openstudio()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.ets.html">dragonfly_openstudio.ets module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_chw_loop"><code class="docutils literal notranslate"><span class="pre">building_chw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_hw_loop"><code class="docutils literal notranslate"><span class="pre">building_hw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_shw_loop"><code class="docutils literal notranslate"><span class="pre">building_shw_loop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_capacity_curve"><code class="docutils literal notranslate"><span class="pre">cooling_heat_pump_capacity_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_power_curve"><code class="docutils literal notranslate"><span class="pre">cooling_heat_pump_power_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_exchanger_ets_to_openstudio"><code class="docutils literal notranslate"><span class="pre">heat_exchanger_ets_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_pump_ets_to_openstudio"><code class="docutils literal notranslate"><span class="pre">heat_pump_ets_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_capacity_curve"><code class="docutils literal notranslate"><span class="pre">heating_heat_pump_capacity_curve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_power_curve"><code class="docutils literal notranslate"><span class="pre">heating_heat_pump_power_curve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.util.html">dragonfly_openstudio.util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.coincident_peak_design_days"><code class="docutils literal notranslate"><span class="pre">coincident_peak_design_days()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.modelica_loads"><code class="docutils literal notranslate"><span class="pre">modelica_loads()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.util.html#dragonfly_openstudio.util.system_coincident_peaks"><code class="docutils literal notranslate"><span class="pre">system_coincident_peaks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../dragonfly_openstudio.writer.html">dragonfly_openstudio.writer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_openstudio"><code class="docutils literal notranslate"><span class="pre">sys_dict_to_openstudio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dragonfly_openstudio.writer.html#dragonfly_openstudio.writer.sys_dict_to_osm"><code class="docutils literal notranslate"><span class="pre">sys_dict_to_osm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dragonfly_openstudio.html#module-dragonfly_openstudio">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dragonfly_openstudio.html">dragonfly_openstudio package</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">CLI Docs</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dragonfly_openstudio.html">dragonfly_openstudio package</a></li>
+</ul>
+
+        </div>
+      </div>
+    <div class="body col-md-8 content" role="main">
+      
+  <h1>Source code for dragonfly_openstudio.ets</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding=utf-8</span>
+<span class="sd">&quot;&quot;&quot;Methods to write Dragonfly Energy Transfer Stations (ETS) to OpenStudio.&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">division</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">honeybee_energy.schedule.fixedinterval</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScheduleFixedInterval</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">honeybee_energy.lib.scheduletypelimits</span><span class="w"> </span><span class="kn">import</span> <span class="n">fractional</span><span class="p">,</span> <span class="n">power</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">honeybee_openstudio.openstudio</span><span class="w"> </span><span class="kn">import</span> <span class="n">openstudio_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">honeybee_openstudio.schedule</span><span class="w"> </span><span class="kn">import</span> <span class="n">schedule_fixed_interval_to_openstudio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">honeybee_openstudio.hvac.standards.schedule</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_constant_schedule_ruleset</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">modelica_loads</span>
+
+
+<div class="viewcode-block" id="heat_pump_ets_to_openstudio">
+<a class="viewcode-back" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_pump_ets_to_openstudio">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">heat_pump_ets_to_openstudio</span><span class="p">(</span><span class="n">building_dict</span><span class="p">,</span> <span class="n">hp_loop</span><span class="p">,</span> <span class="n">os_model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a dictionary of building with fifth_gen_ets_parameters to OpenStudio.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        building_dict: A building dictionary with a &quot;Fifth Gen Heat Pump&quot;</span>
+<span class="sd">            ets_model to be converted into building-side thermal loops.</span>
+<span class="sd">        hp_loop: The ambient heat pump condenser loop to which the buildings</span>
+<span class="sd">            will be added.</span>
+<span class="sd">        os_model: The OpenStudio Model to which the buildings will be added.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get the various sub-objects of the main dictionary</span>
+    <span class="n">ets_dict</span> <span class="o">=</span> <span class="n">building_dict</span><span class="p">[</span><span class="s1">&#39;fifth_gen_ets_parameters&#39;</span><span class="p">]</span>
+    <span class="n">load_dict</span> <span class="o">=</span> <span class="n">building_dict</span><span class="p">[</span><span class="s1">&#39;load_model_parameters&#39;</span><span class="p">][</span><span class="s1">&#39;time_series&#39;</span><span class="p">]</span>
+    <span class="n">bldg_id</span> <span class="o">=</span> <span class="n">building_dict</span><span class="p">[</span><span class="s1">&#39;geojson_id&#39;</span><span class="p">]</span>
+
+    <span class="c1"># GET LOADS</span>
+    <span class="c1"># parse the loads from the .mos file</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">cooling</span><span class="p">,</span> <span class="n">heating</span><span class="p">,</span> <span class="n">shw</span> <span class="o">=</span> <span class="n">modelica_loads</span><span class="p">(</span><span class="n">load_dict</span><span class="p">[</span><span class="s1">&#39;filepath&#39;</span><span class="p">])</span>
+    <span class="n">peak_cooling</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">cooling</span><span class="p">)</span>
+    <span class="n">peak_cooling</span> <span class="o">=</span> <span class="n">peak_cooling</span> <span class="k">if</span> <span class="n">peak_cooling</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">peak_heating</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">heating</span><span class="p">)</span>
+    <span class="n">peak_heating</span> <span class="o">=</span> <span class="n">peak_heating</span> <span class="k">if</span> <span class="n">peak_heating</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">peak_shw</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">shw</span><span class="p">)</span>
+    <span class="n">peak_shw</span> <span class="o">=</span> <span class="n">peak_shw</span> <span class="k">if</span> <span class="n">peak_shw</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">pump_head</span> <span class="o">=</span> <span class="n">ets_dict</span><span class="p">[</span><span class="s1">&#39;ets_pump_head&#39;</span><span class="p">]</span>
+
+    <span class="c1"># GET PERFORMANCE CURVES</span>
+    <span class="n">cool_cap_curve</span> <span class="o">=</span> <span class="n">cooling_heat_pump_capacity_curve</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">cool_pow_curve</span> <span class="o">=</span> <span class="n">cooling_heat_pump_power_curve</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span> <span class="o">=</span> <span class="n">heating_heat_pump_capacity_curve</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span> <span class="o">=</span> <span class="n">heating_heat_pump_power_curve</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+
+    <span class="c1"># CHILLED WATER LOOP</span>
+    <span class="n">chw_loop</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">peak_cooling</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># create the loop</span>
+        <span class="n">chw_temp</span> <span class="o">=</span> <span class="n">ets_dict</span><span class="p">[</span><span class="s1">&#39;chilled_water_supply_temp&#39;</span><span class="p">]</span>
+        <span class="n">chw_loop</span> <span class="o">=</span> <span class="n">building_chw_loop</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">cooling</span><span class="p">,</span> <span class="n">chw_temp</span><span class="p">,</span> <span class="n">os_model</span><span class="p">,</span> <span class="n">pump_head</span><span class="p">)</span>
+        <span class="c1"># add the heat pump</span>
+        <span class="n">chw_hp</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">HeatPumpWaterToWaterEquationFitCooling</span><span class="p">(</span>
+            <span class="n">os_model</span><span class="p">,</span> <span class="n">cool_cap_curve</span><span class="p">,</span> <span class="n">cool_pow_curve</span><span class="p">)</span>
+        <span class="c1"># set the reference COP higher than rated COP to align with E+ sample</span>
+        <span class="n">chw_cop</span> <span class="o">=</span> <span class="n">ets_dict</span><span class="p">[</span><span class="s1">&#39;cop_heat_pump_cooling&#39;</span><span class="p">]</span>
+        <span class="n">chw_hp</span><span class="o">.</span><span class="n">setReferenceCoefficientofPerformance</span><span class="p">(</span><span class="n">chw_cop</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">chw_hp</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Cooling Heat Pump - Rated COP </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">chw_cop</span><span class="p">))</span>
+        <span class="n">chw_loop</span><span class="o">.</span><span class="n">addSupplyBranchForComponent</span><span class="p">(</span><span class="n">chw_hp</span><span class="p">)</span>
+        <span class="n">hp_loop</span><span class="o">.</span><span class="n">addDemandBranchForComponent</span><span class="p">(</span><span class="n">chw_hp</span><span class="p">)</span>
+
+    <span class="c1"># HEATING WATER LOOP</span>
+    <span class="n">hw_loop</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">peak_heating</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># create the loop</span>
+        <span class="n">hw_temp</span> <span class="o">=</span> <span class="n">ets_dict</span><span class="p">[</span><span class="s1">&#39;heating_water_supply_temp&#39;</span><span class="p">]</span>
+        <span class="n">hw_loop</span> <span class="o">=</span> <span class="n">building_hw_loop</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">heating</span><span class="p">,</span> <span class="n">hw_temp</span><span class="p">,</span> <span class="n">os_model</span><span class="p">,</span> <span class="n">pump_head</span><span class="p">)</span>
+        <span class="c1"># add the heat pump</span>
+        <span class="n">hw_hp</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">HeatPumpWaterToWaterEquationFitHeating</span><span class="p">(</span>
+            <span class="n">os_model</span><span class="p">,</span> <span class="n">heat_cap_curve</span><span class="p">,</span> <span class="n">heat_pow_curve</span><span class="p">)</span>
+        <span class="c1"># set the reference COP higher than rated COP to align with E+ sample</span>
+        <span class="n">hw_cop</span> <span class="o">=</span> <span class="n">ets_dict</span><span class="p">[</span><span class="s1">&#39;cop_heat_pump_heating&#39;</span><span class="p">]</span>
+        <span class="n">hw_hp</span><span class="o">.</span><span class="n">setReferenceCoefficientofPerformance</span><span class="p">(</span><span class="n">hw_cop</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">hw_hp</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Heating Heat Pump - Rated COP </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">hw_cop</span><span class="p">))</span>
+        <span class="n">hw_loop</span><span class="o">.</span><span class="n">addSupplyBranchForComponent</span><span class="p">(</span><span class="n">hw_hp</span><span class="p">)</span>
+        <span class="n">hp_loop</span><span class="o">.</span><span class="n">addDemandBranchForComponent</span><span class="p">(</span><span class="n">hw_hp</span><span class="p">)</span>
+
+    <span class="c1"># SHW LOOP</span>
+    <span class="n">shw_loop</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">peak_shw</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># create the loop</span>
+        <span class="n">shw_temp</span> <span class="o">=</span> <span class="n">ets_dict</span><span class="p">[</span><span class="s1">&#39;hot_water_supply_temp&#39;</span><span class="p">]</span>
+        <span class="n">shw_loop</span> <span class="o">=</span> <span class="n">building_shw_loop</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">shw</span><span class="p">,</span> <span class="n">shw_temp</span><span class="p">,</span> <span class="n">os_model</span><span class="p">,</span> <span class="n">pump_head</span><span class="p">)</span>
+        <span class="c1"># add the heat pump</span>
+        <span class="n">shw_hp</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">HeatPumpWaterToWaterEquationFitHeating</span><span class="p">(</span>
+            <span class="n">os_model</span><span class="p">,</span> <span class="n">heat_cap_curve</span><span class="p">,</span> <span class="n">heat_pow_curve</span><span class="p">)</span>
+        <span class="c1"># set the reference COP higher than rated COP to align with E+ sample</span>
+        <span class="n">shw_cop</span> <span class="o">=</span> <span class="n">ets_dict</span><span class="p">[</span><span class="s1">&#39;cop_heat_pump_hot_water&#39;</span><span class="p">]</span>
+        <span class="n">shw_hp</span><span class="o">.</span><span class="n">setReferenceCoefficientofPerformance</span><span class="p">(</span><span class="n">shw_cop</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">shw_hp</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> SHW Heat Pump - Rated COP </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">shw_cop</span><span class="p">))</span>
+        <span class="n">shw_loop</span><span class="o">.</span><span class="n">addSupplyBranchForComponent</span><span class="p">(</span><span class="n">shw_hp</span><span class="p">)</span>
+        <span class="n">hp_loop</span><span class="o">.</span><span class="n">addDemandBranchForComponent</span><span class="p">(</span><span class="n">shw_hp</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">chw_loop</span><span class="p">,</span> <span class="n">hw_loop</span><span class="p">,</span> <span class="n">shw_loop</span></div>
+
+
+
+<div class="viewcode-block" id="heat_exchanger_ets_to_openstudio">
+<a class="viewcode-back" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heat_exchanger_ets_to_openstudio">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">heat_exchanger_ets_to_openstudio</span><span class="p">(</span><span class="n">building_dict</span><span class="p">,</span> <span class="n">chw_loop</span><span class="p">,</span> <span class="n">hw_loop</span><span class="p">,</span> <span class="n">os_model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a dictionary of building with ets_indirect_parameters to OpenStudio.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        building_dict: A building dictionary with a &quot;Indirect Heating and Cooling&quot;</span>
+<span class="sd">            ets_model to be converted into building-side thermal loops.</span>
+<span class="sd">        chw_loop: The central chilled water loop to which the buildings will be added.</span>
+<span class="sd">        hw_loop: The central hot water loop to which the buildings will be added.</span>
+<span class="sd">        os_model: The OpenStudio Model to which the buildings will be added.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get the various sub-objects of the main dictionary</span>
+    <span class="n">ets_dict</span> <span class="o">=</span> <span class="n">building_dict</span><span class="p">[</span><span class="s1">&#39;ets_indirect_parameters&#39;</span><span class="p">]</span>
+    <span class="n">load_dict</span> <span class="o">=</span> <span class="n">building_dict</span><span class="p">[</span><span class="s1">&#39;load_model_parameters&#39;</span><span class="p">][</span><span class="s1">&#39;time_series&#39;</span><span class="p">]</span>
+    <span class="n">bldg_id</span> <span class="o">=</span> <span class="n">building_dict</span><span class="p">[</span><span class="s1">&#39;geojson_id&#39;</span><span class="p">]</span>
+    <span class="n">sizing_factor</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">ets_dict</span><span class="p">[</span><span class="s1">&#39;heat_exchanger_efficiency&#39;</span><span class="p">]</span>
+
+    <span class="c1"># GET LOADS</span>
+    <span class="c1"># parse the loads from the .mos file</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">cooling</span><span class="p">,</span> <span class="n">heating</span><span class="p">,</span> <span class="n">shw</span> <span class="o">=</span> <span class="n">modelica_loads</span><span class="p">(</span><span class="n">load_dict</span><span class="p">[</span><span class="s1">&#39;filepath&#39;</span><span class="p">])</span>
+    <span class="n">peak_cooling</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">cooling</span><span class="p">)</span>
+    <span class="n">peak_cooling</span> <span class="o">=</span> <span class="n">peak_cooling</span> <span class="k">if</span> <span class="n">peak_cooling</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">peak_heating</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">heating</span><span class="p">)</span>
+    <span class="n">peak_heating</span> <span class="o">=</span> <span class="n">peak_heating</span> <span class="k">if</span> <span class="n">peak_heating</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">peak_shw</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">shw</span><span class="p">)</span>
+    <span class="n">peak_shw</span> <span class="o">=</span> <span class="n">peak_shw</span> <span class="k">if</span> <span class="n">peak_shw</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="c1"># CHILLED WATER LOOP</span>
+    <span class="n">b_chw_loop</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">peak_cooling</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># create the loop</span>
+        <span class="n">chw_temp</span> <span class="o">=</span> <span class="n">ets_dict</span><span class="p">[</span><span class="s1">&#39;cooling_supply_water_temperature_building&#39;</span><span class="p">]</span>
+        <span class="n">b_chw_loop</span> <span class="o">=</span> <span class="n">building_chw_loop</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">cooling</span><span class="p">,</span> <span class="n">chw_temp</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+        <span class="c1"># add the heat pump</span>
+        <span class="n">chw_hx</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">HeatExchangerFluidToFluid</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+        <span class="n">chw_hx</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Cooling Heat Exchanger&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">))</span>
+        <span class="n">chw_hx</span><span class="o">.</span><span class="n">setHeatExchangeModelType</span><span class="p">(</span><span class="s1">&#39;CounterFlow&#39;</span><span class="p">)</span>
+        <span class="n">chw_hx</span><span class="o">.</span><span class="n">autosizeHeatExchangerUFactorTimesAreaValue</span><span class="p">()</span>
+        <span class="n">chw_hx</span><span class="o">.</span><span class="n">setSizingFactor</span><span class="p">(</span><span class="n">sizing_factor</span><span class="p">)</span>
+        <span class="n">b_chw_loop</span><span class="o">.</span><span class="n">addSupplyBranchForComponent</span><span class="p">(</span><span class="n">chw_hx</span><span class="p">)</span>
+        <span class="n">chw_loop</span><span class="o">.</span><span class="n">addDemandBranchForComponent</span><span class="p">(</span><span class="n">chw_hx</span><span class="p">)</span>
+        <span class="n">chw_hx</span><span class="o">.</span><span class="n">setControlType</span><span class="p">(</span><span class="s1">&#39;CoolingSetpointModulated&#39;</span><span class="p">)</span>
+
+    <span class="c1"># HEATING WATER LOOP</span>
+    <span class="n">b_hw_loop</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">peak_heating</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># create the loop</span>
+        <span class="n">hw_temp</span> <span class="o">=</span> <span class="n">ets_dict</span><span class="p">[</span><span class="s1">&#39;heating_supply_water_temperature_building&#39;</span><span class="p">]</span>
+        <span class="n">b_hw_loop</span> <span class="o">=</span> <span class="n">building_hw_loop</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">heating</span><span class="p">,</span> <span class="n">hw_temp</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+        <span class="c1"># add supply side equipment to the heating water loop</span>
+        <span class="n">hw_hx</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">HeatExchangerFluidToFluid</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+        <span class="n">hw_hx</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Heating Heat Exchanger&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">))</span>
+        <span class="n">hw_hx</span><span class="o">.</span><span class="n">setHeatExchangeModelType</span><span class="p">(</span><span class="s1">&#39;CounterFlow&#39;</span><span class="p">)</span>
+        <span class="n">hw_hx</span><span class="o">.</span><span class="n">autosizeHeatExchangerUFactorTimesAreaValue</span><span class="p">()</span>
+        <span class="n">hw_hx</span><span class="o">.</span><span class="n">setSizingFactor</span><span class="p">(</span><span class="n">sizing_factor</span><span class="p">)</span>
+        <span class="n">b_hw_loop</span><span class="o">.</span><span class="n">addSupplyBranchForComponent</span><span class="p">(</span><span class="n">hw_hx</span><span class="p">)</span>
+        <span class="n">hw_loop</span><span class="o">.</span><span class="n">addDemandBranchForComponent</span><span class="p">(</span><span class="n">hw_hx</span><span class="p">)</span>
+        <span class="n">hw_hx</span><span class="o">.</span><span class="n">setControlType</span><span class="p">(</span><span class="s1">&#39;HeatingSetpointModulated&#39;</span><span class="p">)</span>
+
+    <span class="c1"># SHW LOOP</span>
+    <span class="n">b_shw_loop</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">peak_shw</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># create the loop</span>
+        <span class="n">shw_temp</span> <span class="o">=</span> <span class="n">ets_dict</span><span class="p">[</span><span class="s1">&#39;heating_supply_water_temperature_building&#39;</span><span class="p">]</span>
+        <span class="n">b_shw_loop</span> <span class="o">=</span> <span class="n">building_shw_loop</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">shw</span><span class="p">,</span> <span class="n">shw_temp</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+        <span class="c1"># add supply side equipment to the heating water loop</span>
+        <span class="n">shw_hx</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">HeatExchangerFluidToFluid</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+        <span class="n">shw_hx</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> SHW Heat Exchanger&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">))</span>
+        <span class="n">shw_hx</span><span class="o">.</span><span class="n">setHeatExchangeModelType</span><span class="p">(</span><span class="s1">&#39;CounterFlow&#39;</span><span class="p">)</span>
+        <span class="n">shw_hx</span><span class="o">.</span><span class="n">autosizeHeatExchangerUFactorTimesAreaValue</span><span class="p">()</span>
+        <span class="n">shw_hx</span><span class="o">.</span><span class="n">setSizingFactor</span><span class="p">(</span><span class="n">sizing_factor</span><span class="p">)</span>
+        <span class="n">b_shw_loop</span><span class="o">.</span><span class="n">addSupplyBranchForComponent</span><span class="p">(</span><span class="n">shw_hx</span><span class="p">)</span>
+        <span class="n">hw_loop</span><span class="o">.</span><span class="n">addDemandBranchForComponent</span><span class="p">(</span><span class="n">shw_hx</span><span class="p">)</span>
+        <span class="n">shw_hx</span><span class="o">.</span><span class="n">setControlType</span><span class="p">(</span><span class="s1">&#39;HeatingSetpointModulated&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">b_chw_loop</span><span class="p">,</span> <span class="n">b_hw_loop</span><span class="p">,</span> <span class="n">b_shw_loop</span></div>
+
+
+
+<div class="viewcode-block" id="building_chw_loop">
+<a class="viewcode-back" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_chw_loop">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">building_chw_loop</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">cooling</span><span class="p">,</span> <span class="n">chw_temp</span><span class="p">,</span> <span class="n">os_model</span><span class="p">,</span> <span class="n">pump_pressure</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a building-side chilled water loop with pump, setpoint manager, and loads.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        bldg_id: The identifier of the Building for the chilled water loop.</span>
+<span class="sd">        cooling: An array of timeseries values for the annual cooling load in Watts.</span>
+<span class="sd">        chw_temp: The temperature of the chilled water loop in C.</span>
+<span class="sd">        os_model: The OpenStudio Model to which the loop will be added.</span>
+<span class="sd">        pump_pressure: An optional value for the pump head pressure in Pa.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># initialize the loop and set the temperature</span>
+    <span class="n">chw_loop</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">PlantLoop</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">chw_loop</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Chilled Water Loop&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">))</span>
+    <span class="n">chw_loop</span><span class="o">.</span><span class="n">setMaximumLoopTemperature</span><span class="p">(</span><span class="mf">40.0</span><span class="p">)</span>
+    <span class="n">chw_sizing_plant</span> <span class="o">=</span> <span class="n">chw_loop</span><span class="o">.</span><span class="n">sizingPlant</span><span class="p">()</span>
+    <span class="n">chw_sizing_plant</span><span class="o">.</span><span class="n">setDesignLoopExitTemperature</span><span class="p">(</span><span class="n">chw_temp</span><span class="p">)</span>
+    <span class="n">chw_sizing_plant</span><span class="o">.</span><span class="n">setLoopDesignTemperatureDifference</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
+    <span class="n">chw_sizing_plant</span><span class="o">.</span><span class="n">setLoopType</span><span class="p">(</span><span class="s1">&#39;Cooling&#39;</span><span class="p">)</span>
+    <span class="n">chw_temp_sch</span> <span class="o">=</span> <span class="n">create_constant_schedule_ruleset</span><span class="p">(</span>
+        <span class="n">os_model</span><span class="p">,</span> <span class="n">chw_temp</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">schedule_type_limit</span><span class="o">=</span><span class="s1">&#39;Temperature&#39;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Temp - </span><span class="si">{}</span><span class="s1">C&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chw_loop</span><span class="o">.</span><span class="n">nameString</span><span class="p">(),</span> <span class="nb">int</span><span class="p">(</span><span class="n">chw_temp</span><span class="p">)))</span>
+    <span class="n">chw_stpt_manager</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">SetpointManagerScheduled</span><span class="p">(</span><span class="n">os_model</span><span class="p">,</span> <span class="n">chw_temp_sch</span><span class="p">)</span>
+    <span class="n">chw_stpt_manager</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Setpoint Manager&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chw_loop</span><span class="o">.</span><span class="n">nameString</span><span class="p">()))</span>
+    <span class="n">chw_stpt_manager</span><span class="o">.</span><span class="n">addToNode</span><span class="p">(</span><span class="n">chw_loop</span><span class="o">.</span><span class="n">supplyOutletNode</span><span class="p">())</span>
+
+    <span class="c1"># add a pump for the loop</span>
+    <span class="n">chw_pump</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">PumpVariableSpeed</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">chw_pump</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Pump&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chw_loop</span><span class="o">.</span><span class="n">nameString</span><span class="p">()))</span>
+    <span class="k">if</span> <span class="n">pump_pressure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">chw_pump</span><span class="o">.</span><span class="n">setRatedPumpHead</span><span class="p">(</span><span class="n">pump_pressure</span><span class="p">)</span>
+    <span class="n">chw_pump</span><span class="o">.</span><span class="n">setMotorEfficiency</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+    <span class="n">chw_pump</span><span class="o">.</span><span class="n">setPumpControlType</span><span class="p">(</span><span class="s1">&#39;Intermittent&#39;</span><span class="p">)</span>
+    <span class="n">chw_pump</span><span class="o">.</span><span class="n">addToNode</span><span class="p">(</span><span class="n">chw_loop</span><span class="o">.</span><span class="n">supplyInletNode</span><span class="p">())</span>
+
+    <span class="c1"># set the cooling load schedule</span>
+    <span class="n">timestep</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cooling</span><span class="p">)</span> <span class="o">/</span> <span class="mi">8760</span>
+    <span class="n">peak_cool</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">cooling</span><span class="p">)</span>
+    <span class="n">load_sch_id</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Cooling Load Sch - </span><span class="si">{}</span><span class="s1">kW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">peak_cool</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span>
+    <span class="n">load_sch</span> <span class="o">=</span> <span class="n">ScheduleFixedInterval</span><span class="p">(</span><span class="n">load_sch_id</span><span class="p">,</span> <span class="n">cooling</span><span class="p">,</span> <span class="n">power</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span>
+    <span class="n">os_load_sch</span> <span class="o">=</span> <span class="n">schedule_fixed_interval_to_openstudio</span><span class="p">(</span><span class="n">load_sch</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+
+    <span class="c1"># set the flow rate schedule</span>
+    <span class="n">peak_flow</span> <span class="o">=</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">peak_cool</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4184000</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1.15</span>  <span class="c1"># Water DeltaT of 3C * sizing factor</span>
+    <span class="n">flow_rate</span> <span class="o">=</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">cool_i</span> <span class="o">/</span> <span class="n">peak_cool</span><span class="p">)</span> <span class="k">for</span> <span class="n">cool_i</span> <span class="ow">in</span> <span class="n">cooling</span><span class="p">]</span>
+    <span class="n">flow_sch_id</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Cooling Flow Sch - </span><span class="si">{}</span><span class="s1">L/s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">peak_flow</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
+    <span class="n">flow_sch</span> <span class="o">=</span> <span class="n">ScheduleFixedInterval</span><span class="p">(</span><span class="n">flow_sch_id</span><span class="p">,</span> <span class="n">flow_rate</span><span class="p">,</span> <span class="n">fractional</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span>
+    <span class="n">os_flow_sch</span> <span class="o">=</span> <span class="n">schedule_fixed_interval_to_openstudio</span><span class="p">(</span><span class="n">flow_sch</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+    <span class="n">chw_pump</span><span class="o">.</span><span class="n">setRatedFlowRate</span><span class="p">(</span><span class="n">peak_flow</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+
+    <span class="c1"># add the building loads to the supply side</span>
+    <span class="n">os_load</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">LoadProfilePlant</span><span class="p">(</span><span class="n">os_model</span><span class="p">,</span> <span class="n">os_load_sch</span><span class="p">,</span> <span class="n">os_flow_sch</span><span class="p">)</span>
+    <span class="n">os_load</span><span class="o">.</span><span class="n">setPeakFlowRate</span><span class="p">(</span><span class="n">peak_flow</span><span class="p">)</span>
+    <span class="n">os_load</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Cooling Load&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">))</span>
+    <span class="n">chw_loop</span><span class="o">.</span><span class="n">addDemandBranchForComponent</span><span class="p">(</span><span class="n">os_load</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">chw_loop</span></div>
+
+
+
+<div class="viewcode-block" id="building_hw_loop">
+<a class="viewcode-back" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_hw_loop">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">building_hw_loop</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">heating</span><span class="p">,</span> <span class="n">hw_temp</span><span class="p">,</span> <span class="n">os_model</span><span class="p">,</span> <span class="n">pump_pressure</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a building-side heating water loop with pump, setpoint manager, and loads.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        bldg_id: The identifier of the Building for the heating water loop.</span>
+<span class="sd">        heating: An array of timeseries values for the annual heating load in Watts.</span>
+<span class="sd">        hw_temp: The temperature of the heating water loop in C.</span>
+<span class="sd">        os_model: The OpenStudio Model to which the loop will be added.</span>
+<span class="sd">        pump_pressure: An optional value for the pump head pressure in Pa.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># create the heating water loop at the specified temperature</span>
+    <span class="n">hw_loop</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">PlantLoop</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">hw_loop</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Heating Water Loop&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">))</span>
+    <span class="n">hw_sizing_plant</span> <span class="o">=</span> <span class="n">hw_loop</span><span class="o">.</span><span class="n">sizingPlant</span><span class="p">()</span>
+    <span class="n">hw_sizing_plant</span><span class="o">.</span><span class="n">setDesignLoopExitTemperature</span><span class="p">(</span><span class="n">hw_temp</span> <span class="o">+</span> <span class="mf">11.0</span><span class="p">)</span>
+    <span class="n">hw_sizing_plant</span><span class="o">.</span><span class="n">setLoopDesignTemperatureDifference</span><span class="p">(</span><span class="mf">11.0</span><span class="p">)</span>
+    <span class="n">hw_sizing_plant</span><span class="o">.</span><span class="n">setLoopType</span><span class="p">(</span><span class="s1">&#39;Heating&#39;</span><span class="p">)</span>
+    <span class="n">hw_temp_sch</span> <span class="o">=</span> <span class="n">create_constant_schedule_ruleset</span><span class="p">(</span>
+        <span class="n">os_model</span><span class="p">,</span> <span class="n">hw_temp</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">schedule_type_limit</span><span class="o">=</span><span class="s1">&#39;Temperature&#39;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Temp - </span><span class="si">{}</span><span class="s1">C&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hw_loop</span><span class="o">.</span><span class="n">nameString</span><span class="p">(),</span> <span class="nb">int</span><span class="p">(</span><span class="n">hw_temp</span><span class="p">)))</span>
+    <span class="n">hw_stpt_manager</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">SetpointManagerScheduled</span><span class="p">(</span><span class="n">os_model</span><span class="p">,</span> <span class="n">hw_temp_sch</span><span class="p">)</span>
+    <span class="n">hw_stpt_manager</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Setpoint Manager&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hw_loop</span><span class="o">.</span><span class="n">nameString</span><span class="p">()))</span>
+    <span class="n">hw_stpt_manager</span><span class="o">.</span><span class="n">addToNode</span><span class="p">(</span><span class="n">hw_loop</span><span class="o">.</span><span class="n">supplyOutletNode</span><span class="p">())</span>
+
+    <span class="c1"># add a pump for the loop</span>
+    <span class="n">hw_pump</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">PumpVariableSpeed</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">hw_pump</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Pump&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hw_loop</span><span class="o">.</span><span class="n">nameString</span><span class="p">()))</span>
+    <span class="k">if</span> <span class="n">pump_pressure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">hw_pump</span><span class="o">.</span><span class="n">setRatedPumpHead</span><span class="p">(</span><span class="n">pump_pressure</span><span class="p">)</span>
+    <span class="n">hw_pump</span><span class="o">.</span><span class="n">setMotorEfficiency</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+    <span class="n">hw_pump</span><span class="o">.</span><span class="n">setPumpControlType</span><span class="p">(</span><span class="s1">&#39;Intermittent&#39;</span><span class="p">)</span>
+    <span class="n">hw_pump</span><span class="o">.</span><span class="n">addToNode</span><span class="p">(</span><span class="n">hw_loop</span><span class="o">.</span><span class="n">supplyInletNode</span><span class="p">())</span>
+
+    <span class="c1"># set the heating load schedule</span>
+    <span class="n">timestep</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">heating</span><span class="p">)</span> <span class="o">/</span> <span class="mi">8760</span>
+    <span class="n">peak_heat</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">heating</span><span class="p">)</span>
+    <span class="n">load_sch_id</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Heating Load Sch - </span><span class="si">{}</span><span class="s1">kW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">peak_heat</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span>
+    <span class="n">load_sch</span> <span class="o">=</span> <span class="n">ScheduleFixedInterval</span><span class="p">(</span><span class="n">load_sch_id</span><span class="p">,</span> <span class="n">heating</span><span class="p">,</span> <span class="n">power</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span>
+    <span class="n">os_load_sch</span> <span class="o">=</span> <span class="n">schedule_fixed_interval_to_openstudio</span><span class="p">(</span><span class="n">load_sch</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+
+    <span class="c1"># set the flow rate schedule</span>
+    <span class="n">peak_flow</span> <span class="o">=</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">peak_heat</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4184000</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1.25</span>  <span class="c1"># Water DeltaT of 3C * sizing factor</span>
+    <span class="n">flow_rate</span> <span class="o">=</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">heat_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">peak_heat</span> <span class="k">for</span> <span class="n">heat_i</span> <span class="ow">in</span> <span class="n">heating</span><span class="p">]</span>
+    <span class="n">flow_sch_id</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Heating Flow Sch - </span><span class="si">{}</span><span class="s1">L/s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">peak_flow</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
+    <span class="n">flow_sch</span> <span class="o">=</span> <span class="n">ScheduleFixedInterval</span><span class="p">(</span><span class="n">flow_sch_id</span><span class="p">,</span> <span class="n">flow_rate</span><span class="p">,</span> <span class="n">fractional</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span>
+    <span class="n">os_flow_sch</span> <span class="o">=</span> <span class="n">schedule_fixed_interval_to_openstudio</span><span class="p">(</span><span class="n">flow_sch</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+    <span class="n">hw_pump</span><span class="o">.</span><span class="n">setRatedFlowRate</span><span class="p">(</span><span class="n">peak_flow</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+
+    <span class="c1"># add the building loads to the supply side</span>
+    <span class="n">os_load</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">LoadProfilePlant</span><span class="p">(</span><span class="n">os_model</span><span class="p">,</span> <span class="n">os_load_sch</span><span class="p">,</span> <span class="n">os_flow_sch</span><span class="p">)</span>
+    <span class="n">os_load</span><span class="o">.</span><span class="n">setPeakFlowRate</span><span class="p">(</span><span class="n">peak_flow</span><span class="p">)</span>
+    <span class="n">os_load</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Heating Load&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">))</span>
+    <span class="n">hw_loop</span><span class="o">.</span><span class="n">addDemandBranchForComponent</span><span class="p">(</span><span class="n">os_load</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">hw_loop</span></div>
+
+
+
+<div class="viewcode-block" id="building_shw_loop">
+<a class="viewcode-back" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.building_shw_loop">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">building_shw_loop</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="n">shw</span><span class="p">,</span> <span class="n">shw_temp</span><span class="p">,</span> <span class="n">os_model</span><span class="p">,</span> <span class="n">pump_pressure</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a building-side service hot water loop with pump, setpoint manager, and loads.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        bldg_id: The identifier of the Building for the shw water loop.</span>
+<span class="sd">        shw: An array of timeseries values for the annual shw load in Watts.</span>
+<span class="sd">        shw_temp: The temperature of the shw loop in C.</span>
+<span class="sd">        os_model: The OpenStudio Model to which the loop will be added.</span>
+<span class="sd">        pump_pressure: An optional value for the pump head pressure in Pa.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># create the SHW loop at the specified temperature</span>
+    <span class="n">shw_loop</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">PlantLoop</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">shw_loop</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> SHW Loop&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">))</span>
+    <span class="n">shw_sizing_plant</span> <span class="o">=</span> <span class="n">shw_loop</span><span class="o">.</span><span class="n">sizingPlant</span><span class="p">()</span>
+    <span class="n">shw_sizing_plant</span><span class="o">.</span><span class="n">setDesignLoopExitTemperature</span><span class="p">(</span><span class="n">shw_temp</span> <span class="o">+</span> <span class="mf">11.0</span><span class="p">)</span>
+    <span class="n">shw_sizing_plant</span><span class="o">.</span><span class="n">setLoopDesignTemperatureDifference</span><span class="p">(</span><span class="mf">11.0</span><span class="p">)</span>
+    <span class="n">shw_sizing_plant</span><span class="o">.</span><span class="n">setLoopType</span><span class="p">(</span><span class="s1">&#39;Heating&#39;</span><span class="p">)</span>
+    <span class="n">shw_temp_sch</span> <span class="o">=</span> <span class="n">create_constant_schedule_ruleset</span><span class="p">(</span>
+        <span class="n">os_model</span><span class="p">,</span> <span class="n">shw_temp</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">schedule_type_limit</span><span class="o">=</span><span class="s1">&#39;Temperature&#39;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Temp - </span><span class="si">{}</span><span class="s1">C&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shw_loop</span><span class="o">.</span><span class="n">nameString</span><span class="p">(),</span> <span class="nb">int</span><span class="p">(</span><span class="n">shw_temp</span><span class="p">)))</span>
+    <span class="n">shw_stpt_manager</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">SetpointManagerScheduled</span><span class="p">(</span><span class="n">os_model</span><span class="p">,</span> <span class="n">shw_temp_sch</span><span class="p">)</span>
+    <span class="n">shw_stpt_manager</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Setpoint Manager&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shw_loop</span><span class="o">.</span><span class="n">nameString</span><span class="p">()))</span>
+    <span class="n">shw_stpt_manager</span><span class="o">.</span><span class="n">addToNode</span><span class="p">(</span><span class="n">shw_loop</span><span class="o">.</span><span class="n">supplyOutletNode</span><span class="p">())</span>
+
+    <span class="c1"># add a pump for the loop</span>
+    <span class="n">shw_pump</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">PumpVariableSpeed</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">shw_pump</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> Pump&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shw_loop</span><span class="o">.</span><span class="n">nameString</span><span class="p">()))</span>
+    <span class="k">if</span> <span class="n">pump_pressure</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">shw_pump</span><span class="o">.</span><span class="n">setRatedPumpHead</span><span class="p">(</span><span class="n">pump_pressure</span><span class="p">)</span>
+    <span class="n">shw_pump</span><span class="o">.</span><span class="n">setMotorEfficiency</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+    <span class="n">shw_pump</span><span class="o">.</span><span class="n">setPumpControlType</span><span class="p">(</span><span class="s1">&#39;Intermittent&#39;</span><span class="p">)</span>
+    <span class="n">shw_pump</span><span class="o">.</span><span class="n">addToNode</span><span class="p">(</span><span class="n">shw_loop</span><span class="o">.</span><span class="n">supplyInletNode</span><span class="p">())</span>
+
+    <span class="c1"># set the shw load schedule</span>
+    <span class="n">timestep</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">shw</span><span class="p">)</span> <span class="o">/</span> <span class="mi">8760</span>
+    <span class="n">peak_heat</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">shw</span><span class="p">)</span>
+    <span class="n">load_sch_id</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> SHW Load Sch - </span><span class="si">{}</span><span class="s1">kW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">peak_heat</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span>
+    <span class="n">load_sch</span> <span class="o">=</span> <span class="n">ScheduleFixedInterval</span><span class="p">(</span><span class="n">load_sch_id</span><span class="p">,</span> <span class="n">shw</span><span class="p">,</span> <span class="n">power</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span>
+    <span class="n">os_load_sch</span> <span class="o">=</span> <span class="n">schedule_fixed_interval_to_openstudio</span><span class="p">(</span><span class="n">load_sch</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+
+    <span class="c1"># set the flow rate schedule</span>
+    <span class="n">peak_flow</span> <span class="o">=</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">peak_heat</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4184000</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1.25</span>  <span class="c1"># Water DeltaT of 3C * sizing factor</span>
+    <span class="n">flow_rate</span> <span class="o">=</span> <span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">heat_i</span><span class="p">)</span> <span class="o">/</span> <span class="n">peak_heat</span> <span class="k">for</span> <span class="n">heat_i</span> <span class="ow">in</span> <span class="n">shw</span><span class="p">]</span>
+    <span class="n">flow_sch_id</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> SHW Flow Sch - </span><span class="si">{}</span><span class="s1">L/s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">peak_flow</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
+    <span class="n">flow_sch</span> <span class="o">=</span> <span class="n">ScheduleFixedInterval</span><span class="p">(</span><span class="n">flow_sch_id</span><span class="p">,</span> <span class="n">flow_rate</span><span class="p">,</span> <span class="n">fractional</span><span class="p">,</span> <span class="n">timestep</span><span class="p">)</span>
+    <span class="n">os_flow_sch</span> <span class="o">=</span> <span class="n">schedule_fixed_interval_to_openstudio</span><span class="p">(</span><span class="n">flow_sch</span><span class="p">,</span> <span class="n">os_model</span><span class="p">)</span>
+    <span class="n">shw_pump</span><span class="o">.</span><span class="n">setRatedFlowRate</span><span class="p">(</span><span class="n">peak_flow</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+
+    <span class="c1"># add the building loads to the supply side</span>
+    <span class="n">os_load</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">LoadProfilePlant</span><span class="p">(</span><span class="n">os_model</span><span class="p">,</span> <span class="n">os_load_sch</span><span class="p">,</span> <span class="n">os_flow_sch</span><span class="p">)</span>
+    <span class="n">os_load</span><span class="o">.</span><span class="n">setPeakFlowRate</span><span class="p">(</span><span class="n">peak_flow</span><span class="p">)</span>
+    <span class="n">os_load</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> SHW Load&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bldg_id</span><span class="p">))</span>
+    <span class="n">shw_loop</span><span class="o">.</span><span class="n">addDemandBranchForComponent</span><span class="p">(</span><span class="n">os_load</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">shw_loop</span></div>
+
+
+
+<div class="viewcode-block" id="cooling_heat_pump_capacity_curve">
+<a class="viewcode-back" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_capacity_curve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cooling_heat_pump_capacity_curve</span><span class="p">(</span><span class="n">os_model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the capacity curve for a cooling water-to-water heat pump.</span>
+
+<span class="sd">    This curve was taken from the EnergyPlus Input/Output Reference.</span>
+<span class="sd">    https://bigladdersoftware.com/epx/docs/25-1/input-output-reference/</span>
+<span class="sd">    group-plant-equipment.html#heatpumpwatertowaterequationfitcooling</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check if the curve is already in the model</span>
+    <span class="n">h_hp_cap_name</span> <span class="o">=</span> <span class="s1">&#39;Cooling Heat Pump Capacity Curve&#39;</span>
+    <span class="n">heat_cap_curve</span> <span class="o">=</span> <span class="n">os_model</span><span class="o">.</span><span class="n">getCurveQuadLinearByName</span><span class="p">(</span><span class="n">h_hp_cap_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="c1"># create the curve from the default coefficients</span>
+    <span class="n">heat_cap_curve</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">CurveQuadLinear</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="n">h_hp_cap_name</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setCoefficient1Constant</span><span class="p">(</span><span class="o">-</span><span class="mf">1.52030596</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setCoefficient2w</span><span class="p">(</span><span class="mf">3.46625667</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setCoefficient3x</span><span class="p">(</span><span class="o">-</span><span class="mf">1.32267797</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setCoefficient4y</span><span class="p">(</span><span class="mf">0.09395678</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setCoefficient5z</span><span class="p">(</span><span class="mf">0.038975504</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">heat_cap_curve</span></div>
+
+
+
+<div class="viewcode-block" id="cooling_heat_pump_power_curve">
+<a class="viewcode-back" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.cooling_heat_pump_power_curve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cooling_heat_pump_power_curve</span><span class="p">(</span><span class="n">os_model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the power curve for a cooling water-to-water heat pump.</span>
+
+<span class="sd">    This curve was taken from the EnergyPlus Input/Output Reference.</span>
+<span class="sd">    https://bigladdersoftware.com/epx/docs/25-1/input-output-reference/</span>
+<span class="sd">    group-plant-equipment.html#heatpumpwatertowaterequationfitcooling</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check if the curve is already in the model</span>
+    <span class="n">h_hp_pow_name</span> <span class="o">=</span> <span class="s1">&#39;Cooling Heat Pump Power Curve&#39;</span>
+    <span class="n">heat_pow_curve</span> <span class="o">=</span> <span class="n">os_model</span><span class="o">.</span><span class="n">getCurveQuadLinearByName</span><span class="p">(</span><span class="n">h_hp_pow_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="c1"># create the curve from typical coefficients</span>
+    <span class="n">heat_pow_curve</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">CurveQuadLinear</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="n">h_hp_pow_name</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setCoefficient1Constant</span><span class="p">(</span><span class="o">-</span><span class="mf">8.59564386</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setCoefficient2w</span><span class="p">(</span><span class="mf">0.96265085</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setCoefficient3x</span><span class="p">(</span><span class="mf">8.69489229</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setCoefficient4y</span><span class="p">(</span><span class="mf">0.02501669</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setCoefficient5z</span><span class="p">(</span><span class="o">-</span><span class="mf">0.20132665</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">heat_pow_curve</span></div>
+
+
+
+<div class="viewcode-block" id="heating_heat_pump_capacity_curve">
+<a class="viewcode-back" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_capacity_curve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">heating_heat_pump_capacity_curve</span><span class="p">(</span><span class="n">os_model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the capacity curve for a heating water-to-water heat pump.</span>
+
+<span class="sd">    This curve was taken from the EnergyPlus Input/Output Reference.</span>
+<span class="sd">    https://bigladdersoftware.com/epx/docs/25-1/input-output-reference/</span>
+<span class="sd">    group-plant-equipment.html#heatpumpwatertowaterequationfitheating</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check if the curve is already in the model</span>
+    <span class="n">h_hp_cap_name</span> <span class="o">=</span> <span class="s1">&#39;Heating Heat Pump Capacity Curve&#39;</span>
+    <span class="n">heat_cap_curve</span> <span class="o">=</span> <span class="n">os_model</span><span class="o">.</span><span class="n">getCurveQuadLinearByName</span><span class="p">(</span><span class="n">h_hp_cap_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="c1"># create the curve from the default coefficients</span>
+    <span class="n">heat_cap_curve</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">CurveQuadLinear</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="n">h_hp_cap_name</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setCoefficient1Constant</span><span class="p">(</span><span class="o">-</span><span class="mf">3.33491153</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setCoefficient2w</span><span class="p">(</span><span class="o">-</span><span class="mf">0.51451946</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setCoefficient3x</span><span class="p">(</span><span class="mf">4.51592706</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setCoefficient4y</span><span class="p">(</span><span class="mf">0.01797107</span><span class="p">)</span>
+    <span class="n">heat_cap_curve</span><span class="o">.</span><span class="n">setCoefficient5z</span><span class="p">(</span><span class="mf">0.155797661</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">heat_cap_curve</span></div>
+
+
+
+<div class="viewcode-block" id="heating_heat_pump_power_curve">
+<a class="viewcode-back" href="../../dragonfly_openstudio.ets.html#dragonfly_openstudio.ets.heating_heat_pump_power_curve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">heating_heat_pump_power_curve</span><span class="p">(</span><span class="n">os_model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the power curve for a heating water-to-water heat pump.</span>
+
+<span class="sd">    This curve was taken from the EnergyPlus Input/Output Reference.</span>
+<span class="sd">    https://bigladdersoftware.com/epx/docs/25-1/input-output-reference/</span>
+<span class="sd">    group-plant-equipment.html#heatpumpwatertowaterequationfitheating</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check if the curve is already in the model</span>
+    <span class="n">h_hp_pow_name</span> <span class="o">=</span> <span class="s1">&#39;Heating Heat Pump Power Curve&#39;</span>
+    <span class="n">heat_pow_curve</span> <span class="o">=</span> <span class="n">os_model</span><span class="o">.</span><span class="n">getCurveQuadLinearByName</span><span class="p">(</span><span class="n">h_hp_pow_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="c1"># create the curve from typical coefficients</span>
+    <span class="n">heat_pow_curve</span> <span class="o">=</span> <span class="n">openstudio_model</span><span class="o">.</span><span class="n">CurveQuadLinear</span><span class="p">(</span><span class="n">os_model</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="n">h_hp_pow_name</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setCoefficient1Constant</span><span class="p">(</span><span class="o">-</span><span class="mf">8.93121751</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setCoefficient2w</span><span class="p">(</span><span class="mf">8.57035762</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setCoefficient3x</span><span class="p">(</span><span class="mf">1.29660976</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setCoefficient4y</span><span class="p">(</span><span class="o">-</span><span class="mf">0.21629222</span><span class="p">)</span>
+    <span class="n">heat_pow_curve</span><span class="o">.</span><span class="n">setCoefficient5z</span><span class="p">(</span><span class="mf">0.033862378</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">heat_pow_curve</span></div>
+
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2026, Ladybug Tools.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.0.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

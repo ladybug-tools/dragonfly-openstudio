@@ -1,0 +1,19 @@
+dragonfly\_openstudio.cli package
+=================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   dragonfly_openstudio.cli.simulate
+   dragonfly_openstudio.cli.translate
+
+Module contents
+---------------
+
+.. automodule:: dragonfly_openstudio.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:
