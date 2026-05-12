@@ -997,12 +997,26 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
         'OS:PlantComponent:TemperatureSource',
         'OS:PlantComponent:UserDefined'
     ]
-    inlet_nodes = []
+    connection_type = 'Series'
+    inlet_nodes, heat_equip = [], []
     for sc in hw_loop.supplyComponents():
-        if sc.iddObject().name() not in hot_water_source_objects:
+        idd_name = sc.iddObject().name()
+        if idd_name not in hot_water_source_objects:
             continue
+        elif idd_name == 'OS:PlantComponent:UserDefined':
+            connection_type = 'None'  # connect in parallel for ASHP
         in_node = sc.to_StraightComponent().get().inletModelObject().get().to_Node().get()
         inlet_nodes.append(in_node)
-    hr_connecting_object.addToNode(inlet_nodes[0])
+        heat_equip.append(sc.to_HVACComponent().get())
+    if connection_type == 'Series':
+        hr_connecting_object.addToNode(inlet_nodes[0])
+    elif connection_type == 'Parallel':
+        hw_loop.addSupplyBranchForComponent(hr_connecting_object)
+        hw_op = openstudio_model.PlantEquipmentOperationHeatingLoad(os_model)
+        for equip in heat_equip:
+            hw_op.addEquipment(sc.to_HVACComponent().get())
+        hw_op.addEquipment(hr_connecting_object)
+        hw_loop.setPlantEquipmentOperationHeatingLoad(hw_op)
+        hw_loop.setLoadDistributionScheme('SequentialLoad')
 
     return hr_loop
