@@ -3,7 +3,8 @@
 from __future__ import division
 from honeybee_openstudio.openstudio import OSModel
 
-from .des import ghe_des_to_openstudio, gen5_des_to_openstudio, gen4_des_to_openstudio
+from .des import ghe_des_to_openstudio, gen5_des_to_openstudio, gen4_des_to_openstudio, \
+    gen4_heat_recovery_chiller
 from .ets import heat_pump_ets_to_openstudio, heat_exchanger_ets_to_openstudio
 
 
@@ -50,11 +51,23 @@ def sys_dict_to_openstudio(sys_dict, seed_model=None, geojson_dict=None):
             raise ValueError(msg)
 
     # translate the building ETS
+    cooling, heating, shw = [], [], []
     for bldg_dict in sys_dict['buildings']:
         if 'fifth_gen_ets_parameters' in bldg_dict:
-            heat_pump_ets_to_openstudio(bldg_dict, hp_loop, os_model)
+            clg, htg, hw = heat_pump_ets_to_openstudio(bldg_dict, hp_loop, os_model)
         elif 'ets_indirect_parameters' in bldg_dict:
-            heat_exchanger_ets_to_openstudio(bldg_dict, chw_loop, hw_loop, os_model)
+            clg, htg, hw = \
+                heat_exchanger_ets_to_openstudio(bldg_dict, chw_loop, hw_loop, os_model)
+        cooling.append(clg)
+        heating.append(htg)
+        shw.append(hw)
+
+    # add a heat recovery chiller in between the chw_loop and hw_loop if requested
+    if geojson_dict and 'project' in geojson_dict and \
+            'heat_recovery_chiller' in geojson_dict['project'] and \
+            geojson_dict['project']['heat_recovery_chiller']:
+        gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop,
+                                   cooling, heating, shw, os_model)
 
     return os_model
 

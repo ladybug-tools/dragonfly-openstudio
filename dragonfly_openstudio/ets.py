@@ -91,7 +91,7 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
         shw_loop.addSupplyBranchForComponent(shw_hp)
         hp_loop.addDemandBranchForComponent(shw_hp)
 
-    return chw_loop, hw_loop, shw_loop
+    return cooling, heating, shw
 
 
 def heat_exchanger_ets_to_openstudio(building_dict, chw_loop, hw_loop, os_model):
@@ -168,7 +168,7 @@ def heat_exchanger_ets_to_openstudio(building_dict, chw_loop, hw_loop, os_model)
         hw_loop.addDemandBranchForComponent(shw_hx)
         shw_hx.setControlType('HeatingSetpointModulated')
 
-    return b_chw_loop, b_hw_loop, b_shw_loop
+    return cooling, heating, shw
 
 
 def building_chw_loop(bldg_id, cooling, chw_temp, os_model, pump_pressure=None):
