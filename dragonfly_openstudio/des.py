@@ -835,10 +835,8 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
 
     The heat recovery chiller is autosized using the input building cooling, heating
     and shw values and will meet the peak overlap between hot and chilled water loads.
-    The chiller rejects heat to a dedicated heat recovery loop with a hot water
-    tank connected to the central hot water loop. The tank stores enough heat to
-    supply an hour's worth of the peak overlap, enabling waste heat to be used
-    in hours that are further from high cooling demand.
+    The chiller rejects heat to a dedicated heat recovery loop, which then
+    connects to the central hot water loop in series with the primary heat source.
 
     Args:
         des_dict: The district_system dictionary for the DES to which the heat
@@ -856,11 +854,25 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
         os_model: The OpenStudio Model to which the heat recovery chiller and
             loop will be added.
     """
+    # pull the relevant temperatures from the DES
+    heating_plant = des_dict['fourth_generation']['central_heating_plant_parameters']
+    cooling_plant = des_dict['fourth_generation']['central_cooling_plant_parameters']
+    hw_temp = heating_plant['temp_setpoint_hhw']
+    chw_temp = cooling_plant['temp_setpoint_chw']
+
     # add the chiller to the model
-    heat_recovery_chiller = openstudio_model.ChillerElectricEIR.new(os_model)
-    heat_recovery_chiller.setName('Heat Recovery Chiller')
+    heat_recovery_chiller = openstudio_model.ChillerElectricEIR(os_model)
+    heat_recovery_chiller.setName('Central Heat Recovery Chiller')
     chw_loop.addSupplyBranchForComponent(heat_recovery_chiller)
-    heat_recovery_chiller.setCondenserType('WaterCooled')
+    heat_recovery_chiller.setReferenceLeavingChilledWaterTemperature(chw_temp)
+    heat_recovery_chiller.setLeavingChilledWaterLowerTemperatureLimit(2.0)
+    heat_recovery_chiller.setReferenceEnteringCondenserFluidTemperature(35.0)
+    heat_recovery_chiller.setMinimumPartLoadRatio(0.15)
+    heat_recovery_chiller.setMaximumPartLoadRatio(1.0)
+    heat_recovery_chiller.setOptimumPartLoadRatio(1.0)
+    heat_recovery_chiller.setMinimumUnloadingRatio(0.25)
+    heat_recovery_chiller.setChillerFlowMode('ConstantFlow')
+    heat_recovery_chiller.setReferenceCOP(round(3.517 / 0.66, 3))
 
     # attach the heat recovery chiller to an existing condenser water loop
     chillers = chw_loop.supplyComponents(openstudio.IddObjectType('OS:Chiller:Electric:EIR'))
@@ -881,11 +893,12 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
     overlap = []
     for chw_load, hw_load in zip(chw_loads, hw_loads):
         overlap.append(min((abs(chw_load), hw_load)))
-    peak_overlap = max(overlap)
+    peak_overlap = max(overlap) * 1.25  # peak overlap * sizing factor
+    peak_flow = (peak_overlap / (4184000 * 1))  # m3/s with water DeltaT of 1C
     heat_recovery_chiller.setReferenceCapacity(peak_overlap)
+    heat_recovery_chiller.setDesignHeatRecoveryWaterFlowRate(peak_flow)
 
     # create the heat recovery loop
-    hw_temp = des_dict['central_heating_plant_parameters']['temp_setpoint_hhw']
     hr_loop = openstudio_model.PlantLoop(os_model)
     hr_loop.setName('Heat Recovery Loop')
     hr_loop.setLoadDistributionScheme('Optimal')
@@ -898,7 +911,8 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
     hr_loop.addDemandBranchForComponent(heat_recovery_chiller)
     hrc_outlet = heat_recovery_chiller.demandOutletModelObject().get().to_Node().get()
     hrc_outlet.setName('Heat Recovery Outlet Node')
-    hrc_outlet.setHeatRecoveryLeavingTemperatureSetpointNode(hr_loop.demandOutletNode())
+    heat_recovery_chiller.setHeatRecoveryLeavingTemperatureSetpointNode(hr_loop.demandOutletNode())
+    heat_recovery_chiller.setCondenserType('WaterCooled')
 
     # create the heat recovery chiller operation scheme and setpoint manager
     hr_temp_sch = create_constant_schedule_ruleset(
@@ -934,13 +948,10 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
         os_model, 21.0, schedule_type_limit='Temperature', name='21C Ambient Condition')
     water_heater.setAmbientTemperatureIndicator('Schedule')
     water_heater.setAmbientTemperatureSchedule(amb_temp_sch)
-    # ensure water heater object does not heat above the setpoint
-    water_heater.setMaximumTemperatureLimit(hw_temp)
 
-    # give the tank enough volume to hold an hour worth of peak load
-    peak_flow = (peak_overlap / (4184000 * 3))  # m3/s with water DeltaT of 3C
-    hour_volume = peak_flow * 3600  # volume needed for an hour of peak flow
-    water_heater.setTankVolume(hour_volume)
+    # ensure water heater has no volume and does not heat above the setpoint
+    water_heater.setMaximumTemperatureLimit(hw_temp)
+    water_heater.setTankVolume(0.0)
 
     # connect the water tank to the heat recovery loop
     hr_connecting_object = water_heater
@@ -986,19 +997,12 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
         'OS:PlantComponent:TemperatureSource',
         'OS:PlantComponent:UserDefined'
     ]
-    # add a new supply branch for the connecting object
-    hw_loop.addSupplyBranchForComponent(hr_connecting_object)
-    # setup plant equipment operation on hot water loop
-    hw_op = openstudio_model.PlantEquipmentOperationHeatingLoad(os_model)
-    hw_op.addEquipment(hr_connecting_object)
-    # loop through other hot water supply components and add them to the operation
+    inlet_nodes = []
     for sc in hw_loop.supplyComponents():
         if sc.iddObject().name() not in hot_water_source_objects:
             continue
-        elif sc.nameString() == hr_connecting_object.nameString():
-            continue
-        hw_op.addEquipment(sc.to_HVACComponent().get())
-    hw_loop.setPlantEquipmentOperationHeatingLoad(hw_op)
-    hw_loop.setLoadDistributionScheme('SequentialLoad')
+        in_node = sc.to_StraightComponent().get().inletModelObject().get().to_Node().get()
+        inlet_nodes.append(in_node)
+    hr_connecting_object.addToNode(inlet_nodes[0])
 
     return hr_loop

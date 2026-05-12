@@ -103,6 +103,7 @@ def simulate_system(
             data = json.load(json_file)
         sim_par = SimulationParameter.from_dict(data)
     sim_par.output.add_plant_variables()
+    sim_par.output.add_output('Plant Supply Side Inlet Mass Flow Rate')
 
     # set design days using the coincident peak load
     epw_file = sys_dict['weather'].replace('.mos', '.epw')
