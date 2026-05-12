@@ -3,7 +3,7 @@
 from __future__ import division
 import os
 
-from honeybee_openstudio.openstudio import openstudio_model
+from honeybee_openstudio.openstudio import openstudio, openstudio_model
 from honeybee_openstudio.hvac.standards.schedule import create_constant_schedule_ruleset
 from honeybee_openstudio.hvac.standards.hvac_systems import model_add_waterside_economizer, \
     model_add_vsd_twr_fan_curve
@@ -828,3 +828,177 @@ def gen4_hot_water_loop(heating_par, geojson_dict, os_model):
     demand_outlet_pipe.addToNode(hw_loop.demandOutletNode())
 
     return hw_loop
+
+
+def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, shw, os_model):
+    """Add a heat recovery chiller and loop between hot and chilled water loops.
+
+    The heat recovery chiller is autosized using the input building cooling, heating
+    and shw values and will meet the peak overlap between hot and chilled water loads.
+    The chiller rejects heat to a dedicated heat recovery loop with a hot water
+    tank connected to the central hot water loop. The tank stores enough heat to
+    supply an hour's worth of the peak overlap, enabling waste heat to be used
+    in hours that are further from high cooling demand.
+
+    Args:
+        des_dict: The district_system dictionary for the DES to which the heat
+            recovery chiller is being added.
+        chw_loop: The central chilled water loop from which the heat recovery
+            chiller will pull heat.
+        hw_loop: The central hot water loop to which the heat recovery chiller
+            and tank will add heat.
+        cooling: A list of lists where each sub-list contains timestep values for
+            each building's cooling load in Watts.
+        heating: A list of lists where each sub-list contains timestep values for
+            each building's heating load in Watts.
+        shw: A list of lists where each sub-list contains timestep values for
+            each building's shw load in Watts.
+        os_model: The OpenStudio Model to which the heat recovery chiller and
+            loop will be added.
+    """
+    # add the chiller to the model
+    heat_recovery_chiller = openstudio_model.ChillerElectricEIR.new(os_model)
+    heat_recovery_chiller.setName('Heat Recovery Chiller')
+    chw_loop.addSupplyBranchForComponent(heat_recovery_chiller)
+    heat_recovery_chiller.setCondenserType('WaterCooled')
+
+    # attach the heat recovery chiller to an existing condenser water loop
+    chillers = chw_loop.supplyComponents(openstudio.IddObjectType('OS:Chiller:Electric:EIR'))
+    existing_condenser_loop = None
+    for chill in chillers:
+        chiller = chill.to_ChillerElectricEIR().get()
+        condenser_loop = chiller.condenserWaterLoop()
+        if condenser_loop.is_initialized():
+            existing_condenser_loop = condenser_loop.get()
+    assert existing_condenser_loop is not None, 'Existing condenser loop not found in ' \
+        'the model. This is required to create a new heat recovery chiller.'
+    existing_condenser_loop.addDemandBranchForComponent(heat_recovery_chiller)
+
+    # determine the peak overlap in hot and chilled water load and set the chiller size
+    chw_loads = [sum(t_step) for t_step in zip(*cooling)]
+    hw_loads = heating + shw
+    hw_loads = [sum(t_step) for t_step in zip(*hw_loads)]
+    overlap = []
+    for chw_load, hw_load in zip(chw_loads, hw_loads):
+        overlap.append(min((abs(chw_load), hw_load)))
+    peak_overlap = max(overlap)
+    heat_recovery_chiller.setReferenceCapacity(peak_overlap)
+
+    # create the heat recovery loop
+    hw_temp = des_dict['central_heating_plant_parameters']['temp_setpoint_hhw']
+    hr_loop = openstudio_model.PlantLoop(os_model)
+    hr_loop.setName('Heat Recovery Loop')
+    hr_loop.setLoadDistributionScheme('Optimal')
+    hr_loop.setMinimumLoopTemperature(10.0)
+    hr_loop.setMaximumLoopTemperature(85.0)
+    sizing_plant = hr_loop.sizingPlant()
+    sizing_plant.setLoopType('Heating')
+    sizing_plant.setDesignLoopExitTemperature(hw_temp)
+    sizing_plant.setLoopDesignTemperatureDifference(12.0)
+    hr_loop.addDemandBranchForComponent(heat_recovery_chiller)
+    hrc_outlet = heat_recovery_chiller.demandOutletModelObject().get().to_Node().get()
+    hrc_outlet.setName('Heat Recovery Outlet Node')
+    hrc_outlet.setHeatRecoveryLeavingTemperatureSetpointNode(hr_loop.demandOutletNode())
+
+    # create the heat recovery chiller operation scheme and setpoint manager
+    hr_temp_sch = create_constant_schedule_ruleset(
+        os_model, hw_temp, schedule_type_limit='Temperature',
+        name='Heat Recovery Loop Temp - {}C'.format(int(hw_temp)))
+    hr_stpt = openstudio_model.SetpointManagerScheduled(os_model, hr_temp_sch)
+    hr_stpt.setName('Heat Recovery Loop Leaving Chiller Setpoint Manager')
+    hr_stpt.addToNode(hr_loop.demandOutletNode())
+
+    # create the same setpoint manager on the supply node
+    hr_supply_outlet_stpt = openstudio_model.SetpointManagerScheduled(os_model, hr_temp_sch)
+    hr_supply_outlet_stpt.setName('Heat Recovery Loop Supply Setpoint Manager')
+    hr_supply_outlet_stpt.addToNode(hr_loop.supplyOutletNode())
+
+    # create pump
+    hr_pump = openstudio_model.PumpVariableSpeed(os_model)
+    hr_pump.setName('Heat Recovery Loop Pump')
+    hr_pump.setRatedPumpHead(30000)
+    hr_pump.setPumpControlType('Intermittent')
+    hr_pump.addToNode(hr_loop.supplyInletNode())
+
+    # add a water heater (storage tank)
+    water_heater = openstudio_model.WaterHeaterMixed(os_model)
+    water_heater.setName('Heat Recovery Storage Water Heater')
+    water_heater.setHeaterMaximumCapacity(1.0)  # 1 watt capacity
+    water_heater.setHeaterFuelType('Electricity')
+    water_heater.setHeaterThermalEfficiency(1.0)
+    water_heater.setOffCycleParasiticFuelConsumptionRate(0.0)
+    water_heater.setOffCycleParasiticFuelType('Electricity')
+    water_heater.setOnCycleParasiticFuelConsumptionRate(0.0)
+    water_heater.setOnCycleParasiticFuelType('Electricity')
+    amb_temp_sch = create_constant_schedule_ruleset(
+        os_model, 21.0, schedule_type_limit='Temperature', name='21C Ambient Condition')
+    water_heater.setAmbientTemperatureIndicator('Schedule')
+    water_heater.setAmbientTemperatureSchedule(amb_temp_sch)
+    # ensure water heater object does not heat above the setpoint
+    water_heater.setMaximumTemperatureLimit(hw_temp)
+
+    # give the tank enough volume to hold an hour worth of peak load
+    peak_flow = (peak_overlap / (4184000 * 3))  # m3/s with water DeltaT of 3C
+    hour_volume = peak_flow * 3600  # volume needed for an hour of peak flow
+    water_heater.setTankVolume(hour_volume)
+
+    # connect the water tank to the heat recovery loop
+    hr_connecting_object = water_heater
+    hr_loop.addSupplyBranchForComponent(hr_connecting_object)
+
+    # setup plant equipment operation scheme
+    hr_heating_op = openstudio_model.PlantEquipmentOperationHeatingLoad(os_model)
+    hr_cooling_op = openstudio_model.PlantEquipmentOperationCoolingLoad(os_model)
+    hr_heating_op.addEquipment(hr_connecting_object)
+    hr_cooling_op.addEquipment(heat_recovery_chiller)
+    hr_loop.setPlantEquipmentOperationHeatingLoad(hr_heating_op)
+    hr_loop.setPlantEquipmentOperationCoolingLoad(hr_cooling_op)
+
+    # loop through other chilled water supply components and add them to the operation
+    # this makes heat recovery chiller first in the operation scheme
+    # so the heat recovery chiller is preferentially loaded first
+    chw_cooling_op = openstudio_model.PlantEquipmentOperationCoolingLoad(os_model)
+    chw_cooling_op.addEquipment(heat_recovery_chiller)
+    chilled_water_source_objects = ['OS:Chiller:Electric:EIR']
+    for chwsc in chw_loop.supplyComponents():
+        if chwsc.iddObject().name() not in chilled_water_source_objects:
+            continue
+        elif chwsc.nameString() == hr_connecting_object.nameString():
+            continue
+        chw_cooling_op.addEquipment(chwsc.to_HVACComponent().get())
+    chw_loop.resetPlantEquipmentOperationCoolingLoad()
+    chw_loop.setPlantEquipmentOperationCoolingLoad(chw_cooling_op)
+    chw_loop.setLoadDistributionScheme('SequentialLoad')
+
+    # add hr_connecting_object to the hot water loop
+    hot_water_source_objects = [
+        'OS:Boiler:HotWater',
+        'OS:Boiler:Steam',
+        'OS:WaterHeater:Mixed',
+        'OS:WaterHeater:Stratified',
+        'OS:WaterHeater:HeatPump',
+        'OS:DistrictHeating',
+        'OS:HeatPump:WaterToWater:EquationFit:Heating',
+        'OS:HeatPump:PlantLoop:EIR:Heating',
+        'OS:SolarCollector:FlatPlate:Water',
+        'OS:SolarCollector:IntegralCollectorStorage',
+        'OS:SolarCollector:FlatPlate:PhotovoltaicThermal',
+        'OS:PlantComponent:TemperatureSource',
+        'OS:PlantComponent:UserDefined'
+    ]
+    # add a new supply branch for the connecting object
+    hw_loop.addSupplyBranchForComponent(hr_connecting_object)
+    # setup plant equipment operation on hot water loop
+    hw_op = openstudio_model.PlantEquipmentOperationHeatingLoad(os_model)
+    hw_op.addEquipment(hr_connecting_object)
+    # loop through other hot water supply components and add them to the operation
+    for sc in hw_loop.supplyComponents():
+        if sc.iddObject().name() not in hot_water_source_objects:
+            continue
+        elif sc.nameString() == hr_connecting_object.nameString():
+            continue
+        hw_op.addEquipment(sc.to_HVACComponent().get())
+    hw_loop.setPlantEquipmentOperationHeatingLoad(hw_op)
+    hw_loop.setLoadDistributionScheme('SequentialLoad')
+
+    return hr_loop

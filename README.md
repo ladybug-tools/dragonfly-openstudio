@@ -7,7 +7,7 @@
 
 Dragonfly extension for translation to OpenStudio.
 
-Specifically, this package leverages [honeybee-openstudio](https://github.com/ladybug-tools/honeybee-openstudio) te extend [dragonfly-energy](https://github.com/ladybug-tools/dragonfly-energy) to perform translations to OpenStudio using the [OpenStudio](https://github.com/NREL/OpenStudio) SDK. Translation capabilities include translating dragonfly-energy District Energy Systems (DES) to OpenStudio models of the plant.
+Specifically, this package leverages [honeybee-openstudio](https://github.com/ladybug-tools/honeybee-openstudio) to extend [dragonfly-energy](https://github.com/ladybug-tools/dragonfly-energy) to perform translations to OpenStudio using the [OpenStudio](https://github.com/NREL/OpenStudio) SDK. Translation capabilities include translating dragonfly-energy District Energy Systems (DES) to OpenStudio models of the plant.
 
 ## Installation
 
