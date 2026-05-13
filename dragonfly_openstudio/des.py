@@ -98,7 +98,9 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
             'supplemental_heat_type' in geojson_dict['project']:
         supplemental_heat_type = geojson_dict['project']['supplemental_heat_type']
     heating_stpt = openstudio_model.SetpointManagerScheduled(os_model, hp_low_t_sch)
-    gen5_supplemental_heat(ground_hx_loop, heating_stpt, os_model, supplemental_heat_type)
+    gen5_supplemental_heat(
+        ground_hx_loop, heating_stpt, os_model, supplemental_heat_type, design['min_eft']
+    )
 
     # add ground loop pipes
     _gen5_horizontal_pipes(
@@ -362,7 +364,7 @@ def gen5_heat_rejection(heat_pump_loop, setpoint_manager, os_model,
 
 
 def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
-                           supplemental_heat_type='Electricity'):
+                           supplemental_heat_type='Electricity', supplemental_temp=5.0):
     """Get supplemental heating equipment for a fifth generation thermal loop.
 
     Args:
@@ -379,7 +381,10 @@ def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
             * Electricity
             * NaturalGas
             * DistrictHeating
+            * AirSourceHeatPump
             * None
+
+        supplemental_temp: The temperature setpoint of the supplemental heat in C.
     """
     # set up variables used for multiple equipment types
     loop_name = heat_pump_loop.nameString()
@@ -393,6 +398,7 @@ def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
         heating_equipment.autosizeNominalCapacity()
         heat_pump_loop.addSupplyBranchForComponent(heating_equipment)
         setpoint_manager.setName('{} Supplemental District Heating Setpoint'.format(loop_name))
+        equip_out_node = heating_equipment.outletModelObject().get().to_Node().get()
     elif supplemental_heat_type in ('Electricity', 'NaturalGas'):
         heating_equipment = openstudio_model.BoilerHotWater(os_model)
         heating_equipment.setName('{} Supplemental Boiler'.format(heat_pump_loop.nameString()))
@@ -404,10 +410,49 @@ def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
             heating_equipment.setFuelType('NaturalGas')
         heat_pump_loop.addSupplyBranchForComponent(heating_equipment)
         setpoint_manager.setName('{} Supplemental Boiler Setpoint'.format(loop_name))
+        equip_out_node = heating_equipment.outletModelObject().get().to_Node().get()
+    elif supplemental_heat_type in ('AirSourceHeatPump', 'ASHP'):
+        # add a heating loop for the ASHP to operate on
+        hw_loop = openstudio_model.PlantLoop(os_model)
+        hw_loop.setName('Supplemental ASHP Loop')
+        hw_name = hw_loop.nameString()
+        hw_sizing_plant = hw_loop.sizingPlant()
+        if supplemental_temp <= 0:
+            hw_loop.setMinimumLoopTemperature(supplemental_temp - 1)
+        hw_sizing_plant.setDesignLoopExitTemperature(supplemental_temp + 11.0)
+        hw_sizing_plant.setLoopDesignTemperatureDifference(11.0)
+        hw_sizing_plant.setLoopType('Heating')
+        hw_temp_sch = create_constant_schedule_ruleset(
+            os_model, supplemental_temp, schedule_type_limit='Temperature',
+            name='ASHP Loop Temp - {}C'.format(int(supplemental_temp)))
+        hw_stpt_manager = openstudio_model.SetpointManagerScheduled(os_model, hw_temp_sch)
+        hw_stpt_manager.setName('{} Setpoint Manager'.format(hw_name))
+        hw_stpt_manager.addToNode(hw_loop.supplyOutletNode())
+        # create pump
+        hr_pump = openstudio_model.PumpVariableSpeed(os_model)
+        hr_pump.setName('Supplemental ASHP Loop Pump')
+        hr_pump.setRatedPumpHead(30000)
+        hr_pump.setPumpControlType('Intermittent')
+        hr_pump.addToNode(hw_loop.supplyInletNode())
+        # add the ASHP
+        ashp_name = 'Hot_Water_Loop_Supplemental_Air_Source_Heat_Pump'
+        create_central_air_source_heat_pump(os_model, hw_loop, name=ashp_name)
+        # connect the ASHP loop to the condenser loop via heat exchanger
+        heating_equipment = openstudio_model.HeatExchangerFluidToFluid(os_model)
+        heating_equipment.setName('ASHP Heat Exchanger')
+        heating_equipment.setHeatExchangeModelType('CounterFlow')
+        heating_equipment.autosizeHeatExchangerUFactorTimesAreaValue()
+        heating_equipment.setSizingFactor(1.0)
+        hw_loop.addDemandBranchForComponent(heating_equipment)
+        heat_pump_loop.addSupplyBranchForComponent(heating_equipment)
+        heating_equipment.setControlType('HeatingSetpointModulated')
+        equip_out_node = heating_equipment.demandOutletModelObject().get().to_Node().get()
+        # if the loop goes below freezing, use antifreeze
+        if supplemental_temp <= 0:
+            hw_loop.setFluidType('PropyleneGlycol')
     else:
         msg = 'Supplemental heating type "{}" is not valid'.format(supplemental_heat_type)
         raise ValueError(msg)
-    equip_out_node = heating_equipment.outletModelObject().get().to_Node().get()
     setpoint_manager.addToNode(equip_out_node)
     return heating_equipment
 
@@ -801,7 +846,13 @@ def gen4_hot_water_loop(heating_par, geojson_dict, os_model):
         hw_loop.addSupplyBranchForComponent(heating_equipment)
     elif heating_type == 'AirSourceHeatPump':  # Central Air Source Heat Pump
         ashp_name = 'Hot_Water_Loop_Central_Air_Source_Heat_Pump'
-        create_central_air_source_heat_pump(os_model, hw_loop, name=ashp_name)
+        add_ashp = True
+        if geojson_dict and 'project' in geojson_dict and \
+                'heat_recovery_chiller' in geojson_dict['project'] and \
+                geojson_dict['project']['heat_recovery_chiller']:
+            add_ashp = False  # special case where we want to add it after the HRC
+        if add_ashp:
+            create_central_air_source_heat_pump(os_model, hw_loop, name=ashp_name)
     else:
         msg = 'Heating type "{}" is not valid'.format(heating_type)
         raise ValueError(msg)
@@ -938,7 +989,7 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
     water_heater = openstudio_model.WaterHeaterMixed(os_model)
     water_heater.setName('Heat Recovery Storage Water Heater')
     water_heater.setHeaterMaximumCapacity(1.0)  # 1 watt capacity
-    water_heater.setHeaterFuelType('Electricity')
+    water_heater.setHeaterFuelType('DistrictHeating')
     water_heater.setHeaterThermalEfficiency(1.0)
     water_heater.setOffCycleParasiticFuelConsumptionRate(0.0)
     water_heater.setOffCycleParasiticFuelType('Electricity')
@@ -981,7 +1032,7 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
     chw_loop.setPlantEquipmentOperationCoolingLoad(chw_cooling_op)
     chw_loop.setLoadDistributionScheme('SequentialLoad')
 
-    # add hr_connecting_object to the hot water loop
+    # gather all of the heating equipment already on the hot water loop
     hot_water_source_objects = [
         'OS:Boiler:HotWater',
         'OS:Boiler:Steam',
@@ -1003,19 +1054,29 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
         idd_name = sc.iddObject().name()
         if idd_name not in hot_water_source_objects:
             continue
-        elif idd_name == 'OS:PlantComponent:UserDefined':
-            connection_type = 'None'  # connect in parallel for ASHP
         in_node = sc.to_StraightComponent().get().inletModelObject().get().to_Node().get()
         inlet_nodes.append(in_node)
         heat_equip.append(sc.to_HVACComponent().get())
-    if connection_type == 'Series':
+
+    # add hr_connecting_object to the hot water loop
+    if len(inlet_nodes) == 0:  # special case of ASHP to add in parallel after HRC
+        hw_loop.addSupplyBranchForComponent(hr_connecting_object)
+        ashp_name = 'Hot_Water_Loop_Central_Air_Source_Heat_Pump'
+        plant_comp = create_central_air_source_heat_pump(
+            os_model, hw_loop, name=ashp_name, add_operations=False)
+        hw_op = openstudio_model.PlantEquipmentOperationHeatingLoad(os_model)
+        hw_op.addEquipment(peak_overlap, hr_connecting_object)
+        hw_op.addEquipment(plant_comp)
+        hw_loop.setPlantEquipmentOperationHeatingLoad(hw_op)
+        hw_loop.setLoadDistributionScheme('SequentialLoad')
+    elif connection_type == 'Series':
         hr_connecting_object.addToNode(inlet_nodes[0])
     elif connection_type == 'Parallel':
         hw_loop.addSupplyBranchForComponent(hr_connecting_object)
         hw_op = openstudio_model.PlantEquipmentOperationHeatingLoad(os_model)
+        hw_op.addEquipment(hr_connecting_object)
         for equip in heat_equip:
             hw_op.addEquipment(sc.to_HVACComponent().get())
-        hw_op.addEquipment(hr_connecting_object)
         hw_loop.setPlantEquipmentOperationHeatingLoad(hw_op)
         hw_loop.setLoadDistributionScheme('SequentialLoad')
 

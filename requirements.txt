@@ -1,2 +1,2 @@
 dragonfly-energy>=1.41.1
-honeybee-openstudio>=0.4.15
+honeybee-openstudio>=0.4.19
