@@ -1075,19 +1075,11 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
         in_node = sc.to_StraightComponent().get().inletModelObject().get().to_Node().get()
         inlet_nodes.append(in_node)
         heat_equip.append(sc.to_HVACComponent().get())
+    if len(inlet_nodes) == 0:  # special case of ASHP to add in parallel after HRC
+        connection_type = 'ASHP'
 
     # add hr_connecting_object to the hot water loop
-    if len(inlet_nodes) == 0:  # special case of ASHP to add in parallel after HRC
-        hw_loop.addSupplyBranchForComponent(hr_connecting_object)
-        ashp_name = 'Hot_Water_Loop_Central_Air_Source_Heat_Pump'
-        plant_comp = create_central_air_source_heat_pump(
-            os_model, hw_loop, name=ashp_name, add_operations=False)
-        hw_op = openstudio_model.PlantEquipmentOperationHeatingLoad(os_model)
-        hw_op.addEquipment(peak_overlap, hr_connecting_object)
-        hw_op.addEquipment(plant_comp)
-        hw_loop.setPlantEquipmentOperationHeatingLoad(hw_op)
-        hw_loop.setLoadDistributionScheme('SequentialLoad')
-    elif connection_type == 'Series':
+    if connection_type == 'Series':
         hr_connecting_object.addToNode(inlet_nodes[0])
     elif connection_type == 'Parallel':
         hw_loop.addSupplyBranchForComponent(hr_connecting_object)
@@ -1095,6 +1087,61 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
         hw_op.addEquipment(hr_connecting_object)
         for equip in heat_equip:
             hw_op.addEquipment(sc.to_HVACComponent().get())
+        hw_loop.setPlantEquipmentOperationHeatingLoad(hw_op)
+        hw_loop.setLoadDistributionScheme('SequentialLoad')
+    elif connection_type == 'ASHP':
+        hw_loop.addSupplyBranchForComponent(hr_connecting_object)
+
+        # add a heating loop for the ASHP to operate on
+        ashp_temp = hw_temp - 2  # lower it to force the loop to use the HRC first
+        ashp_loop = openstudio_model.PlantLoop(os_model)
+        ashp_loop.setName('Central ASHP Loop')
+        ashp_name = ashp_loop.nameString()
+        hw_sizing_plant = ashp_loop.sizingPlant()
+        hw_sizing_plant.setDesignLoopExitTemperature(ashp_temp + 11.0)
+        hw_sizing_plant.setLoopDesignTemperatureDifference(11.0)
+        hw_sizing_plant.setLoopType('Heating')
+        ashp_temp_sch = create_constant_schedule_ruleset(
+            os_model, ashp_temp, schedule_type_limit='Temperature',
+            name='ASHP Loop Temp - {}C'.format(int(ashp_temp)))
+        hw_stpt_manager = openstudio_model.SetpointManagerScheduled(os_model, ashp_temp_sch)
+        hw_stpt_manager.setName('{} Setpoint Manager'.format(ashp_name))
+        hw_stpt_manager.addToNode(ashp_loop.supplyOutletNode())
+        # create pump
+        ashp_pump = openstudio_model.PumpVariableSpeed(os_model)
+        ashp_pump.setName('Central ASHP Loop Pump')
+        ashp_pump.setRatedPumpHead(30000)
+        ashp_pump.setMotorEfficiency(0.93)  # better efficiency for large motors
+        ashp_pump.setDesignShaftPowerPerUnitFlowRatePerUnitHead(1.15)  # impeller efficiency
+        ashp_pump.setFractionofMotorInefficienciestoFluidStream(0)
+        ashp_pump.setCoefficient1ofthePartLoadPerformanceCurve(0)
+        ashp_pump.setCoefficient2ofthePartLoadPerformanceCurve(0.0205)
+        ashp_pump.setCoefficient3ofthePartLoadPerformanceCurve(0.4101)
+        ashp_pump.setCoefficient4ofthePartLoadPerformanceCurve(0.5753)
+        ashp_pump.setPumpControlType('Intermittent')
+        ashp_pump.addToNode(ashp_loop.supplyInletNode())
+        # add the ASHP
+        ashp_name = 'Hot_Water_Loop_Central_Air_Source_Heat_Pump'
+        create_central_air_source_heat_pump(os_model, ashp_loop, name=ashp_name)
+        # connect the ASHP loop to the condenser loop via heat exchanger
+        heating_equipment = openstudio_model.HeatExchangerFluidToFluid(os_model)
+        heating_equipment.setName('ASHP Heat Exchanger')
+        heating_equipment.setHeatExchangeModelType('CounterFlow')
+        heating_equipment.autosizeHeatExchangerUFactorTimesAreaValue()
+        heating_equipment.setSizingFactor(1.0)
+        ashp_loop.addDemandBranchForComponent(heating_equipment)
+        hw_loop.addSupplyBranchForComponent(heating_equipment)
+        heating_equipment.setControlType('HeatingSetpointModulated')
+        equip_out_node = heating_equipment.demandOutletModelObject().get().to_Node().get()
+        # add a setpoint manager for the node on the heat excahnger
+        ashp_stpt_manager = openstudio_model.SetpointManagerScheduled(os_model, ashp_temp_sch)
+        ashp_stpt_manager.setName('ASHP Setpoint Manager')
+        ashp_stpt_manager.addToNode(equip_out_node)
+
+        # add an operation scheme for the heating loop (this might not be necessary)
+        hw_op = openstudio_model.PlantEquipmentOperationHeatingLoad(os_model)
+        hw_op.addEquipment(peak_overlap, hr_connecting_object)
+        hw_op.addEquipment(heating_equipment)
         hw_loop.setPlantEquipmentOperationHeatingLoad(hw_op)
         hw_loop.setLoadDistributionScheme('SequentialLoad')
 
