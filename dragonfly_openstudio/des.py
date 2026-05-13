@@ -450,6 +450,24 @@ def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
         # if the loop goes below freezing, use antifreeze
         if supplemental_temp <= 0:
             hw_loop.setFluidType('PropyleneGlycol')
+        if setpoint_manager.iddObject().name() == 'OS:SetpointManager:Scheduled:DualSetpoint':
+            # add a backup boiler for cases where the ASHP is maxed out
+            backup = openstudio_model.BoilerHotWater(os_model)
+            boiler_name = '{} Supplemental ASHP Backup Boiler'.format(heat_pump_loop.nameString())
+            backup.setName(boiler_name)
+            backup.setNominalThermalEfficiency(1.0)
+            backup.setFuelType('Electricity')
+            heat_pump_loop.addSupplyBranchForComponent(backup)
+            backup_temp = supplemental_temp - 3
+            backup_temp_sch = create_constant_schedule_ruleset(
+                os_model, backup_temp, schedule_type_limit='Temperature',
+                name='ASHP Backup Temp - {}C'.format(int(backup_temp)))
+            backup_stpt_manager = openstudio_model.SetpointManagerScheduledDualSetpoint(os_model)
+            backup_stpt_manager.setName('ASHP Backup Setpoint Manager')
+            backup_stpt_manager.setHighSetpointSchedule(setpoint_manager.highSetpointSchedule().get())
+            backup_stpt_manager.setLowSetpointSchedule(backup_temp_sch)
+            backup_out_node = backup.outletModelObject().get().to_Node().get()
+            backup_stpt_manager.addToNode(backup_out_node)
     else:
         msg = 'Supplemental heating type "{}" is not valid'.format(supplemental_heat_type)
         raise ValueError(msg)
