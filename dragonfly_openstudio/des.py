@@ -907,6 +907,9 @@ def gen4_heat_recovery_chiller(des_dict, chw_loop, hw_loop, cooling, heating, sh
     The chiller rejects heat to a dedicated heat recovery loop, which then
     connects to the central hot water loop in series with the primary heat source.
 
+    This method was written using the following OpenStudio measure as a guide.
+    https://bcl.nrel.gov/content/968b3e43-1b47-4f29-b0af-f1c16b3e68c2
+
     Args:
         des_dict: The district_system dictionary for the DES to which the heat
             recovery chiller is being added.
