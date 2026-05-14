@@ -1,0 +1,6 @@
+simulate
+========
+
+.. click:: dragonfly_openstudio.cli.simulate:simulate
+   :prog: dragonfly-openstudio simulate
+   :show-nested:

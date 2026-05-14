@@ -1,0 +1,7 @@
+main
+====
+
+.. click:: dragonfly_openstudio.cli.__init__:openstudio
+   :prog: dragonfly-openstudio
+   :show-nested:
+   :commands: 
