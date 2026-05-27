@@ -124,6 +124,7 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
 
         # create the OpenStudio GroundHeatExchangerVertical and set all properties
         ground_hx = openstudio_model.GroundHeatExchangerVertical(os_model)
+        ground_hx.setName(ghe_id)
         if 'autosized_birectangle_constrained_borefield' in matched_ghe:
             ghe_dict = matched_ghe['autosized_birectangle_constrained_borefield']
             borehole_count = ghe_dict['number_of_boreholes']
