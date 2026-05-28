@@ -412,6 +412,7 @@ def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
         heat_pump_loop.addSupplyBranchForComponent(heating_equipment)
         setpoint_manager.setName('{} Supplemental Boiler Setpoint'.format(loop_name))
         equip_out_node = heating_equipment.outletModelObject().get().to_Node().get()
+        heating_equipment.setEndUseSubcategory('Supplemental Heating')
     elif supplemental_heat_type in ('AirSourceHeatPump', 'ASHP'):
         # add a heating loop for the ASHP to operate on
         hw_loop = openstudio_model.PlantLoop(os_model)
@@ -437,7 +438,12 @@ def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
         hr_pump.addToNode(hw_loop.supplyInletNode())
         # add the ASHP
         ashp_name = 'Hot_Water_Loop_Supplemental_Air_Source_Heat_Pump'
-        create_central_air_source_heat_pump(os_model, hw_loop, name=ashp_name)
+        plant_comp = create_central_air_source_heat_pump(os_model, hw_loop, name=ashp_name)
+        out_var = '{} Electricity Consumption'.format(plant_comp.nameString())
+        out_var = os_model.getEnergyManagementSystemMeteredOutputVariableByName(out_var)
+        if out_var.is_initialized():
+            out_var = out_var.get()
+            out_var.setEndUseSubcategory('Supplemental Heating')
         # connect the ASHP loop to the condenser loop via heat exchanger
         heating_equipment = openstudio_model.HeatExchangerFluidToFluid(os_model)
         heating_equipment.setName('ASHP Heat Exchanger')
@@ -458,6 +464,7 @@ def gen5_supplemental_heat(heat_pump_loop, setpoint_manager, os_model,
             backup.setName(boiler_name)
             backup.setNominalThermalEfficiency(1.0)
             backup.setFuelType('Electricity')
+            backup.setEndUseSubcategory('Supplemental Heating')
             heat_pump_loop.addSupplyBranchForComponent(backup)
             backup_temp = supplemental_temp - 3
             backup_temp_sch = create_constant_schedule_ruleset(
