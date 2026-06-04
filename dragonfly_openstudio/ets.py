@@ -11,7 +11,7 @@ from honeybee_openstudio.hvac.standards.schedule import create_constant_schedule
 from .util import modelica_loads
 
 
-def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
+def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model, equip_out_node=None):
     """Convert a dictionary of building with fifth_gen_ets_parameters to OpenStudio.
 
     Args:
@@ -20,11 +20,15 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
         hp_loop: The ambient heat pump condenser loop to which the buildings
             will be added.
         os_model: The OpenStudio Model to which the buildings will be added.
+        equip_out_node: An optional Node for the output of the last piece of
+            equipment that was added to the loop (only relevant for one pipe
+            models).
     """
     # get the various sub-objects of the main dictionary
     ets_dict = building_dict['fifth_gen_ets_parameters']
     load_dict = building_dict['load_model_parameters']['time_series']
     bldg_id = building_dict['geojson_id']
+    one_pipe = 'One Pipe' in hp_loop.nameString()
 
     # GET LOADS
     # parse the loads from the .mos file
@@ -57,7 +61,11 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
         chw_hp.setReferenceCoefficientofPerformance(chw_cop + 5)
         chw_hp.setName('{} Cooling Heat Pump - Rated COP {}'.format(bldg_id, chw_cop))
         chw_loop.addSupplyBranchForComponent(chw_hp)
-        hp_loop.addDemandBranchForComponent(chw_hp)
+        if not one_pipe or equip_out_node is None:
+            hp_loop.addDemandBranchForComponent(chw_hp)
+            equip_out_node = chw_hp.demandInletModelObject().get().to_Node().get()
+        else:
+            chw_hp.addToNode(equip_out_node)
 
     # HEATING WATER LOOP
     hw_loop = None
@@ -73,7 +81,11 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
         hw_hp.setReferenceCoefficientofPerformance(hw_cop + 5)
         hw_hp.setName('{} Heating Heat Pump - Rated COP {}'.format(bldg_id, hw_cop))
         hw_loop.addSupplyBranchForComponent(hw_hp)
-        hp_loop.addDemandBranchForComponent(hw_hp)
+        if not one_pipe or equip_out_node is None:
+            hp_loop.addDemandBranchForComponent(hw_hp)
+            equip_out_node = hw_hp.demandInletModelObject().get().to_Node().get()
+        else:
+            hw_hp.addToNode(equip_out_node)
 
     # SHW LOOP
     shw_loop = None
@@ -89,9 +101,13 @@ def heat_pump_ets_to_openstudio(building_dict, hp_loop, os_model):
         shw_hp.setReferenceCoefficientofPerformance(shw_cop + 5)
         shw_hp.setName('{} SHW Heat Pump - Rated COP {}'.format(bldg_id, shw_cop))
         shw_loop.addSupplyBranchForComponent(shw_hp)
-        hp_loop.addDemandBranchForComponent(shw_hp)
+        if not one_pipe or equip_out_node is None:
+            hp_loop.addDemandBranchForComponent(shw_hp)
+            equip_out_node = shw_hp.demandInletModelObject().get().to_Node().get()
+        else:
+            shw_hp.addToNode(equip_out_node)
 
-    return cooling, heating, shw
+    return cooling, heating, shw, equip_out_node
 
 
 def heat_exchanger_ets_to_openstudio(building_dict, chw_loop, hw_loop, os_model):

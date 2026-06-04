@@ -51,10 +51,10 @@ def sys_dict_to_openstudio(sys_dict, seed_model=None, geojson_dict=None):
             raise ValueError(msg)
 
     # translate the building ETS
-    cooling, heating, shw = [], [], []
+    cooling, heating, shw, out = [], [], [], None
     for bldg_dict in sys_dict['buildings']:
         if 'fifth_gen_ets_parameters' in bldg_dict:
-            clg, htg, hw = heat_pump_ets_to_openstudio(bldg_dict, hp_loop, os_model)
+            clg, htg, hw, out = heat_pump_ets_to_openstudio(bldg_dict, hp_loop, os_model, out)
         elif 'ets_indirect_parameters' in bldg_dict:
             clg, htg, hw = \
                 heat_exchanger_ets_to_openstudio(bldg_dict, chw_loop, hw_loop, os_model)

@@ -34,10 +34,15 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     design = des_dict['ghe_parameters']['design']
     borehole = des_dict['ghe_parameters']['borehole']
     bore_fields = des_dict['ghe_parameters']['borefields']
+    geojson_project = geojson_dict['project'] \
+        if geojson_dict and 'project' in geojson_dict else None
 
     # create ground hx loop
     ground_hx_loop = openstudio_model.PlantLoop(os_model)
-    ground_hx_loop.setName('Fifth Gen Ground HX Loop')
+    if geojson_project and 'one_pipe' in geojson_project and geojson_project['one_pipe']:
+        ground_hx_loop.setName('Fifth Gen Ground HX Loop - One Pipe')
+    else:
+        ground_hx_loop.setName('Fifth Gen Ground HX Loop')
     loop_name = ground_hx_loop.nameString()
 
     # ground hx loop sizing and controls
@@ -84,9 +89,8 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
 
     # add heat rejection equipment to prevent the loop from overheating during peak
     heat_rejection_type = 'CoolingTower'
-    if geojson_dict and 'project' in geojson_dict and \
-            'heat_rejection_type' in geojson_dict['project']:
-        heat_rejection_type = geojson_dict['project']['heat_rejection_type']
+    if geojson_project and 'heat_rejection_type' in geojson_project:
+        heat_rejection_type = geojson_project['heat_rejection_type']
     cooling_stpt = openstudio_model.SetpointManagerScheduled(os_model, hp_high_t_sch)
     hr_equip = gen5_heat_rejection(ground_hx_loop, cooling_stpt, os_model, heat_rejection_type)
     if 'FluidCooler' in heat_rejection_type:  # ensure that loop can be cooled
@@ -94,9 +98,8 @@ def ghe_des_to_openstudio(des_dict, os_model, geojson_dict=None):
 
     # add supplemental heating to prevent the loop from becoming too cold
     supplemental_heat_type = 'Electricity'
-    if geojson_dict and 'project' in geojson_dict and \
-            'supplemental_heat_type' in geojson_dict['project']:
-        supplemental_heat_type = geojson_dict['project']['supplemental_heat_type']
+    if geojson_project and 'supplemental_heat_type' in geojson_project:
+        supplemental_heat_type = geojson_project['supplemental_heat_type']
     heating_stpt = openstudio_model.SetpointManagerScheduled(os_model, hp_low_t_sch)
     gen5_supplemental_heat(
         ground_hx_loop, heating_stpt, os_model, supplemental_heat_type, design['min_eft']
@@ -185,11 +188,16 @@ def gen5_des_to_openstudio(des_dict, os_model, geojson_dict=None):
     central_pump = des_dict['central_pump_parameters']
     soil = des_dict['soil']
     horiz_pipe = des_dict['horizontal_piping_parameters']
+    geojson_project = geojson_dict['project'] \
+        if geojson_dict and 'project' in geojson_dict else None
 
     # create heat pump loop
     heat_pump_water_loop = openstudio_model.PlantLoop(os_model)
     heat_pump_water_loop.setLoadDistributionScheme('SequentialLoad')
-    heat_pump_water_loop.setName('Fifth Gen Heat Pump Loop')
+    if geojson_project and 'one_pipe' in geojson_project and geojson_project['one_pipe']:
+        heat_pump_water_loop.setName('Fifth Gen Heat Pump Loop - One Pipe')
+    else:
+        heat_pump_water_loop.setName('Fifth Gen Heat Pump Loop')
 
     # hot water loop sizing and controls
     sup_wtr_high_temp_c = 30.0
@@ -238,9 +246,8 @@ def gen5_des_to_openstudio(des_dict, os_model, geojson_dict=None):
 
     # create heat rejection equipment and add to the loop
     heat_rejection_type = 'CoolingTower'
-    if geojson_dict and 'project' in geojson_dict and \
-            'heat_rejection_type' in geojson_dict['project']:
-        heat_rejection_type = geojson_dict['project']['heat_rejection_type']
+    if geojson_project and 'heat_rejection_type' in geojson_project:
+        heat_rejection_type = geojson_project['heat_rejection_type']
     cooling_stpt = openstudio_model.SetpointManagerScheduledDualSetpoint(os_model)
     cooling_stpt.setHighSetpointSchedule(hp_high_temp_sch)
     cooling_stpt.setLowSetpointSchedule(hp_low_temp_sch)
@@ -251,9 +258,8 @@ def gen5_des_to_openstudio(des_dict, os_model, geojson_dict=None):
 
     # add supplemental heating to prevent the loop from becoming too cold
     supplemental_heat_type = 'Electricity'
-    if geojson_dict and 'project' in geojson_dict and \
-            'supplemental_heat_type' in geojson_dict['project']:
-        supplemental_heat_type = geojson_dict['project']['supplemental_heat_type']
+    if geojson_project and 'supplemental_heat_type' in geojson_project:
+        supplemental_heat_type = geojson_project['supplemental_heat_type']
     heating_stpt = openstudio_model.SetpointManagerScheduledDualSetpoint(os_model)
     heating_stpt.setHighSetpointSchedule(hp_high_temp_sch)
     heating_stpt.setLowSetpointSchedule(hp_low_temp_sch)
