@@ -1,0 +1,29 @@
+dragonfly\_openstudio package
+=============================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   dragonfly_openstudio.cli
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   dragonfly_openstudio.des
+   dragonfly_openstudio.ets
+   dragonfly_openstudio.util
+   dragonfly_openstudio.writer
+
+Module contents
+---------------
+
+.. automodule:: dragonfly_openstudio
+   :members:
+   :undoc-members:
+   :show-inheritance:
